@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+
+import { setToken, saveAccountInfo } from 'reducers/account.js';
 
 function Register(props) {
   const [form, setForm] = useState({ username: '', password: '', email: '' });
   const setState = e => setForm({ ...form, [e.target.name]: e.target.value });
-  const onSubmit = e => {
+
+  const onSubmit = async e => {
     e.preventDefault();
+    try {
+      const register = await axios.post('/auth', form);
+      console.log(register.data);
+      const { token, ...accountInfo } = register.data;
+      props.setToken(token);
+      props.saveAccountInfo(accountInfo);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -41,4 +55,7 @@ function Register(props) {
   );
 }
 
-export default Register;
+export default connect(
+  null,
+  { setToken, saveAccountInfo }
+)(Register);
