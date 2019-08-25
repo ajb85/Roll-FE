@@ -1,0 +1,55 @@
+@import 'SCSS/variables.scss';
+
+.Account {
+  nav {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    h2 {
+      width: 50%;
+      border: 2px solid black;
+      font-size: 2rem;
+      text-align: center;
+      padding: $lh / 2 0;
+      cursor: pointer;
+      line-height: $lh;
+      border-radius: 20px 20px 0 0;
+
+      &.inactive {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 15px;
+    div {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: $lh/2 0;
+      label {
+        width: 30%;
+        text-align: right;
+        line-height: $lh;
+        font-size: 1.2rem;
+      }
+
+      input {
+        width: 60%;
+        height: $lh;
+        font-size: 1.2rem;
+      }
+    }
+    button {
+      font-size: 1.2rem;
+      line-height: $lh;
+      margin: $lh/2 0;
+      border-radius: 20px;
+      padding: 0 15px;
+    }
+  }
+}
