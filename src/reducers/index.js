@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import accounts from './accounts.js';
+import account from './account.js';
 
 export default combineReducers({
-  accounts
+  account
 });
