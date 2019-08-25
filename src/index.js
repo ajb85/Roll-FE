@@ -9,6 +9,11 @@ import thunk from 'redux-thunk';
 import history from './history.js';
 import rootReducer from 'reducers/';
 
+// Axios interceptors
+import './interceptors.js';
+
+// Environment Variables
+
 import App from './App';
 import 'SCSS/';
 
