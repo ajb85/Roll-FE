@@ -1,13 +1,25 @@
 import React from 'react';
-import Account from './components/Account';
+import { connect } from 'react-redux';
 
-function App() {
+import Account from './components/Account/';
+import Routes from './components/Routes/';
+import { setToken } from 'reducers/account.js';
+
+function App(props) {
   return (
     <div className="App">
       <h1>Roll</h1>
-      <Account />
+      {props.token ? <Routes /> : <Account />}
+      <button onClick={() => props.setToken()}>Logout</button>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  token: state.account.token
+});
+
+export default connect(
+  mapStateToProps,
+  { setToken }
+)(App);
