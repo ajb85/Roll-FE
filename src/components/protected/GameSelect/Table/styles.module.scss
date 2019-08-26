@@ -3,7 +3,7 @@
 .GameTable {
   padding: 0 15px;
   width: 90%;
-  margin: 0 auto $lh;
+  margin: 0 auto;
   line-height: $lh;
 
   tr {
@@ -34,4 +34,21 @@
       }
     }
   } // tr
+}
+
+.pagination {
+  width: 90%;
+  margin: 0 auto;
+  line-height: $lh;
+  display: flex;
+  justify-content: space-between;
+
+  // border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  p {
+    padding: $lh/2 0;
+
+    &.inactive {
+      opacity: 0.2;
+    }
+  }
 }
