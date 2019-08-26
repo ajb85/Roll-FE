@@ -8,17 +8,9 @@ function Register(props) {
   const [form, setForm] = useState({ username: '', password: '', email: '' });
   const setState = e => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault();
-    try {
-      const register = await axios.post('/auth', form);
-      console.log(register.data);
-      const { token, ...accountInfo } = register.data;
-      props.setToken(token);
-      props.saveAccountInfo(accountInfo);
-    } catch (err) {
-      console.log(err);
-    }
+    axios.post('/auth', form);
   };
 
   return (
@@ -50,12 +42,18 @@ function Register(props) {
           onChange={e => setState(e)}
         />
       </div>
-      <button type="submit">Register Account</button>
+      <button type="submit" disabled={props.isLoading}>
+        {props.isLoading ? '...' : 'Register Account'}
+      </button>
     </form>
   );
 }
 
+const mapStateToProps = state => ({
+  isLoading: state.account.isLoading
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { setToken, saveAccountInfo }
 )(Register);
