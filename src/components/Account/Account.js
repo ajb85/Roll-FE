@@ -5,7 +5,7 @@ import Login from './Login/';
 import styles from './styles.module.scss';
 
 function Account(props) {
-  const [activeTab, setActiveTab] = useState('register');
+  const [activeTab, setActiveTab] = useState('login');
   return (
     <section className={styles.Account}>
       <nav>

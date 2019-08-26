@@ -2,22 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
-import { setToken, saveAccountInfo } from 'reducers/account.js';
+import { saveAccountInfo } from 'reducers/account.js';
 
 function Login(props) {
   const [form, setForm] = useState({ account: '', password: '' });
   const setState = e => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault();
-    try {
-      const login = await axios.post('/auth', form);
-      const { token, ...rest } = login.data;
-      props.setToken(token);
-      props.saveAccountInfo(rest);
-    } catch (err) {
-      console.log(err);
-    }
+    axios.post('/auth', form);
   };
   return (
     <form onSubmit={e => onSubmit(e)}>
@@ -39,12 +32,18 @@ function Login(props) {
           onChange={e => setState(e)}
         />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit" disabled={props.isLoading}>
+        {props.isLoading ? '...' : 'Login'}
+      </button>
     </form>
   );
 }
 
+const mapStateToProps = state => ({
+  isLoading: state.account.isLoading
+});
+
 export default connect(
-  null,
-  { setToken, saveAccountInfo }
+  mapStateToProps,
+  { saveAccountInfo }
 )(Login);
