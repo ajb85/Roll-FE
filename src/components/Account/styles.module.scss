@@ -1,4 +1,6 @@
 @import 'SCSS/variables.scss';
+@import 'SCSS/errorText.scss';
+@import 'SCSS/form.scss';
 
 .Account {
   nav {
@@ -18,38 +20,6 @@
       &.inactive {
         opacity: 0.3;
       }
-    }
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 15px;
-    div {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: $lh/2 0;
-      label {
-        width: 30%;
-        text-align: right;
-        line-height: $lh;
-        font-size: 1.2rem;
-      }
-
-      input {
-        width: 60%;
-        height: $lh;
-        font-size: 1.2rem;
-      }
-    }
-    button {
-      font-size: 1.2rem;
-      line-height: $lh;
-      margin: $lh/2 0;
-      border-radius: 20px;
-      padding: 0 15px;
     }
   }
 }
