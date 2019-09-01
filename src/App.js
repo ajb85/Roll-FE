@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
 
 import Account from './components/Account/';
-import Routes from './components/Routes/';
+import LoggedInRoutes from './components/Routes/';
 import { setToken } from 'reducers/account.js';
 
 import styles from './styles.module.scss';
@@ -10,8 +11,8 @@ import styles from './styles.module.scss';
 function App(props) {
   return (
     <div className="App">
-      <h1>Roll</h1>
-      {props.token ? <Routes /> : <Account />}
+      <h1>Roll!</h1>
+      <Route path="/" component={props.token ? LoggedInRoutes : Account} />
       {props.token && (
         <button className={styles.logout} onClick={() => props.setToken()}>
           Logout
