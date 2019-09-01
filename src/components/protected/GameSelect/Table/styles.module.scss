@@ -5,9 +5,13 @@
   width: 90%;
   margin: 0 auto;
   line-height: $lh;
+  min-height: 280px;
 
-  tr {
+  thead > tr {
     border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  }
+  tr {
+    max-height: $lh;
     &:first-of-type {
       th {
         font-weight: 800;
@@ -23,6 +27,7 @@
     }
 
     td {
+      max-height: $lh;
       padding: $lh/2 0;
       &:nth-child(1) {
         text-align: left;
@@ -34,6 +39,10 @@
       }
     }
   } // tr
+
+  tfoot {
+    height: 100%;
+  }
 }
 
 .pagination {
@@ -41,9 +50,8 @@
   margin: 0 auto;
   line-height: $lh;
   display: flex;
+  min-height: 50px;
   justify-content: space-between;
-
-  // border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   p {
     padding: $lh/2 0;
 
@@ -51,4 +59,8 @@
       opacity: 0.2;
     }
   }
+}
+
+.noGames {
+  padding: $lh / 2 0;
 }

@@ -6,7 +6,7 @@ function GameSelect(props) {
   return (
     <div>
       <Table />
-      <Buttons />
+      <Buttons {...props} />
     </div>
   );
 }

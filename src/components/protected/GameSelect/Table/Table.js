@@ -10,7 +10,7 @@ function Table(props) {
     offset: 0,
     max: props.games.length - 1
   });
-  const setOffset = value => setPagination({ ...pagination, offset: value });
+  // const setOffset = value => setPagination({ ...pagination, offset: value });
   const { getUsersGames, games } = props;
   useEffect(() => {
     getUsersGames();
@@ -18,6 +18,45 @@ function Table(props) {
   useEffect(() => {
     setPagination({ ...pagination, max: games.length - 1 });
   }, [games, setPagination]);
+
+  const getRows = () => {
+    const rows = [];
+    if (games.length) {
+      for (
+        let i = pagination.offset;
+        i < pagination.offset + pagination.limit;
+        i++
+      ) {
+        const g = i < games.length ? games[i] : null;
+        rows.push(
+          g ? (
+            <tr key={g.game_id}>
+              <td>{g.name}</td>
+              <td>{g.players.length}</td>
+              <td>5</td>
+            </tr>
+          ) : (
+            <tr key={`No Game ${i}`}>
+              <td colSpan="3"></td>
+            </tr>
+          )
+        );
+      }
+    } else {
+      rows.push(
+        <tr key="No Games">
+          <td
+            className={styles.noGames}
+            colSpan="3"
+            style={{ textAlign: 'center' }}
+          >
+            No games to display
+          </td>
+        </tr>
+      );
+    }
+    return rows;
+  };
 
   return (
     <React.Fragment>
@@ -29,22 +68,9 @@ function Table(props) {
             <th>Round</th>
           </tr>
         </thead>
-        <tbody>
-          {games
-            .filter(
-              (g, i) =>
-                i >= pagination.offset &&
-                i < pagination.offset + pagination.limit
-            )
-            .map(g => (
-              <tr key={g.id}>
-                <td>{g.name}</td>
-                <td>{g.players.filter(p => p !== null).length}</td>
-                <td>5</td>
-              </tr>
-            ))}
-        </tbody>
+        <tbody>{getRows()}</tbody>
       </table>
+
       <div className={styles.pagination}>
         <p
           className={pagination.offset === 0 ? styles.inactive : ''}
@@ -57,7 +83,7 @@ function Table(props) {
               : null
           }
         >
-          {'<'} Prev Page
+          {games.length > 5 ? '< Prev Page' : ''}
         </p>
         <p
           className={
@@ -74,7 +100,7 @@ function Table(props) {
               : null
           }
         >
-          Next Page {'>'}
+          {games.length > 5 ? 'Next Page >' : ''}
         </p>
       </div>
     </React.Fragment>
