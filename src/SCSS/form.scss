@@ -1,0 +1,38 @@
+@import './variables.scss';
+
+form.standard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+
+  div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: $lh/2 0;
+
+    label {
+      width: 30%;
+      text-align: right;
+      line-height: $lh;
+      font-size: 1.2rem;
+    }
+
+    input {
+      margin: 0 auto;
+      width: 90%;
+      height: 2 * $lh;
+      padding: 0 10px;
+    }
+  }
+
+  button {
+    font-size: 1.2rem;
+    line-height: $lh;
+    margin: $lh/2 0;
+    border-radius: 20px;
+    padding: 0 15px;
+    width: 200px;
+  }
+}

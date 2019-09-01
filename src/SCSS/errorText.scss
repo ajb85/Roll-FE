@@ -1,0 +1,8 @@
+@import './variables.scss';
+
+p.error {
+  color: red;
+  font-size: 1.2rem;
+  line-height: $lh;
+  min-height: $lh;
+}
