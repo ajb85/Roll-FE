@@ -1,0 +1,40 @@
+@import 'SCSS/variables.scss';
+
+.shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.content {
+  position: absolute;
+  background-color: white;
+  top: 30%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 20px;
+  max-width: 90%;
+  padding: 10px;
+  p {
+    text-align: center;
+    line-height: $lh;
+    font-size: 1.2rem;
+    margin-bottom: $lh / 2;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: 'center';
+
+    button {
+      height: 2 * $lh;
+      margin-bottom: $lh/2;
+      font-size: 1.2rem;
+    }
+  }
+}
