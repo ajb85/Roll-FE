@@ -2,6 +2,8 @@ import axios from 'axios';
 import store from './store.js';
 import { setToken } from './reducers/account.js';
 import { loading, doneLoading, logError, clearErrors } from './reducers/app.js';
+import { gettingGames } from './reducers/account.js';
+import history from 'history.js';
 
 axios.defaults.baseURL = `${process.env.REACT_APP_API_URL}/api`;
 
@@ -13,6 +15,10 @@ const isHandlerEnabled = (config = {}) => {
 
 axios.interceptors.request.use(req => {
   store.dispatch(loading());
+  if (req.url.split('/').filter(x => x)[0]) {
+    console.log('Getting games');
+    store.dispatch(gettingGames());
+  }
   const state = store.getState();
   const token = state.account.token;
   req.headers.authorization = token;
@@ -39,8 +45,11 @@ function successHandler(res) {
 
 function errorHandler(err) {
   store.dispatch(doneLoading());
+  if (err.response && err.response.status === 404) {
+    history.push('/');
+  }
   console.log('ERROR: ', err);
-  if (err.response.data.requestType) {
+  if (err.response && err.response.data.requestType) {
     store.dispatch(
       logError(err.response.data.requestType, err.response.data.message)
     );
