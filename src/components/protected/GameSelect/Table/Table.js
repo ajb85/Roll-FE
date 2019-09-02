@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getUsersGames } from 'reducers/account.js';
 
+import Prompt from 'components/UI/Prompt/';
+
+import { getUsersGames, leaveGame } from 'reducers/account.js';
 import styles from './styles.module.scss';
 
 function Table(props) {
+  const { getUsersGames, games } = props;
   const [pagination, setPagination] = useState({
     limit: 5,
     offset: 0,
     max: props.games.length - 1
   });
-  // const setOffset = value => setPagination({ ...pagination, offset: value });
-  const { getUsersGames, games } = props;
+
+  const [prompt, setPrompt] = useState(false);
+  const [game, setGame] = useState({});
+
   useEffect(() => {
     getUsersGames();
   }, [getUsersGames]);
   useEffect(() => {
-    setPagination({ ...pagination, max: games.length - 1 });
+    setPagination(p => ({ ...p, max: games.length - 1 }));
   }, [games, setPagination]);
 
   const getRows = () => {
@@ -28,12 +33,24 @@ function Table(props) {
         i++
       ) {
         const g = i < games.length ? games[i] : null;
+        const goToGame = () => {
+          props.history.push(`/game/play/${g.name}`);
+        };
+
         rows.push(
           g ? (
             <tr key={g.game_id}>
-              <td>{g.name}</td>
-              <td>{g.players.length}</td>
-              <td>5</td>
+              <td onClick={goToGame}>{g.name}</td>
+              <td onClick={goToGame}>{g.players.length}</td>
+              <td
+                style={{ color: 'red' }}
+                onClick={() => {
+                  setGame(g);
+                  setPrompt(true);
+                }}
+              >
+                X
+              </td>
             </tr>
           ) : (
             <tr key={`No Game ${i}`}>
@@ -60,12 +77,23 @@ function Table(props) {
 
   return (
     <React.Fragment>
+      <Prompt
+        cancel={() => setPrompt(false)}
+        confirm={() => {
+          setPrompt(false);
+          props.leaveGame(game.game_id);
+          setGame({});
+        }}
+        copy="Are you sure you want to leave? You may not be able to rejoin."
+        showPrompt={prompt}
+        game={game}
+      />
       <table className={styles.GameTable}>
         <thead>
           <tr>
             <th>Game</th>
             <th>Players</th>
-            <th>Round</th>
+            <th>Leave</th>
           </tr>
         </thead>
         <tbody>{getRows()}</tbody>
@@ -111,5 +139,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { getUsersGames }
+  { getUsersGames, leaveGame }
 )(Table);
