@@ -26,9 +26,6 @@ function Register(props) {
   return (
     <form className={styles.standard} onSubmit={e => onSubmit(e)}>
       <div>
-        <label htmlFor="username">
-          {isRegistering ? 'Username' : 'Account'}:
-        </label>
         <input
           name="username"
           type="text"
@@ -36,28 +33,29 @@ function Register(props) {
           onChange={e => setState(e)}
           autoComplete="username"
           autoFocus
+          placeholder={isRegistering ? 'Username' : 'Account'}
         />
       </div>
       {isRegistering && (
         <div>
-          <label htmlFor="email">Email:</label>
           <input
             name="email"
             type="email"
             value={form.email}
             onChange={e => setState(e)}
             autoComplete="email"
+            placeholder="Email"
           />
         </div>
       )}
       <div>
-        <label htmlFor="password">Password:</label>
         <input
           name="password"
           type="password"
           value={form.password}
           onChange={e => setState(e)}
           autoComplete="current-password"
+          placeholder="Password"
         />
       </div>
       <p className={styles.error}>
