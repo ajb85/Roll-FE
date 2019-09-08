@@ -11,7 +11,7 @@ import styles from './styles.module.scss';
 function App(props) {
   return (
     <div className="App">
-      <h1>Roll!</h1>
+      {props.showHeader && <h1>Roll!</h1>}
       <Route path="/" component={props.token ? LoggedInRoutes : Account} />
       {props.token && (
         <button className={styles.logout} onClick={() => props.setToken()}>
@@ -23,7 +23,8 @@ function App(props) {
 }
 
 const mapStateToProps = state => ({
-  token: state.account.token
+  token: state.account.token,
+  showHeader: state.app.showHeader
 });
 
 export default connect(
