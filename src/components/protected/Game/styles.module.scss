@@ -1,1 +1,112 @@
 @import 'SCSS/errorText.scss';
+
+.Game {
+  padding: 0 10px;
+  min-height: 500px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stats {
+  width: 100%;
+  padding: $lh / 2;
+  td,
+  th {
+    width: 25%;
+    text-align: center;
+    padding: 5px;
+  }
+  //   padding: $lh;
+  //   display: flex;
+  //   justify-content: space-between;
+}
+
+.dice {
+  display: flex;
+  justify-content: center;
+  margin: $lh/2 auto;
+  // position: absolute;
+  // bottom: 10px;
+  // left: 0;
+  // right: 0;
+  // padding: 0 5px;
+
+  img {
+    width: 19%;
+    margin: 0 2px 0;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  padding: $lh/2 0;
+  img {
+    width: 45%;
+
+    &:active {
+      transform: translateY(1px);
+    }
+    &:first-of-type {
+      margin-right: 5px;
+    }
+
+    &:nth-of-type(2) {
+      margin-left: 5px;
+    }
+  }
+}
+
+table.score {
+  // margin-bottom: 40px;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid black;
+    vertical-align: middle;
+    min-width: 32px;
+  }
+  tr {
+    height: 27px;
+
+    td,
+    th {
+      height: 27px;
+      &:nth-child(1),
+      &:nth-child(4) {
+        font-size: 0.7rem;
+        width: 25%;
+        min-width: 85px;
+      }
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(5),
+      &:nth-child(6) {
+        width: calc(25% / 2);
+      }
+    }
+  }
+  th {
+    font-weight: 800;
+    font-size: 0.7rem;
+  }
+
+  td {
+    img {
+      width: 20px;
+    }
+  }
+}
+
+td.selected {
+  background-color: rgba(yellow, 1);
+}
+td.scoreCell {
+  background-color: rgba(yellow, 0.2);
+}
