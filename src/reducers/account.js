@@ -2,7 +2,7 @@ import axios from 'axios';
 import history from 'history.js';
 
 const initialState = {
-  id: '',
+  id: null,
   username: '',
   email: '',
   wins: 0,
@@ -14,31 +14,56 @@ const initialState = {
 
 const SET_TOKEN = 'SET_TOKEN';
 const SET_ACCOUNT_INFO = 'SET_ACCOUNT_INFO';
+const GETTING_GAMES = 'GETTING_GAMES';
+const GOT_GAMES = 'GOT_GAMES';
 const SET_GAMES = 'SET_GAMES';
 const NEW_GAME = 'NEW_GAME';
-const GETTING_GAMES = 'GETTING_GAMES';
 const LEAVING_GAME = 'LEAVING_GAME';
+const NEW_ROLL = 'NEW_ROLL';
+const GAME_UPDATE = 'GAME_UPDATE';
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_ACCOUNT_INFO:
-      return { ...state, ...action.payload };
     case SET_TOKEN:
       return { ...state, token: action.payload };
+    case SET_ACCOUNT_INFO:
+      return { ...state, ...action.payload };
+    case GETTING_GAMES:
+      return { ...state, gamesWereFetched: false };
+    case GOT_GAMES:
+      return { ...state, gamesWereFetched: true };
     case SET_GAMES:
-      return { ...state, games: action.payload, gamesWereFetched: true };
+      return { ...state, games: action.payload };
     case NEW_GAME:
       return {
         ...state,
-        games: [...state.games, action.payload],
-        gamesWereFetched: true
+        games: [...state.games, action.payload]
       };
-    case GETTING_GAMES:
-      return { ...state, gamesWereFetched: false };
     case LEAVING_GAME:
       return {
         ...state,
         games: state.games.filter(g => g.game_id !== action.payload)
+      };
+    case NEW_ROLL:
+      const { game_id, rolls } = action.payload;
+      return {
+        ...state,
+        games: state.games.map(g => {
+          if (g.game_id === game_id) {
+            const newGame = { ...g, rolls };
+            return newGame;
+          }
+          return g;
+        })
+      };
+    case GAME_UPDATE:
+      return {
+        ...state,
+        games: state.games.map(g => {
+          if (g.game_id === action.payload.game_id) {
+            return action.payload;
+          } else return g;
+        })
       };
     default:
       return state;
@@ -46,7 +71,13 @@ export default (state = initialState, action) => {
 };
 
 export const gettingGames = () => {
+  console.log('Getting games');
   return { type: GETTING_GAMES };
+};
+
+export const gotGames = () => {
+  console.log('Got games');
+  return { type: GOT_GAMES };
 };
 
 export const authAccount = form => async dispatch => {
@@ -91,5 +122,26 @@ export const leaveGame = game_id => async dispatch => {
 
   if (leaving) {
     dispatch({ type: LEAVING_GAME, payload: game_id });
+  }
+};
+
+export const rollTheDice = (game_id, locked) => async dispatch => {
+  const newRoll = await axios.post(`/games/play/${game_id}/rollDice`, {
+    locked
+  });
+  if (newRoll) {
+    console.log('new ROLL: ', newRoll.data);
+    dispatch({ type: NEW_ROLL, payload: newRoll.data });
+  }
+};
+
+export const submitScore = (game_id, category) => async dispatch => {
+  console.log(game_id, category);
+  const gameUpdate = await axios.post(`/games/play/${game_id}/submitRound`, {
+    category
+  });
+
+  if (gameUpdate) {
+    dispatch({ type: GAME_UPDATE, payload: gameUpdate.data });
   }
 };
