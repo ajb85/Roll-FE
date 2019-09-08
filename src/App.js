@@ -13,7 +13,7 @@ function App(props) {
     <div className="App">
       {props.showHeader && <h1>Roll!</h1>}
       <Route path="/" component={props.token ? LoggedInRoutes : Account} />
-      {props.token && (
+      {props.token && props.showHeader && (
         <button className={styles.logout} onClick={() => props.setToken()}>
           Logout
         </button>
