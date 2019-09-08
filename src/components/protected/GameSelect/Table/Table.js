@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Prompt from 'components/UI/Prompt/';
 
-import { getUsersGames, leaveGame } from 'reducers/account.js';
+import { getUsersGames, leaveGame } from 'reducers/games.js';
 import styles from './styles.module.scss';
 
 function Table(props) {
@@ -135,7 +135,7 @@ function Table(props) {
   );
 }
 const mapStateToProps = state => ({
-  games: state.account.games
+  games: state.games.active
 });
 export default connect(
   mapStateToProps,

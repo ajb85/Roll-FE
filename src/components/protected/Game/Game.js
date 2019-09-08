@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 //
-import { rollTheDice, submitScore } from 'reducers/account.js';
+import { rollTheDice, submitScore } from 'reducers/games.js';
 import { showHeader, hideHeader } from 'reducers/app.js';
 
 import ScoreTable from './ScoreTable/';
@@ -17,6 +17,12 @@ function Game(props) {
 
   const toggleLockOnDie = index => {
     setLocked(locked.map((d, i) => (i === index ? !d : d)));
+  };
+
+  const endRound = () => {
+    props.submitScore(game.game_id, selected);
+    setSelected(null);
+    setLocked([false, false, false, false, false]);
   };
 
   const turns = game && game.rolls ? 3 - game.rolls.length : 3;
@@ -89,8 +95,7 @@ function Game(props) {
         />
         <img
           onClick={() => {
-            props.submitScore(game.game_id, selected);
-            setSelected(null);
+            endRound();
           }}
           src={require('img/submit.png')}
           alt={`Button to cycle dice. X left`}
@@ -114,7 +119,7 @@ function Game(props) {
 }
 
 const mapStateToProps = state => ({
-  gamesWereFetched: state.account.gamesWereFetched,
+  gamesWereFetched: state.games.wereFetched,
   error: state.app.errors.play
 });
 

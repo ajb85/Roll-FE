@@ -7,10 +7,9 @@ import NewGame from 'components/protected/GameSelect/NewGame/';
 import JoinGame from 'components/protected/GameSelect/JoinGame/';
 import PlayGame from 'components/protected/Game/';
 
-import { getUsersGames } from 'reducers/account';
+import { getUsersGames } from 'reducers/games.js';
 
 function Routes(props) {
-  console.log(props.games);
   const { gamesWereFetched, games, getUsersGames } = props;
   useEffect(() => {
     if (!gamesWereFetched && !games.length) {
@@ -36,8 +35,8 @@ function Routes(props) {
 }
 
 const mapStateToProps = state => ({
-  games: state.account.games,
-  gamesWereFetched: state.account.gamesWereFetched
+  games: state.games.active,
+  gamesWereFetched: state.games.wereFetched
 });
 
 export default connect(

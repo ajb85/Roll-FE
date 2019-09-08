@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { joinGame } from 'reducers/account.js';
+import { joinGame } from 'reducers/games.js';
 import styles from './styles.module.scss';
 function JoinGame(props) {
   const [form, setForm] = useState({ name: '', password: '' });

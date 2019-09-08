@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { createNewGame } from 'reducers/account.js';
+import { createNewGame } from 'reducers/games.js';
 import styles from './styles.module.scss';
 
 function NewGame(props) {
