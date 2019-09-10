@@ -8,6 +8,13 @@ import { setToken } from 'reducers/account.js';
 
 import styles from './styles.module.scss';
 
+import io from 'socket.io-client';
+const socket = io.connect('https://roll-game.herokuapp.com', { path: '/' });
+socket.on('error', function(err) {
+  console.log('received socket error:');
+  console.log(err);
+});
+
 function App(props) {
   return (
     <div className="App">
