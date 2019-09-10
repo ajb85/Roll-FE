@@ -6,7 +6,6 @@ import { showHeader, hideHeader } from 'reducers/app.js';
 
 import ScoreTable from './ScoreTable/';
 
-import getUsersOnRound from 'js/getUsersOnRound.js';
 import styles from './styles.module.scss';
 
 function Game(props) {
@@ -62,7 +61,7 @@ function Game(props) {
             <th />
             <th>Game</th>
             <th>Players</th>
-            <th>Turns</th>
+            <th>Round</th>
           </tr>
         </thead>
         <tbody>
@@ -70,7 +69,7 @@ function Game(props) {
             <td>Roll!</td>
             <td>{game.name}</td>
             <td>{game.players.length}</td>
-            <td>{getUsersOnRound(game)}</td>
+            <td>{game.round}</td>
           </tr>
         </tbody>
       </table>

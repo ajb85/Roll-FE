@@ -18,7 +18,6 @@ export default (category, dice, userScore) => {
     'Lg Straight': () => inARow(5, dice),
     'Free Space': () => freeSpace(dice)
   }[category]();
-
   calcLeft(score);
   calcRight(category, dice, score);
 
@@ -35,17 +34,19 @@ function multiple(num, dice) {
   dice.forEach(d => {
     count[d - 1] += 1;
   });
-
+  count.sort();
   if (Array.isArray(num)) {
     // Full House
-    return count.sort()[count.length - 1] === 3 && count[count.length - 2] === 2
+    return count[count.length - 1] === 3 && count[count.length - 2] === 2
       ? 25
       : 0;
-  } else
-    return count.reduce(
-      (acc, cur, i) => (cur >= num ? (num === 5 ? 50 : cur * (i + 1)) : acc),
-      0
-    );
+  } else {
+    return count[count.length - 1] >= num
+      ? num === 5
+        ? 50
+        : freeSpace(dice)
+      : 0;
+  }
 }
 
 function inARow(num, dice) {

@@ -90,7 +90,7 @@ export const joinGame = form => async dispatch => {
   const newGame = await axios.post(`games/user/join`, form);
   if (newGame) {
     dispatch({ type: NEW_GAME, payload: newGame.data });
-    history.push(`/game/play/${newGame.name}`);
+    history.push(`/game/play/${newGame.data.name}`);
   }
 };
 

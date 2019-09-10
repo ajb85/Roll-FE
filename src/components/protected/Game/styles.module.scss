@@ -71,6 +71,7 @@ table.score {
     border: 1px solid black;
     vertical-align: middle;
     min-width: 32px;
+    font-size: 0.9rem;
   }
   tr {
     height: 27px;
@@ -78,17 +79,12 @@ table.score {
     td,
     th {
       height: 27px;
+
       &:nth-child(1),
       &:nth-child(4) {
         font-size: 0.7rem;
         width: 25%;
         min-width: 85px;
-      }
-      &:nth-child(2),
-      &:nth-child(3),
-      &:nth-child(5),
-      &:nth-child(6) {
-        width: calc(25% / 2);
       }
     }
   }

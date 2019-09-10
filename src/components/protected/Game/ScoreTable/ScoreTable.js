@@ -39,59 +39,60 @@ function ScoreTable({ game, selected, setSelected }) {
     <tbody>
       {leftCategories.map((l, i) => {
         const r = rightCategories[i];
-
+        const lClickable =
+          l.isClickable && game.rolls.length && scores.user[l.name] === null;
+        const rClickable =
+          r.isClickable && game.rolls.length && scores.user[r.name] === null;
         return (
           <tr key={`${l.name} ${r.name}`}>
             <td>{l.name}</td>
-            {l.isClickable && game.rolls.length ? (
-              <td
-                id={l.name}
-                onClick={e => toggleSelected(e)}
-                className={
-                  selected === l.name
+
+            <td
+              id={l.name}
+              onClick={e => (lClickable ? toggleSelected(e) : null)}
+              className={
+                lClickable
+                  ? selected === l.name
                     ? styles.selected
                     : scores.user[l.name]
                     ? null
                     : styles.scoreCell
-                }
-              >
-                {userScore[l.name]}
-              </td>
-            ) : (
-              <td>{userScore[l.name]}</td>
-            )}
+                  : null
+              }
+            >
+              {userScore[l.name]}
+            </td>
             <td>{scores.leader[l.name]}</td>
             <td>{r.name}</td>
-            {r.isClickable && game.rolls.length ? (
-              <td
-                id={r.name}
-                onClick={e => toggleSelected(e)}
-                className={
-                  selected === r.name
+            <td
+              id={r.name}
+              onClick={e => (rClickable ? toggleSelected(e) : null)}
+              className={
+                rClickable
+                  ? selected === r.name
                     ? styles.selected
                     : scores.user[r.name]
                     ? null
                     : styles.scoreCell
-                }
-              >
-                {userScore[r.name]}
-              </td>
-            ) : (
-              <td>{userScore[r.name]}</td>
-            )}
+                  : null
+              }
+            >
+              {userScore[r.name]}
+            </td>
+
             <td>{scores.leader[r.name]}</td>
           </tr>
         );
       })}
 
       <tr style={{ fontWeight: 800 }}>
-        <td style={{ padding: '5px', fontSize: '1rem' }} colSpan="4">
+        <td style={{ padding: '5px', fontSize: '0.8rem' }} colSpan="4">
           Grand Total
         </td>
-        <td style={{ padding: '5px', fontSize: '1rem' }}>
+        <td style={{ padding: '5px', fontSize: '0.8rem' }}>
           {userScore['Grand Total']}
         </td>
-        <td style={{ padding: '5px', fontSize: '1rem' }}>
+        <td style={{ padding: '5px', fontSize: '0.8rem' }}>
           {scores.leader['Grand Total']}
         </td>
       </tr>
