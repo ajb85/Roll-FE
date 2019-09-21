@@ -12,7 +12,7 @@ import './interceptors.js';
 
 // Environment Variables
 
-import App from './App';
+import App from './App.js';
 import 'SCSS/';
 
 ReactDOM.render(
