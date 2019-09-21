@@ -9,7 +9,7 @@ import { setToken } from 'reducers/account.js';
 import styles from './styles.module.scss';
 
 import io from 'socket.io-client';
-const socket = io.connect('https://roll-game.herokuapp.com', { path: '/' });
+const socket = io.connect(process.env.REACT_APP_API_URL);
 socket.on('error', function(err) {
   console.log('received socket error:');
   console.log(err);
