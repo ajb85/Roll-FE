@@ -6,6 +6,7 @@ import { showHeader, hideHeader } from 'reducers/app.js';
 
 import ScoreTable from './ScoreTable/';
 
+import history from 'history.js';
 import styles from './styles.module.scss';
 
 function Game(props) {
@@ -42,11 +43,12 @@ function Game(props) {
     hideHeader();
     return () => showHeader();
   }, [hideHeader, showHeader]);
+
   if (!gamesWereFetched) {
     // Loading state
     return <p className={styles.error}>Loading...</p>;
   }
-
+  console.log(game);
   if (!game) {
     // Wrong URL state
     // setTimeout(() => (game ? null : history.push('/')), 1500);
@@ -58,7 +60,7 @@ function Game(props) {
       <table className={styles.stats}>
         <thead>
           <tr>
-            <th />
+            <th onClick={() => history.push('/')}>Back to</th>
             <th>Game</th>
             <th>Players</th>
             <th>Round</th>
@@ -66,7 +68,7 @@ function Game(props) {
         </thead>
         <tbody>
           <tr>
-            <td>Roll!</td>
+            <td onClick={() => history.push('/')}>Lobby</td>
             <td>{game.name}</td>
             <td>{game.players.length}</td>
             <td>{game.round}</td>
@@ -91,6 +93,7 @@ function Game(props) {
           onClick={() => props.rollTheDice(game.game_id, locked)}
           src={require(`img/roll${turns}.png`)}
           alt={`Button to cycle dice. ${turns} left`}
+          style={{ opacity: game.rolls.length < 3 ? 1 : 0.5 }}
         />
         <img
           onClick={() => {
@@ -98,12 +101,13 @@ function Game(props) {
           }}
           src={require('img/submit.png')}
           alt={`Button to cycle dice. X left`}
+          style={{ opacity: selected ? 1 : 0.5 }}
         />
       </section>
       <p className={styles.error}>{props.error}</p>
       <section className={styles.dice}>
         {dice && dice.length
-          ? dice.map((d, i) => (
+          ? dice.map((_, i) => (
               <img
                 key={i}
                 onClick={() => toggleLockOnDie(i)}
