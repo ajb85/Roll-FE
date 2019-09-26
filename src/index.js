@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 
 // Redux
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
-import history from './history.js';
 import store from './store.js';
 
-// Axios interceptors
-import './interceptors.js';
+// Routing
+import { Router } from 'react-router-dom';
+import history from './history.js';
 
-// Environment Variables
+// Axios interceptors
+import './interceptors/';
 
 import App from './App.js';
 import 'SCSS/';
