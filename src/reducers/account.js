@@ -29,6 +29,7 @@ export const authAccount = form => async dispatch => {
     dispatch({ type: SET_ACCOUNT_INFO, payload: accountInfo.data });
   }
 };
+
 export const setToken = payload => {
   payload
     ? localStorage.setItem('token', payload)
