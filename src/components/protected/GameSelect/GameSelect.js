@@ -5,8 +5,8 @@ import Buttons from './Buttons/';
 function GameSelect(props) {
   return (
     <div>
-      <Table {...props} />
-      <Buttons {...props} />
+      <Table />
+      <Buttons />
     </div>
   );
 }

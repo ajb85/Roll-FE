@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-//
+import { useParams } from 'react-router-dom';
+
 import { rollTheDice, submitScore } from 'reducers/games.js';
 import { showHeader, hideHeader } from 'reducers/app.js';
 
 import ScoreTable from './ScoreTable/';
-
 import history from 'history.js';
 import styles from './styles.module.scss';
 
 function Game(props) {
   const [locked, setLocked] = useState([false, false, false, false, false]);
   const [selected, setSelected] = useState(null);
+  const params = useParams();
+  const game = props.games.find(g => g.name === params.name);
 
-  const { gamesWereFetched, showHeader, hideHeader, game } = props;
+  const { gamesWereFetched, showHeader, hideHeader } = props;
 
   const toggleLockOnDie = index => {
     setLocked(locked.map((d, i) => (i === index ? !d : d)));
@@ -123,6 +125,7 @@ function Game(props) {
 
 const mapStateToProps = state => ({
   gamesWereFetched: state.games.wereFetched,
+  games: state.games.active,
   error: state.app.errors.play
 });
 

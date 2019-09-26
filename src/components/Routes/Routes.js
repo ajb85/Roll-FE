@@ -18,18 +18,21 @@ function Routes(props) {
   }, [gamesWereFetched, games, getUsersGames]);
   return (
     <React.Fragment>
-      <Route path="/" exact render={rProps => <GameSelect {...rProps} />} />
-      <Route path="/game/create" component={NewGame} />
-      <Route path="/game/join" component={JoinGame} />
-      <Route
-        path="/game/play/:name"
-        render={rProps => (
-          <PlayGame
-            {...rProps}
-            game={props.games.find(g => g.name === rProps.match.params.name)}
-          />
-        )}
-      />
+      <Route path="/" exact>
+        <GameSelect />
+      </Route>
+
+      <Route path="/game/create">
+        <NewGame />
+      </Route>
+
+      <Route path="/game/join">
+        <JoinGame />
+      </Route>
+
+      <Route path="/game/play/:name">
+        <PlayGame />
+      </Route>
     </React.Fragment>
   );
 }

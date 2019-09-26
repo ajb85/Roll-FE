@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import Prompt from 'components/UI/Prompt/';
 
@@ -7,6 +8,7 @@ import { getUsersGames, leaveGame } from 'reducers/games.js';
 import styles from './styles.module.scss';
 
 function Table(props) {
+  const history = useHistory();
   const { getUsersGames, games } = props;
   const [pagination, setPagination] = useState({
     limit: 5,
@@ -16,25 +18,31 @@ function Table(props) {
 
   const [prompt, setPrompt] = useState(false);
   const [game, setGame] = useState({});
-
   useEffect(() => {
     getUsersGames();
   }, [getUsersGames]);
+
   useEffect(() => {
     setPagination(p => ({ ...p, max: games.length - 1 }));
   }, [games, setPagination]);
 
   const getRows = () => {
+    const sorted = [...games].sort((a, b) => {
+      const aTurn = a.round - a.userRound;
+      const bTurn = b.round - b.userRound;
+      return aTurn > bTurn ? 1 : aTurn < bTurn ? -1 : 0;
+    });
+
     const rows = [];
-    if (games.length) {
+    if (sorted.length) {
       for (
         let i = pagination.offset;
         i < pagination.offset + pagination.limit;
         i++
       ) {
-        const g = i < games.length ? games[i] : null;
+        const g = i < sorted.length ? sorted[i] : null;
         const goToGame = () => {
-          props.history.push(`/game/play/${g.name}`);
+          history.push(`/game/play/${g.name}`);
         };
 
         rows.push(

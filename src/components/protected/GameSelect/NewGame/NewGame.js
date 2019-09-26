@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 
 import { createNewGame } from 'reducers/games.js';
 import styles from './styles.module.scss';
+import { useHistory } from 'react-router-dom';
 
 function NewGame(props) {
   const [form, setForm] = useState({ name: '', password: '' });
+  const history = useHistory();
 
   const updateForm = e => {
     if (e.target.name !== 'name' || e.target.value.length < 16)
@@ -41,7 +43,7 @@ function NewGame(props) {
       </div>
       <p className={styles.error}>{props.gameError}</p>
       <button type="submit">Create Game</button>
-      <button type="button" onClick={() => props.history.push('/')}>
+      <button type="button" onClick={() => history.push('/')}>
         Cancel
       </button>
     </form>
