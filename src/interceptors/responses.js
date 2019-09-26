@@ -4,7 +4,7 @@ import { setToken } from 'reducers/account.js';
 import { doneLoading, clearErrors } from 'reducers/app.js';
 import { logError } from 'reducers/app.js';
 
-function success(res) {
+export function success(res) {
   store.dispatch(doneLoading());
 
   // May have to update to accept requestTypes for
@@ -18,7 +18,7 @@ function success(res) {
   return res;
 }
 
-function failure(error) {
+export function failure(error) {
   // const errorList = loadDirectory('./errors/');
   store.dispatch(doneLoading());
 
@@ -52,5 +52,3 @@ function handleError(error) {
     console.error('NO CONFIG: ', error);
   }
 }
-
-export default { success, failure };
