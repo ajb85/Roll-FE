@@ -50,7 +50,7 @@ function Game(props) {
     // Loading state
     return <p className={styles.error}>Loading...</p>;
   }
-  console.log(game);
+
   if (!game) {
     // Wrong URL state
     // setTimeout(() => (game ? null : history.push('/')), 1500);
