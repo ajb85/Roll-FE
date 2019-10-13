@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from 'history.js';
+import Sockets from 'sockets.js';
 
 const initialState = {
   active: [],
@@ -71,8 +72,11 @@ export const gotGames = () => {
 export const getUsersGames = () => async dispatch => {
   dispatch({ type: GETTING_GAMES });
   const games = await axios.get('/games/user');
-  if (games) {
+  if (games && games.data) {
     dispatch({ type: SET_GAMES, payload: games.data });
+    games.data.forEach(g => {
+      Sockets.listen(g.name, res => console.log('GAME LISTENER: ', res));
+    });
   }
 };
 
