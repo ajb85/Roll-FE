@@ -72,8 +72,9 @@ export const gotGames = () => {
 
 export const getUsersGames = () => async dispatch => {
   dispatch({ type: GETTING_GAMES });
-  const { data: payload } = await axios.get('/games/user');
-  if (payload) {
+  const userGames = await axios.get('/games/user');
+  if (userGames) {
+    const { data: payload } = userGames;
     dispatch({ type: SET_GAMES, payload });
     Sockets.joinList(payload.map(({ name }) => name));
   }
@@ -81,8 +82,9 @@ export const getUsersGames = () => async dispatch => {
 
 export const createNewGame = form => async dispatch => {
   dispatch({ type: GETTING_GAMES });
-  const { data: payload } = await axios.post('games/user/create', form);
-  if (payload) {
+  const newGame = await axios.post('games/user/create', form);
+  if (newGame) {
+    const { data: payload } = newGame;
     dispatch({ type: NEW_GAME, payload });
     Sockets.join(payload.name);
     history.push('/');
@@ -91,8 +93,9 @@ export const createNewGame = form => async dispatch => {
 
 export const joinGame = form => async dispatch => {
   dispatch({ type: GETTING_GAMES });
-  const { data: payload } = await axios.post(`games/user/join`, form);
-  if (payload) {
+  const joined = await axios.post(`games/user/join`, form);
+  if (joined) {
+    const { data: payload } = joined;
     dispatch({ type: NEW_GAME, payload });
     Sockets.join(payload.name);
     history.push(`/game/play/${payload.name}`);
