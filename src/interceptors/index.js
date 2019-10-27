@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '../store.js';
-import Sockets from 'sockets.js';
+import Sockets from 'sockets/';
 import { success, failure } from './responses.js';
 import { loading } from '../reducers/app.js';
 
