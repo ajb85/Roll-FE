@@ -12,17 +12,16 @@ class SocketsManager {
 
   errorHandling() {
     return this.socket.on('error', function(err) {
-      console.log('received socket error:');
-      console.log(err);
+      console.log('received socket error:', err);
     });
-  }
-
-  subscribeToGames(games) {
-    return this.emit('joinGames', games);
   }
 
   emit(room, data) {
     return this.socket.emit(room, data);
+  }
+
+  subscribeToGames(games) {
+    return this.emit('joinGames', games);
   }
 
   listen(room, cb) {
