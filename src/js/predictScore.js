@@ -89,7 +89,7 @@ function calcLeft(score) {
   }
   let total = bonus;
 
-  bonus = bonus > 63 ? 35 : 0;
+  bonus = bonus >= 63 ? 35 : 0;
   total += bonus;
 
   score['Left Bonus'] = bonus;
