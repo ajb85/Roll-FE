@@ -1,6 +1,6 @@
 import axios from 'axios';
 import history from 'history.js';
-import Sockets from 'sockets.js';
+import Sockets from 'sockets/';
 
 const initialState = {
   active: [],
@@ -85,6 +85,9 @@ export const createNewGame = form => async dispatch => {
   const newGame = await axios.post('games/user/create', form);
   if (newGame) {
     dispatch({ type: NEW_GAME, payload: newGame.data });
+    Sockets.listen(newGame.data.name, res =>
+      console.log('GAME LISTENER: ', res)
+    );
     history.push('/');
   }
 };
@@ -94,6 +97,9 @@ export const joinGame = form => async dispatch => {
   const newGame = await axios.post(`games/user/join`, form);
   if (newGame) {
     dispatch({ type: NEW_GAME, payload: newGame.data });
+    Sockets.listen(newGame.data.name, res =>
+      console.log('GAME LISTENER: ', res)
+    );
     history.push(`/game/play/${newGame.data.name}`);
   }
 };
