@@ -3,10 +3,14 @@
 @import 'SCSS/form.scss';
 
 .Account {
+  margin: 0 auto;
+  max-width: 500px;
+
   nav {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
+
     h2 {
       width: 50%;
       border: 2px solid black;
@@ -22,4 +26,12 @@
       }
     }
   }
+
+  // @media #{$tablet} {
+  //   nav {
+  //     h2 {
+  //       // border-radius: 0px;
+  //     }
+  //   }
+  // }
 }
