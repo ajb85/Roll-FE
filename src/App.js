@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 
 function App(props) {
   return (
-    <div className='App'>
+    <div className={styles.App}>
       {props.showHeader && <h1>Roll!</h1>}
       <Route path='/' component={props.token ? LoggedInRoutes : Account} />
       {props.token && props.showHeader && (
@@ -27,7 +27,4 @@ const mapStateToProps = state => ({
   showHeader: state.app.showHeader
 });
 
-export default connect(
-  mapStateToProps,
-  { setToken }
-)(App);
+export default connect(mapStateToProps, { setToken })(App);
