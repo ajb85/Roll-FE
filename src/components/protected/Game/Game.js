@@ -34,11 +34,11 @@ function Game(props) {
       : [];
 
   const defaultDice = [
-    <img src={require('img/R.png')} key={'R'} alt="R die" />,
-    <img src={require('img/O.png')} key={'O'} alt="O die" />,
-    <img src={require('img/L.png')} key={'L1'} alt="L die" />,
-    <img src={require('img/L.png')} key={'L2'} alt="L die" />,
-    <img src={require('img/e.png')} key={'!'} alt="! die" />
+    <img src={require('img/R.png')} key={'R'} alt='R die' />,
+    <img src={require('img/O.png')} key={'O'} alt='O die' />,
+    <img src={require('img/L.png')} key={'L1'} alt='L die' />,
+    <img src={require('img/L.png')} key={'L2'} alt='L die' />,
+    <img src={require('img/e.png')} key={'!'} alt='! die' />
   ];
 
   useEffect(() => {
@@ -95,7 +95,7 @@ function Game(props) {
           onClick={() => props.rollTheDice(game.game_id, locked)}
           src={require(`img/roll${turns}.png`)}
           alt={`Button to cycle dice. ${turns} left`}
-          style={{ opacity: game.rolls.length < 3 ? 1 : 0.5 }}
+          style={{ opacity: !game.rolls || game.rolls.length < 3 ? 1 : 0.5 }}
         />
         <img
           onClick={() => {
@@ -114,7 +114,7 @@ function Game(props) {
                 key={i}
                 onClick={() => toggleLockOnDie(i)}
                 src={require(`img/${dice[i]}${locked[i] ? 'l' : ''}.png`)}
-                alt="die"
+                alt='die'
               />
             ))
           : defaultDice}
@@ -129,7 +129,9 @@ const mapStateToProps = state => ({
   error: state.app.errors.play
 });
 
-export default connect(
-  mapStateToProps,
-  { showHeader, hideHeader, rollTheDice, submitScore }
-)(Game);
+export default connect(mapStateToProps, {
+  showHeader,
+  hideHeader,
+  rollTheDice,
+  submitScore
+})(Game);
