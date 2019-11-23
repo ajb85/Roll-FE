@@ -3,20 +3,12 @@
 form.standard {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 0 15px;
-  padding-top: $lh;
-
-  // @media #{$tablet} {
-  //   border-width: 0px 2px 2px;
-  //   border-style: solid;
-  //   border-color: black;
-  // }
 
   div {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: $lh/2 0;
 
     label {
@@ -35,13 +27,40 @@ form.standard {
     }
   }
 
-  button {
-    font-size: 1.2rem;
-    line-height: $lh;
-    margin: $lh/2 0 $lh * 1.5;
-    border-radius: 20px;
-    padding: 0 15px;
-    width: 200px;
-    cursor: pointer;
+  div.inputs {
+    display: flex;
+    flex-direction: column;
+    min-height: 250px;
+
+    p {
+      text-align: center;
+      line-height: $lh;
+      font-size: 18px;
+    }
+
+    input {
+      margin: 0 auto;
+      width: 90%;
+      height: 2 * $lh;
+      padding: 0 10px;
+      font-size: 1.2rem;
+    }
+  }
+
+  div.buttons {
+    p {
+      line-height: $lh;
+      display: flex;
+      margin: auto;
+    }
+    button {
+      font-size: 1.2rem;
+      line-height: $lh;
+      // margin: $lh/2 0 $lh * 1.5;
+      border-radius: 20px;
+      padding: 0 15px;
+      width: 200px;
+      cursor: pointer;
+    }
   }
 }
