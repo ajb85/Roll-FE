@@ -49,7 +49,7 @@ function Table(props) {
           g ? (
             <tr key={g.game_id}>
               <td onClick={goToGame}>{g.name}</td>
-              <td onClick={goToGame}>{g.players.length}</td>
+              <td onClick={goToGame}>{g.playerCount}</td>
               <td
                 style={{ color: 'red' }}
                 onClick={() => {
@@ -62,17 +62,17 @@ function Table(props) {
             </tr>
           ) : (
             <tr key={`No Game ${i}`}>
-              <td colSpan="3"></td>
+              <td colSpan='3'></td>
             </tr>
           )
         );
       }
     } else {
       rows.push(
-        <tr key="No Games">
+        <tr key='No Games'>
           <td
             className={styles.noGames}
-            colSpan="3"
+            colSpan='3'
             style={{ textAlign: 'center' }}
           >
             No games to display
@@ -92,7 +92,7 @@ function Table(props) {
           props.leaveGame(game.game_id);
           setGame({});
         }}
-        copy="Are you sure you want to leave? You may not be able to rejoin."
+        copy='Are you sure you want to leave? You may not be able to rejoin.'
         showPrompt={prompt}
         game={game}
       />
@@ -145,7 +145,4 @@ function Table(props) {
 const mapStateToProps = state => ({
   games: state.games.active
 });
-export default connect(
-  mapStateToProps,
-  { getUsersGames, leaveGame }
-)(Table);
+export default connect(mapStateToProps, { getUsersGames, leaveGame })(Table);
