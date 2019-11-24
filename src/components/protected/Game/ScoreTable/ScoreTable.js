@@ -6,11 +6,20 @@ import styles from '../styles.module.scss';
 
 function ScoreTable({ game, selected, setSelected, user_id }) {
   const { scores, rolls } = game;
-  const rawUserScore = scores.find(s => s.user_id === user_id);
+  const rawUserScore = scores[user_id] ? scores[user_id].score : {};
   const dice = rolls && rolls.length ? rolls[rolls.length - 1] : [];
   const userScore = selected
     ? predictScore(selected, dice, rawUserScore)
     : rawUserScore || {};
+
+  const leader = Object.values(game.scores).reduce((top, cur) =>
+    top
+      ? cur.score['Grand Total'] > top.score['Grand Total']
+        ? cur
+        : top
+      : cur
+  );
+
   const toggleSelected = e => {
     setSelected(e.target.id === selected ? null : e.target.id);
   };
@@ -70,7 +79,7 @@ function ScoreTable({ game, selected, setSelected, user_id }) {
             >
               {userScore[l.name]}
             </td>
-            <td>{scores[0][l.name]}</td>
+            <td>{leader[l.name]}</td>
             <td>{r.name}</td>
             <td
               id={r.name}
@@ -88,7 +97,7 @@ function ScoreTable({ game, selected, setSelected, user_id }) {
               {userScore[r.name]}
             </td>
 
-            <td>{scores[0][r.name]}</td>
+            <td>{leader[r.name]}</td>
           </tr>
         );
       })}
@@ -101,7 +110,7 @@ function ScoreTable({ game, selected, setSelected, user_id }) {
           {userScore['Grand Total']}
         </td>
         <td style={{ padding: '5px', fontSize: '0.8rem' }}>
-          {scores[0]['Grand Total']}
+          {leader['Grand Total']}
         </td>
       </tr>
     </tbody>
