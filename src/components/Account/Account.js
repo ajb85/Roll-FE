@@ -30,32 +30,32 @@ function Account(props) {
               : 'Log into existing account'}
           </p>
           <input
-            name="username"
-            type="text"
+            name='username'
+            type='text'
             value={form.username}
             onChange={e => setState(e)}
-            autoComplete="username"
+            autoComplete='username'
             autoFocus
             placeholder={isRegistering ? 'Username' : 'Account'}
           />
           {/* {isRegistering && ( */}
           <input
-            name="email"
-            type="email"
+            name='email'
+            type='email'
             value={form.email}
             onChange={e => setState(e)}
-            autoComplete="email"
-            placeholder="Email"
+            autoComplete='email'
+            placeholder='Email'
             style={{ display: isRegistering ? 'initial' : 'none' }}
           />
           {/* )} */}
           <input
-            name="password"
-            type="password"
+            name='password'
+            type='password'
             value={form.password}
             onChange={e => setState(e)}
-            autoComplete="current-password"
-            placeholder="Password"
+            autoComplete='current-password'
+            placeholder='Password'
           />
         </div>
         <p className={styles.error}>
@@ -63,13 +63,17 @@ function Account(props) {
         </p>
 
         <div className={styles.buttons}>
-          <button type="submit">{isRegistering ? 'Register' : 'Login'}</button>
+          <button type='submit'>{isRegistering ? 'Register' : 'Login'}</button>
           <p>OR</p>
           <button
-            type="button"
+            type='button'
             onClick={() => setIsRegistering(!isRegistering)}
           >
-            {isRegistering ? 'Login to Account' : 'Create Account'}
+            {isLoading
+              ? '...Loading'
+              : isRegistering
+              ? 'Login to Account'
+              : 'Create Account'}
           </button>
         </div>
       </form>
