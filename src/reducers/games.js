@@ -41,8 +41,7 @@ export default (state = initialState, action) => {
         ...state,
         active: state.active.map(g => {
           if (g.game_id === game_id) {
-            const newGame = { ...g, rolls };
-            return newGame;
+            return { ...g, rolls };
           }
           return g;
         })
@@ -75,11 +74,6 @@ export const getUsersGames = () => async dispatch => {
   if (userGames) {
     console.log('RECEIVED GAMES: ', userGames.data);
     const { data: payload } = userGames;
-    payload.forEach(g =>
-      g.scores.sort((a, b) => b['Grand Total'] - a['Grand Total'])
-    );
-
-    console.log('GAMES: ', payload);
     dispatch({ type: SET_GAMES, payload });
     Sockets.joinList(payload.map(({ name }) => name));
   }
