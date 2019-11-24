@@ -28,6 +28,7 @@ function Game(props) {
   };
 
   const turns = game && game.rolls ? 3 - game.rolls.length : 3;
+
   const dice =
     game && game.rolls && game.rolls.length
       ? game.rolls[game.rolls.length - 1]
@@ -72,7 +73,7 @@ function Game(props) {
           <tr>
             <td onClick={() => history.push('/')}>Lobby</td>
             <td>{game.name}</td>
-            <td>{game.players.length}</td>
+            <td>{game.playerCount}</td>
             <td>{game.round}</td>
           </tr>
         </tbody>
@@ -93,7 +94,7 @@ function Game(props) {
       <section className={styles.buttons}>
         <img
           onClick={() => props.rollTheDice(game.game_id, locked)}
-          src={require(`img/roll${turns}.png`)}
+          src={require(`../../../img/roll${turns}.png`)}
           alt={`Button to cycle dice. ${turns} left`}
           style={{ opacity: !game.rolls || game.rolls.length < 3 ? 1 : 0.5 }}
         />
@@ -101,7 +102,7 @@ function Game(props) {
           onClick={() => {
             endRound();
           }}
-          src={require('img/submit.png')}
+          src={require('../../../img/submit.png')}
           alt={`Button to cycle dice. X left`}
           style={{ opacity: selected ? 1 : 0.5 }}
         />
@@ -113,7 +114,9 @@ function Game(props) {
               <img
                 key={i}
                 onClick={() => toggleLockOnDie(i)}
-                src={require(`img/${dice[i]}${locked[i] ? 'l' : ''}.png`)}
+                src={require(`../../../img/${dice[i]}${
+                  locked[i] ? 'l' : ''
+                }.png`)}
                 alt='die'
               />
             ))
