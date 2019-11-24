@@ -1,25 +1,27 @@
 export default game => {
   const { scores } = game;
-  const players = game.players.length;
-  if (!scores.length) {
-    return players;
-  }
-  if (scores.length !== players) {
-    return players - scores.length;
-  }
 
-  let count = 0;
-  scores.forEach(userScore => {
+  const rounds = [];
+  for (let player in scores) {
+    const { score } = scores[player];
     let userRound = 0;
-    for (let category in userScore) {
+    for (let category in score) {
       if (userScore[category] && isPlayableCategory(category)) {
         userRound += 1;
       }
     }
-    if (userRound === game.round) {
-      count += 1;
-    }
-  });
+    rounds.push(userRound);
+  }
+
+  rounds.sort((a, b) => b - a);
+  const r = rounds[rounds.length - 1];
+  let count = 0;
+
+  while (rounds.length && rounds[rounds.length - 1] === r) {
+    count++;
+    rounds.pop();
+  }
+
   return count;
 };
 
