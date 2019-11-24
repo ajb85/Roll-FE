@@ -36,3 +36,9 @@ export const setToken = payload => {
     : localStorage.removeItem('token');
   return { type: SET_TOKEN, payload };
 };
+
+export const populateAccount = () => dispatch => {
+  axios
+    .get('/auth')
+    .then(res => dispatch({ type: SET_ACCOUNT_INFO, payload: res.data }));
+};
