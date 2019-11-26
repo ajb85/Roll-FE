@@ -10,6 +10,8 @@ class SocketsManager {
     this.socket.on('error', function(err) {
       console.log('received socket error:', err);
     });
+
+    this.emit('identify', localStorage.getItem('token'));
   }
 
   emit(room, data) {
@@ -28,7 +30,6 @@ class SocketsManager {
 
   join(room) {
     this.listen(room, (context, message) => {
-      console.log('HEARD: ', context, message);
       this.listeners.game[context](message);
     });
   }
