@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import predictScore from 'js/predictScore.js';
 import styles from '../styles.module.scss';
 
-function ScoreTable({ game, selected, setSelected, user_id }) {
+function ScoreTable({ game, selected, setSelected, user_id, isTurn }) {
   const { scores, rolls } = game;
   const rawUserScore = scores[user_id] ? scores[user_id].score : {};
   const dice = rolls && rolls.length ? rolls[rolls.length - 1] : [];
@@ -51,11 +51,13 @@ function ScoreTable({ game, selected, setSelected, user_id }) {
       {leftCategories.map((l, i) => {
         const r = rightCategories[i];
         const lClickable =
+          isTurn &&
           l.isClickable &&
           game.rolls &&
           game.rolls.length &&
           rawUserScore[l.name] === null;
         const rClickable =
+          isTurn &&
           r.isClickable &&
           game.rolls &&
           game.rolls.length &&
@@ -103,7 +105,7 @@ function ScoreTable({ game, selected, setSelected, user_id }) {
       })}
 
       <tr style={{ fontWeight: 800 }}>
-        <td style={{ padding: '5px', fontSize: '0.8rem' }} colSpan='4'>
+        <td style={{ padding: '5px', fontSize: '0.8rem' }} colSpan="4">
           Grand Total
         </td>
         <td style={{ padding: '5px', fontSize: '0.8rem' }}>

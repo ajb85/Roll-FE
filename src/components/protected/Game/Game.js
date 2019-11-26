@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import ScoreTable from './ScoreTable/';
+
 import { rollTheDice, submitScore } from 'reducers/games.js';
 import { showHeader, hideHeader } from 'reducers/app.js';
 
-import ScoreTable from './ScoreTable/';
+import { isUsersTurn, getGameRound } from 'js/rounds.js';
 import history from 'history.js';
 import styles from './styles.module.scss';
 
@@ -14,6 +16,13 @@ function Game(props) {
   const [selected, setSelected] = useState(null);
   const params = useParams();
   const game = props.games.find(g => g.name === params.name);
+  const [isTurn, setIsTurn] = useState(false);
+
+  useEffect(() => {
+    if (game && props.user_id) {
+      setIsTurn(isUsersTurn(game.scores, props.user_id));
+    }
+  }, [game, props.user_id]);
 
   const { gamesWereFetched, showHeader, hideHeader } = props;
 
@@ -35,11 +44,11 @@ function Game(props) {
       : [];
 
   const defaultDice = [
-    <img src={require('img/R.png')} key={'R'} alt='R die' />,
-    <img src={require('img/O.png')} key={'O'} alt='O die' />,
-    <img src={require('img/L.png')} key={'L1'} alt='L die' />,
-    <img src={require('img/L.png')} key={'L2'} alt='L die' />,
-    <img src={require('img/e.png')} key={'!'} alt='! die' />
+    <img src={require('img/R.png')} key={'R'} alt="R die" />,
+    <img src={require('img/O.png')} key={'O'} alt="O die" />,
+    <img src={require('img/L.png')} key={'L1'} alt="L die" />,
+    <img src={require('img/L.png')} key={'L2'} alt="L die" />,
+    <img src={require('img/e.png')} key={'!'} alt="! die" />
   ];
 
   useEffect(() => {
@@ -74,11 +83,11 @@ function Game(props) {
             <td onClick={() => history.push('/')}>Lobby</td>
             <td>{game.name}</td>
             <td>{game.playerCount}</td>
-            <td>{game.round}</td>
+            <td>{getGameRound(game ? game.scores : [])}</td>
           </tr>
         </tbody>
       </table>
-      <table className={styles.score}>
+      <table className={styles.score} style={{ opacity: isTurn ? 1 : 0.5 }}>
         <thead>
           <tr>
             <th>Type</th>
@@ -89,14 +98,21 @@ function Game(props) {
             <th>Top</th>
           </tr>
         </thead>
-        <ScoreTable game={game} selected={selected} setSelected={setSelected} />
+        <ScoreTable
+          game={game}
+          selected={selected}
+          setSelected={setSelected}
+          isTurn={isTurn}
+        />
       </table>
       <section className={styles.buttons}>
         <img
           onClick={() => props.rollTheDice(game.game_id, locked)}
           src={require(`../../../img/roll${turns}.png`)}
           alt={`Button to cycle dice. ${turns} left`}
-          style={{ opacity: !game.rolls || game.rolls.length < 3 ? 1 : 0.5 }}
+          style={{
+            opacity: isTurn && (!game.rolls || game.rolls.length < 3) ? 1 : 0.5
+          }}
         />
         <img
           onClick={() => {
@@ -104,7 +120,7 @@ function Game(props) {
           }}
           src={require('../../../img/submit.png')}
           alt={`Button to cycle dice. X left`}
-          style={{ opacity: selected ? 1 : 0.5 }}
+          style={{ opacity: selected && isTurn ? 1 : 0.5 }}
         />
       </section>
       <p className={styles.error}>{props.error}</p>
@@ -117,7 +133,7 @@ function Game(props) {
                 src={require(`../../../img/${dice[i]}${
                   locked[i] ? 'l' : ''
                 }.png`)}
-                alt='die'
+                alt="die"
               />
             ))
           : defaultDice}
@@ -127,6 +143,7 @@ function Game(props) {
 }
 
 const mapStateToProps = state => ({
+  user_id: state.account.id,
   gamesWereFetched: state.games.wereFetched,
   games: state.games.active,
   error: state.app.errors.play
