@@ -13,7 +13,8 @@ const SET_GAMES = 'SET_GAMES';
 const NEW_GAME = 'NEW_GAME';
 const LEAVING_GAME = 'LEAVING_GAME';
 const NEW_ROLL = 'NEW_ROLL';
-const GAME_UPDATE = 'GAME_UPDATE';
+const UPDATE_SCORE = 'UPDATE_SCORE';
+const UPDATE_GAME = 'UPDATE_GAME';
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -46,13 +47,27 @@ export default (state = initialState, action) => {
           return g;
         })
       };
-    case GAME_UPDATE:
+    case UPDATE_SCORE:
       return {
         ...state,
         active: state.active.map(g => {
           if (g.game_id === action.payload.game_id) {
             return action.payload;
           } else return g;
+        })
+      };
+    case UPDATE_GAME:
+      return {
+        ...state,
+        active: state.active.map(g => {
+          if (g.game_id === action.payload.game_id) {
+            if (action.payload.context) {
+              g[action.payload.context] = action.payload.newData;
+            } else {
+              return { ...g, ...action.payload.newData };
+            }
+          }
+          return g;
         })
       };
     default:
@@ -126,6 +141,11 @@ export const submitScore = (game_id, category) => async dispatch => {
   });
 
   if (gameUpdate) {
-    dispatch({ type: GAME_UPDATE, payload: gameUpdate.data });
+    dispatch({ type: UPDATE_SCORE, payload: gameUpdate.data });
   }
 };
+
+export const updateGame = (game_id, newData, context) => ({
+  type: UPDATE_GAME,
+  payload: { game_id, context, newData }
+});
