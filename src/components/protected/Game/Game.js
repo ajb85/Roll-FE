@@ -109,7 +109,7 @@ function Game(props) {
         <img
           onClick={() => props.rollTheDice(game.game_id, locked)}
           src={require(`../../../img/roll${turns}.png`)}
-          alt={`Button to cycle dice. ${turns} left`}
+          alt={`Roll the dice. ${turns || 0} rolls left`}
           style={{
             opacity: isTurn && (!game.rolls || game.rolls.length < 3) ? 1 : 0.5
           }}
@@ -119,7 +119,7 @@ function Game(props) {
             endRound();
           }}
           src={require('../../../img/submit.png')}
-          alt={`Button to cycle dice. X left`}
+          alt={`Submit turn`}
           style={{ opacity: selected && isTurn ? 1 : 0.5 }}
         />
       </section>
