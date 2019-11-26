@@ -7,11 +7,7 @@ class SocketsManager {
     this.socket = this.io.connect(process.env.REACT_APP_API_URL);
     this.listeners = listeners;
 
-    this.errorHandling();
-  }
-
-  errorHandling() {
-    return this.socket.on('error', function(err) {
+    this.socket.on('error', function(err) {
       console.log('received socket error:', err);
     });
   }
@@ -21,15 +17,18 @@ class SocketsManager {
   }
 
   subscribeToGames(games) {
+    console.log('SUBSCRIBING TO: ', games);
     return this.emit('joinGames', games);
   }
 
   listen(room, cb) {
+    console.log('LISTENING FOR: ', room);
     return this.socket.on(room, cb);
   }
 
   join(room) {
     this.listen(room, (context, message) => {
+      console.log('HEARD: ', context, message);
       this.listeners.game[context](message);
     });
   }
