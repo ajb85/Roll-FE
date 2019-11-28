@@ -1,0 +1,17 @@
+@mixin Button {
+  font-size: 1.2rem;
+  line-height: $lh;
+  border-radius: 40px;
+  padding: $lh/2 15px;
+  width: 215px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+@mixin Input {
+  margin: 0 auto;
+  width: 90%;
+  height: 2 * $lh;
+  padding: 0 10px;
+  font-size: 1.2rem;
+}
