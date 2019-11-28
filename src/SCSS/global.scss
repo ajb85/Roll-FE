@@ -16,3 +16,10 @@ h1 {
   text-align: center;
   padding: $lh 0;
 }
+
+p,
+span,
+input,
+button {
+  font-family: $mainFont;
+}
