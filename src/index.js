@@ -12,13 +12,18 @@ import history from './history.js';
 // Axios interceptors
 import './interceptors/';
 
+// Providers
+import ColorProvider from 'js/Colors.js';
+
 import App from './App.js';
 import 'SCSS/';
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <App />
+      <ColorProvider>
+        <App />
+      </ColorProvider>
     </Router>
   </Provider>,
   document.getElementById('root')
