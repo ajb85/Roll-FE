@@ -1,37 +1,53 @@
 @import 'SCSS/variables.scss';
-@import 'SCSS/errorText.scss';
 @import 'SCSS/form.scss';
+@import 'SCSS/errorText.scss';
 
 .Account {
   margin: 0 auto;
   max-width: 500px;
 
-  nav {
+  button {
+    border-radius: 40px;
+  }
+}
+
+div.bubble {
+  position: relative;
+
+  p {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 
-    h2 {
-      width: 50%;
-      border: 2px solid black;
-      font-size: 2rem;
-      text-align: center;
-      padding: $lh / 2 0;
-      cursor: pointer;
-      line-height: $lh;
-      border-radius: 20px 20px 0 0;
+    position: absolute;
+    left: -34px;
+    top: -21px;
 
-      &.inactive {
-        opacity: 0.3;
-      }
-    }
+    border-radius: 50%;
+    width: 95px;
+    height: 95px;
   }
 
-  // @media #{$tablet} {
-  //   nav {
-  //     h2 {
-  //       // border-radius: 0px;
-  //     }
-  //   }
-  // }
+  div {
+    width: 81px;
+    height: 20px;
+
+    position: absolute;
+    z-index: 1;
+    left: -27px;
+
+    &:first-of-type {
+      bottom: 52px;
+    }
+    &:last-of-type {
+      top: 52px;
+    }
+  }
+}
+
+.darkMode {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 }
