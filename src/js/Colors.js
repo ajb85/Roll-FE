@@ -18,10 +18,6 @@ class ColorManager {
     };
 
     this.set = 'dark';
-    // this.primary;
-    // this.secondary;
-    // this.highlight;
-    // this.set;
   }
 
   setTo(mode) {
