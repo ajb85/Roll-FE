@@ -5,6 +5,17 @@ div.container {
   position: relative;
   height: 0;
 
+  animation-timing-function: ease-in;
+  -webkit-transition: all 1.5s;
+  transition: all 1.5s;
+  animation-direction: alternate;
+
+  &:hover {
+    transform: translate(20px);
+    transition: all 1.5s;
+    -webkit-transition: all 1.5s;
+  }
+
   .switchCircle {
     position: absolute;
 
