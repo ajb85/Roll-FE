@@ -15,16 +15,6 @@ function Account(props) {
   const formState = useState({ username: '', password: '', email: '' });
   const { colors, switchMode } = useContext(colorContext);
 
-  const handleClick = e => {
-    const condition = {
-      register: !isRegistering,
-      login: isRegistering
-    };
-    if (condition[e.target.name]) {
-      setIsRegistering(!isRegistering);
-    }
-  };
-
   return (
     <section className={styles.Account}>
       <Login
