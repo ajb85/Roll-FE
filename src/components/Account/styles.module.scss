@@ -28,7 +28,7 @@ div.bubble {
     height: 95px;
   }
 
-  div {
+  div.block {
     width: 81px;
     height: 20px;
 
@@ -42,6 +42,42 @@ div.bubble {
     &:last-of-type {
       top: 52px;
     }
+  }
+
+  div.arrowBase {
+    position: absolute;
+    left: 207px;
+    bottom: 0px;
+    z-index: 3;
+
+    width: 20px;
+    height: 52px;
+
+    border-style: solid;
+    border-width: 1px 0;
+  }
+
+  div.arrow {
+    position: absolute;
+    left: 209px;
+    bottom: 8px;
+    z-index: 2;
+
+    width: 36.7696px;
+    height: 36.7696px;
+
+    transform: rotate(45deg);
+    border-style: solid;
+    border-width: 1px 1px 0 0;
+  }
+
+  div.arrowCover {
+    position: absolute;
+    left: 220px;
+    bottom: 2px;
+    z-index: 1;
+    width: 40px;
+    height: 47px;
   }
 }
 
