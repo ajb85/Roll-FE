@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import styles from '../styles.module.scss';
+import ArrowButton from 'components/UI/ArrowButton/';
 
 function Login(props) {
   const {
@@ -21,31 +22,31 @@ function Login(props) {
   return (
     <form className={styles.standard} onSubmit={e => onSubmit(e)}>
       <div className={styles.inputs}>
-        <p>Log into existing account</p>
+        <p>Log into an existing account</p>
         <input
-          name='username'
-          type='text'
+          name="username"
+          type="text"
           value={form.username}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete='username'
+          autoComplete="username"
           autoFocus
-          placeholder='Account'
+          placeholder="Account"
         />
 
         <input
-          name='password'
-          type='password'
+          name="password"
+          type="password"
           value={form.password}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete='current-password'
-          placeholder='Password'
+          autoComplete="current-password"
+          placeholder="Password"
         />
       </div>
       <p className={styles.error}>{props.loginError}</p>
 
       <div className={styles.buttons}>
         <button
-          type='submit'
+          type="submit"
           style={{
             backgroundColor: colors.secondary,
             color: colors.primary
@@ -53,58 +54,8 @@ function Login(props) {
         >
           {isLoading ? '...Loading' : 'Login'}
         </button>
-        <div
-          className={styles.bubble}
-          style={{
-            width: '25px'
-          }}
-        >
-          <div
-            className={styles.block}
-            style={{ backgroundColor: colors.primary }}
-          />
-          <div
-            className={styles.arrowBase}
-            style={{
-              backgroundColor: colors.primary,
-              borderColor: colors.secondary
-            }}
-          />
-          <div
-            className={styles.arrow}
-            style={{
-              backgroundColor: colors.primary,
-              borderColor: colors.secondary
-            }}
-          />
-          <div
-            className={styles.arrowCover}
-            style={{ backgroundColor: colors.primary }}
-          />
-          <div
-            className={styles.block}
-            style={{ backgroundColor: colors.primary }}
-          />
-          <p
-            style={{
-              color: colors.secondary,
-              backgroundColor: colors.primary,
-              border: `1px solid ${colors.secondary}`
-            }}
-          >
-            OR
-          </p>
-        </div>
-        <button
-          type='button'
-          style={{
-            backgroundColor: colors.primary,
-            color: colors.secondary
-          }}
-          onClick={() => setIsRegistering(true)}
-        >
-          {isLoading ? '...Loading' : 'Register'}
-        </button>
+        <p style={{ position: 'relative', zIndex: 10 }}>OR</p>
+        <ArrowButton direction="right">Register</ArrowButton>
       </div>
     </form>
   );
