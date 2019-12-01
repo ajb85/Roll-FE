@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import ArrowButton from 'components/UI/ArrowButton/';
+
 import styles from '../styles.module.scss';
 
 function Register(props) {
@@ -23,68 +25,42 @@ function Register(props) {
       <div className={styles.inputs}>
         <p>Create a new account</p>
         <input
-          name='username'
-          type='text'
+          name="username"
+          type="text"
           value={form.username}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete='username'
+          autoComplete="username"
           autoFocus
-          placeholder='Username'
+          placeholder="Username"
         />
 
         <input
-          name='email'
-          type='email'
+          name="email"
+          type="email"
           value={form.email}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete='email'
-          placeholder='Email'
+          autoComplete="email"
+          placeholder="Email"
         />
 
         <input
-          name='password'
-          type='password'
+          name="password"
+          type="password"
           value={form.password}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete='current-password'
-          placeholder='Password'
+          autoComplete="current-password"
+          placeholder="Password"
         />
       </div>
-      <p className={styles.error}>{props.registerError}</p>
 
       <div className={styles.buttons}>
-        <button
-          type='button'
-          name='login'
-          style={{
-            backgroundColor: colors.primary,
-            color: colors.secondary
-          }}
-          onClick={e => setIsRegistering(false)}
-        >
+        <ArrowButton click={() => setIsRegistering(false)} direction="left">
           Login
-        </button>
-        <div
-          className={styles.bubble}
-          style={{
-            width: '25px'
-          }}
-        >
-          <div style={{ backgroundColor: colors.primary }} />
-          <div style={{ backgroundColor: colors.primary }} />
-          <p
-            style={{
-              color: colors.secondary,
-              backgroundColor: colors.primary,
-              border: `1px solid ${colors.secondary}`
-            }}
-          >
-            OR
-          </p>
-        </div>
+        </ArrowButton>
+        <p style={{ position: 'relative', zIndex: 10 }}>OR</p>
         <button
-          type='submit'
-          name='register'
+          className={styles.submit}
+          type="submit"
           style={{
             backgroundColor: colors.secondary,
             color: colors.primary
@@ -93,6 +69,9 @@ function Register(props) {
           {isLoading ? '...Loading' : 'Register'}
         </button>
       </div>
+      <p className={styles.error} style={{ color: colors.highlight }}>
+        {props.registerError}
+      </p>
     </form>
   );
 }

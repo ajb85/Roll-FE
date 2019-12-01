@@ -42,10 +42,10 @@ function Login(props) {
           placeholder="Password"
         />
       </div>
-      <p className={styles.error}>{props.loginError}</p>
 
       <div className={styles.buttons}>
         <button
+          className={styles.submit}
           type="submit"
           style={{
             backgroundColor: colors.secondary,
@@ -55,8 +55,13 @@ function Login(props) {
           {isLoading ? '...Loading' : 'Login'}
         </button>
         <p style={{ position: 'relative', zIndex: 10 }}>OR</p>
-        <ArrowButton direction="right">Register</ArrowButton>
+        <ArrowButton click={() => setIsRegistering(true)} direction="right">
+          Register
+        </ArrowButton>
       </div>
+      <p className={styles.error} style={{ color: colors.highlight }}>
+        {props.loginError}
+      </p>
     </form>
   );
 }

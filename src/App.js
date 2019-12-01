@@ -13,14 +13,14 @@ import { colorContext } from 'js/Colors.js';
 
 function App(props) {
   const { colors } = useContext(colorContext);
-  console.log('COLOR: ', colors);
+
   return (
     <AppContainer
       colors={colors || { primary: '', secondary: '', highlight: '' }}
     >
       <div className={styles.App}>
         {props.showHeader && <h1>Roll!</h1>}
-        <Route path='/' component={props.token ? LoggedInRoutes : Account} />
+        <Route path="/" component={props.token ? LoggedInRoutes : Account} />
         {props.token && props.showHeader && (
           <button className={styles.logout} onClick={() => props.setToken()}>
             Logout

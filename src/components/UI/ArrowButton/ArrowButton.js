@@ -8,11 +8,19 @@ function ArrowButton(props) {
   const { direction } = props;
   const { colors } = useContext(colorContext);
   return (
-    <div className={styles.container} style={{ width: 215, padding: 0 }}>
+    <div
+      className={styles.arrowContainer}
+      onClick={props.click}
+      style={{
+        zIndex: 1,
+        transform: direction === 'right' ? null : 'scaleX(-1)'
+      }}
+    >
       <SwitchCircle
         direction={direction}
         colors={colors}
         className={styles.switchCircle}
+        circle="main"
       />
       <Blocker
         direction={direction}
@@ -26,17 +34,22 @@ function ArrowButton(props) {
         piece="bot"
         className={styles.blocker}
       />
-      <Arrow type="button" colors={colors} className={styles.arrowButton}>
-        {props.children}
+      <Arrow
+        direction={direction}
+        colors={colors}
+        className={styles.arrowButton}
+      >
+        <button
+          type="button"
+          style={{ transform: direction === 'right' ? null : 'scaleX(-1)' }}
+        >
+          {props.children}
+        </button>
         <ArrowHead
           className={styles.arrowHead}
           style={{ padding: 0 }}
           direction={direction}
-        >
-          <div />
-          <div />
-          <div />
-        </ArrowHead>
+        />
       </Arrow>
     </div>
   );

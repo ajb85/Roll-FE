@@ -7,11 +7,14 @@ form.standard {
   padding: 0 15px;
 
   div {
-    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: $lh/2 0;
+
+    &.fContainer {
+      width: 100%;
+      padding: $lh/2 0;
+    }
 
     label {
       width: 30%;
@@ -51,7 +54,7 @@ form.standard {
       display: flex;
       margin: auto;
     }
-    button {
+    button.submit {
       @include Button;
     }
   }

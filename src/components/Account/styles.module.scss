@@ -5,6 +5,33 @@
 .Account {
   margin: 0 auto;
   max-width: 500px;
+
+  .buttons {
+    flex-direction: flex-start;
+    margin: $lh auto;
+    width: 90%;
+  }
+
+  form {
+    min-width: 500px;
+    max-width: 500px;
+  }
+}
+
+.container {
+  max-width: 500px;
+  overflow: hidden;
+
+  .slider {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: fit-content;
+
+    position: relative;
+
+    transition: 0.5s;
+  }
 }
 
 .darkMode {

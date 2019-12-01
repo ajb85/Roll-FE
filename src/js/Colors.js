@@ -6,14 +6,14 @@ class ColorManager {
     this.dark = {
       primary: '#191919',
       secondary: '#949494',
-      highlight: '#632B30',
+      highlight: '#E5ADAA',
       mode: 'dark'
     };
 
     this.light = {
       primary: '#FCFCFC',
       secondary: '#191919',
-      highlight: '#632B30',
+      highlight: '#B33A3A',
       mode: 'light'
     };
 

@@ -2,8 +2,10 @@
   font-size: 1.2rem;
   line-height: $lh;
   border-radius: 40px;
-  padding: $lh/2 15px;
-  width: 215px;
+  padding-top: $lh/2;
+  padding-bottom: $lh/2;
+  max-width: 184px;
+  width: 100%;
   cursor: pointer;
   transition: 0.5s;
 }
