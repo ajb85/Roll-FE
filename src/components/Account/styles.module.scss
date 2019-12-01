@@ -5,11 +5,12 @@
 .Account {
   margin: 0 auto;
   max-width: 500px;
+  width: 100%;
 
   .buttons {
     flex-direction: flex-start;
     margin: $lh auto;
-    width: 90%;
+    width: 423px;
   }
 
   form {
@@ -21,12 +22,13 @@
 .container {
   max-width: 500px;
   overflow: hidden;
+  width: 100%;
 
   .slider {
     display: flex;
-    flex-wrap: nowrap;
+    // flex-wrap: nowrap;
     justify-content: space-between;
-    width: fit-content;
+    // width: fit-content;
 
     position: relative;
 
@@ -39,4 +41,5 @@
   display: flex;
   justify-content: center;
   cursor: pointer;
+  width: 100%;
 }

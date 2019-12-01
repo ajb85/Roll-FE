@@ -4,6 +4,7 @@
 div.arrowContainer {
   position: relative;
   height: 0;
+  width: 200px;
 }
 
 .switchCircle {
@@ -16,7 +17,6 @@ div.arrowContainer {
 
   border-style: solid;
   border-radius: 50%;
-  // border-width: 1px;
 }
 
 .blocker {
