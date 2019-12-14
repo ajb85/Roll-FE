@@ -24,29 +24,33 @@ function Login(props) {
       <div className={styles.inputs}>
         <p>Log into an existing account</p>
         <input
-          name="username"
-          type="text"
+          name='username'
+          type='text'
           value={form.username}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="username"
+          autoComplete='username'
           autoFocus
-          placeholder="Account"
+          placeholder='Account'
         />
 
         <input
-          name="password"
-          type="password"
+          name='password'
+          type='password'
           value={form.password}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="current-password"
-          placeholder="Password"
+          autoComplete='current-password'
+          placeholder='Password'
         />
       </div>
 
       <div className={styles.buttons}>
+        <ArrowButton click={() => setIsRegistering(true)} direction='left'>
+          Register
+        </ArrowButton>
+        <p style={{ position: 'relative', zIndex: 10 }}>OR</p>
         <button
           className={styles.submit}
-          type="submit"
+          type='submit'
           style={{
             backgroundColor: colors.secondary,
             color: colors.primary
@@ -54,10 +58,6 @@ function Login(props) {
         >
           {isLoading ? '...Loading' : 'Login'}
         </button>
-        <p style={{ position: 'relative', zIndex: 10 }}>OR</p>
-        <ArrowButton click={() => setIsRegistering(true)} direction="right">
-          Register
-        </ArrowButton>
       </div>
       <p className={styles.error} style={{ color: colors.highlight }}>
         {props.loginError}

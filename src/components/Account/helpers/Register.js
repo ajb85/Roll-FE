@@ -25,42 +25,38 @@ function Register(props) {
       <div className={styles.inputs}>
         <p>Create a new account</p>
         <input
-          name="username"
-          type="text"
+          name='username'
+          type='text'
           value={form.username}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="username"
+          autoComplete='username'
           autoFocus
-          placeholder="Username"
+          placeholder='Username'
         />
 
         <input
-          name="email"
-          type="email"
+          name='email'
+          type='email'
           value={form.email}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="email"
-          placeholder="Email"
+          autoComplete='email'
+          placeholder='Email'
         />
 
         <input
-          name="password"
-          type="password"
+          name='password'
+          type='password'
           value={form.password}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="current-password"
-          placeholder="Password"
+          autoComplete='current-password'
+          placeholder='Password'
         />
       </div>
 
       <div className={styles.buttons}>
-        <ArrowButton click={() => setIsRegistering(false)} direction="left">
-          Login
-        </ArrowButton>
-        <p style={{ position: 'relative', zIndex: 10 }}>OR</p>
         <button
           className={styles.submit}
-          type="submit"
+          type='submit'
           style={{
             backgroundColor: colors.secondary,
             color: colors.primary
@@ -68,6 +64,10 @@ function Register(props) {
         >
           {isLoading ? '...Loading' : 'Register'}
         </button>
+        <p style={{ position: 'relative', zIndex: 10 }}>OR</p>
+        <ArrowButton click={() => setIsRegistering(false)} direction='right'>
+          Login
+        </ArrowButton>
       </div>
       <p className={styles.error} style={{ color: colors.highlight }}>
         {props.registerError}

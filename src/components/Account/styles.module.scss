@@ -8,7 +8,7 @@
   width: 100%;
 
   .buttons {
-    flex-direction: flex-start;
+    justify-content: flex-start;
     margin: $lh auto;
     width: 423px;
   }
@@ -21,18 +21,23 @@
 
 .container {
   max-width: 500px;
+  max-height: 400px;
   overflow: hidden;
   width: 100%;
 
   .slider {
     display: flex;
     // flex-wrap: nowrap;
-    justify-content: space-between;
-    // width: fit-content;
+    // justify-content: space-between;
+    width: 1000px;
 
     position: relative;
 
     transition: 0.5s;
+
+    form {
+      display: inline-block;
+    }
   }
 }
 
