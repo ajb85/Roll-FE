@@ -17,6 +17,7 @@ import ColorProvider from 'js/Colors.js';
 
 import App from './App.js';
 import 'SCSS/';
+import 'faLibrary.js';
 
 ReactDOM.render(
   <Provider store={store}>
