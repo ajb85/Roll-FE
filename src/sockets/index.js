@@ -4,7 +4,7 @@ import listeners from './listeners';
 class SocketsManager {
   constructor() {
     this.io = io;
-    this.socket = this.io.connect(process.env.REACT_APP_API_URL);
+    this.socket = this.io.connect(`${process.env.REACT_APP_API_URL}:4500`);
     this.listeners = listeners;
 
     this.socket.on('error', function(err) {
