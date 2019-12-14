@@ -4,6 +4,8 @@ import { Route } from 'react-router-dom';
 
 import Account from './components/Account/';
 import LoggedInRoutes from './components/Routes/';
+import LightMode from './components/UI/LightMode/';
+
 import { setToken } from 'reducers/account.js';
 
 import styles from './styles.module.scss';
@@ -19,8 +21,9 @@ function App(props) {
       colors={colors || { primary: '', secondary: '', highlight: '' }}
     >
       <div className={styles.App}>
+        {props.showHeader && <LightMode />}
         {props.showHeader && <h1>Roll!</h1>}
-        <Route path="/" component={props.token ? LoggedInRoutes : Account} />
+        <Route path='/' component={props.token ? LoggedInRoutes : Account} />
         {props.token && props.showHeader && (
           <button className={styles.logout} onClick={() => props.setToken()}>
             Logout

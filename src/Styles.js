@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from 'js/Colors.js';
+// import { colors } from 'js/Colors.js';
 
 export const AppContainer = styled.div`
   background-color: ${props => props.colors.primary};
