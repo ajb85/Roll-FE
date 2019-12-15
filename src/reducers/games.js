@@ -119,7 +119,7 @@ export const joinGame = form => async dispatch => {
 export const leaveGame = game_id => async dispatch => {
   dispatch({ type: GETTING_GAMES });
 
-  const leaving = await axios.post('games/user/leave', { game_id });
+  const leaving = await axios.delete(`games/user/leave/${game_id}`);
 
   if (leaving) {
     dispatch({ type: LEAVING_GAME, payload: game_id });

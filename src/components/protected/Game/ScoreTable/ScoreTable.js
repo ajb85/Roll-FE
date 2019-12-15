@@ -81,7 +81,7 @@ function ScoreTable({ game, selected, setSelected, user_id, isTurn }) {
             >
               {userScore[l.name]}
             </td>
-            <td>{leader[l.name]}</td>
+            <td>{leader.score[l.name]}</td>
             <td>{r.name}</td>
             <td
               id={r.name}
@@ -99,7 +99,7 @@ function ScoreTable({ game, selected, setSelected, user_id, isTurn }) {
               {userScore[r.name]}
             </td>
 
-            <td>{leader[r.name]}</td>
+            <td>{leader.score[r.name]}</td>
           </tr>
         );
       })}
@@ -112,7 +112,7 @@ function ScoreTable({ game, selected, setSelected, user_id, isTurn }) {
           {userScore['Grand Total']}
         </td>
         <td style={{ padding: '5px', fontSize: '0.8rem' }}>
-          {leader['Grand Total']}
+          {leader.score['Grand Total']}
         </td>
       </tr>
     </tbody>

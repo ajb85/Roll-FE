@@ -1,3 +1,3 @@
-export default function(socket, err) {
+export default function(err) {
   console.log('received socket error:', err);
 }

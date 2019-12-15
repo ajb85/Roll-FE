@@ -2,15 +2,17 @@
 
 .shadow {
   position: absolute;
+  z-index: 2;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vh;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
 .content {
   position: absolute;
+  z-index: 5;
   background-color: white;
   top: 30%;
   left: 0;

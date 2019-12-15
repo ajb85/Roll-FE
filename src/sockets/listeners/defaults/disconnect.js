@@ -1,4 +1,4 @@
 export default function() {
-  console.log('Lost connection to socket server.');
+  console.log('Lost connection to socket manager');
   this.identified = false;
 }

@@ -1,32 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { PromptContext } from './Context';
 
 import styles from './styles.module.scss';
 
-function Prompt(props) {
-  const display = props.showPrompt ? 'initial' : 'none';
+function Prompt() {
+  const {
+    promptState: {
+      cancel,
+      confirm,
+      copy,
+      showPrompt,
+      yesButtonText,
+      noButtonText
+    }
+  } = useContext(PromptContext);
+
+  const display = showPrompt ? 'initial' : 'none';
 
   return (
     <div style={{ display }}>
-      <div onClick={props.cancel} className={styles.shadow} />
+      <div onClick={cancel} className={styles.shadow} />
       <div className={styles.content}>
-        <p>{props.copy}</p>
+        <p>{copy}</p>
         <div>
-          <button onClick={props.confirm}>
-            {props.yesButtonText || 'Yes'}
-          </button>
-          <button onClick={props.cancel}>
-            {props.noButtonText || 'Cancel'}
-          </button>
+          <button onClick={confirm}>{yesButtonText || 'Yes'}</button>
+          <button onClick={cancel}>{noButtonText || 'Cancel'}</button>
         </div>
       </div>
     </div>
   );
 }
-
-// function usePrompt(initialValue) {
-//   const [prompt, setPrompt] = useState(initialValue || false);
-//   const togglePrompt = () => setPrompt(!prompt);
-//   return [prompt, togglePrompt];
-// }
 
 export default Prompt;

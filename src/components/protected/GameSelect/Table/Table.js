@@ -1,23 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import Prompt from 'components/UI/Prompt/';
+import { PromptContext } from 'components/UI/Prompt/Context.js';
 
 import { getUsersGames, leaveGame } from 'reducers/games.js';
 import styles from './styles.module.scss';
 
 function Table(props) {
-  const history = useHistory();
-  const { getUsersGames, games } = props;
+  const { getUsersGames, games, leaveGame } = props;
 
+  const history = useHistory();
+  const [game, setGame] = useState({});
+  const { setPromptState, togglePrompt } = useContext(PromptContext);
   const [pagination, setPagination] = useState({
     limit: 5,
     offset: 0,
     max: props.games.length - 1
   });
-  const [prompt, setPrompt] = useState(false);
-  const [game, setGame] = useState({});
+
+  useEffect(() => {
+    function confirmLeave() {
+      leaveGame(game.game_id);
+      togglePrompt();
+      setGame({});
+    }
+
+    setPromptState({
+      cancel: togglePrompt,
+      confirm: confirmLeave,
+      copy: 'Are you sure you want to leave? You may not be able to rejoin.'
+    });
+
+    // Including Prompt functions (from context) will cause
+    // infinite loop.  What the function does will never change
+    // but they gets a new value every prompt state change
+    // eslint-disable-next-line
+  }, [leaveGame, setGame, game, setPromptState.showPrompt]);
 
   useEffect(() => {
     getUsersGames();
@@ -59,7 +78,7 @@ function Table(props) {
                 style={{ color: 'red', cursor: 'pointer' }}
                 onClick={() => {
                   setGame(g);
-                  setPrompt(true);
+                  togglePrompt();
                 }}
               >
                 X
@@ -90,17 +109,6 @@ function Table(props) {
 
   return (
     <React.Fragment>
-      <Prompt
-        cancel={() => setPrompt(false)}
-        confirm={() => {
-          setPrompt(false);
-          props.leaveGame(game.game_id);
-          setGame({});
-        }}
-        copy="Are you sure you want to leave? You may not be able to rejoin."
-        showPrompt={prompt}
-        game={game}
-      />
       <table className={styles.GameTable}>
         <thead>
           <tr>

@@ -1,25 +1,34 @@
 import io from 'socket.io-client';
-import listeners from './listeners';
+import listeners from './listeners/';
+import defaultListeners from './listeners/defaults/';
+import store from '../store.js';
 
-class SocketsManager {
+class Socket {
   constructor() {
     this.io = io;
-    this.socket = this.io.connect(`${process.env.REACT_APP_API_URL}:4500`, {
+    this.socket = this.io.connect(process.env.REACT_APP_API_URL, {
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       reconnectionAttempts: Infinity
     });
-    this.listeners = listeners;
+
+    // App should immediately identify itself to the socket manager
+    this._identify();
+
+    // Record of everything, beyond the default, that this socket is listening to
     this.subscribedTo = {};
-    this.socket.on('connect', () => {
-      console.log('HEY LOOK I FUCKING CONNECTED');
-    });
-    listeners.defaults.forEach(({ room, callback }) => {
+
+    this.listeners = listeners;
+    this.redux = store;
+
+    defaultListeners.forEach(({ room, callback }) => {
+      // Turn on every listener that every instance of the app
+      // should have on
       this._listen(room, callback, true);
     });
 
-    this._identify();
+    // Track app status
   }
 
   emit(room, data) {
@@ -49,6 +58,7 @@ class SocketsManager {
     if (!skipBESub) {
       this.subscribeOnBE(room);
     }
+
     return this.socket.on(room, cb.bind(this));
   }
 
@@ -57,15 +67,15 @@ class SocketsManager {
   }
 
   _identify() {
-    console.log('ID');
-
     const token = localStorage.getItem('token');
     if (!this.identified && token) {
-      console.log(token);
       this.socket.emit('identify', token);
       this.identified = true;
     }
   }
+  _dispatch(action) {
+    this.redux.dispatch(action);
+  }
 }
 
-export default new SocketsManager();
+export default new Socket();
