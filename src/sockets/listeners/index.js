@@ -1,4 +1,6 @@
 import manageGame from './manageGame/';
 import playGame from './playGame/';
 
-export default { game: { ...manageGame, ...playGame } };
+import defaults from './defaults/';
+
+export default { game: { ...manageGame, ...playGame }, defaults };

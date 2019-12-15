@@ -10,14 +10,15 @@ import styles from './styles.module.scss';
 function Table(props) {
   const history = useHistory();
   const { getUsersGames, games } = props;
+
   const [pagination, setPagination] = useState({
     limit: 5,
     offset: 0,
     max: props.games.length - 1
   });
-
   const [prompt, setPrompt] = useState(false);
   const [game, setGame] = useState({});
+
   useEffect(() => {
     getUsersGames();
   }, [getUsersGames]);
@@ -48,10 +49,14 @@ function Table(props) {
         rows.push(
           g ? (
             <tr key={g.game_id}>
-              <td onClick={goToGame}>{g.name}</td>
-              <td onClick={goToGame}>{g.playerCount}</td>
+              <td onClick={goToGame} style={{ cursor: 'pointer' }}>
+                {g.name}
+              </td>
+              <td onClick={goToGame} style={{ cursor: 'pointer' }}>
+                {g.playerCount}
+              </td>
               <td
-                style={{ color: 'red' }}
+                style={{ color: 'red', cursor: 'pointer' }}
                 onClick={() => {
                   setGame(g);
                   setPrompt(true);
@@ -62,17 +67,17 @@ function Table(props) {
             </tr>
           ) : (
             <tr key={`No Game ${i}`}>
-              <td colSpan='3'></td>
+              <td colSpan="3"></td>
             </tr>
           )
         );
       }
     } else {
       rows.push(
-        <tr key='No Games'>
+        <tr key="No Games">
           <td
             className={styles.noGames}
-            colSpan='3'
+            colSpan="3"
             style={{ textAlign: 'center' }}
           >
             No games to display
@@ -92,7 +97,7 @@ function Table(props) {
           props.leaveGame(game.game_id);
           setGame({});
         }}
-        copy='Are you sure you want to leave? You may not be able to rejoin.'
+        copy="Are you sure you want to leave? You may not be able to rejoin."
         showPrompt={prompt}
         game={game}
       />
