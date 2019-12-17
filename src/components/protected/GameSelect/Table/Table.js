@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { colorContext } from 'js/Colors.js';
 import { PromptContext } from 'components/UI/Prompt/Context.js';
 
 import { getUsersGames, leaveGame } from 'reducers/games.js';
@@ -9,9 +10,10 @@ import styles from './styles.module.scss';
 
 function Table(props) {
   const { getUsersGames, games, leaveGame } = props;
-
+  console.log('LENGTH: ', games.length);
   const history = useHistory();
   const [game, setGame] = useState({});
+  const { colors } = useContext(colorContext);
   const { setPromptState, togglePrompt } = useContext(PromptContext);
   const [pagination, setPagination] = useState({
     limit: 5,
@@ -110,7 +112,7 @@ function Table(props) {
   return (
     <React.Fragment>
       <table className={styles.GameTable}>
-        <thead>
+        <thead style={{ borderColor: colors.secondary }}>
           <tr>
             <th>Game</th>
             <th>Players</th>
@@ -122,7 +124,7 @@ function Table(props) {
 
       <div className={styles.pagination}>
         <p
-          className={pagination.offset === 0 ? styles.inactive : ''}
+          className={pagination.offset === 0 ? styles.inactive : styles.active}
           onClick={() =>
             pagination.offset > 0
               ? setPagination({
@@ -134,14 +136,15 @@ function Table(props) {
         >
           {games.length > 5 ? '< Prev Page' : ''}
         </p>
+        {console.log('PAGINATION: ', pagination)}
         <p
           className={
-            pagination.offset + pagination.limit >= pagination.max
+            pagination.offset + pagination.limit > pagination.max
               ? styles.inactive
-              : ''
+              : styles.active
           }
           onClick={() =>
-            pagination.offset + pagination.limit < pagination.max
+            pagination.offset + pagination.limit <= pagination.max
               ? setPagination({
                   ...pagination,
                   offset: pagination.offset + pagination.limit
