@@ -18,6 +18,7 @@ function NewGame(props) {
     e.preventDefault();
     props.createNewGame(form);
   };
+
   return (
     <form className={styles.standard} onSubmit={e => handleSubmit(e)}>
       <div>
@@ -42,10 +43,18 @@ function NewGame(props) {
         />
       </div>
       <p className={styles.error}>{props.gameError}</p>
-      <button type="submit">Create Game</button>
-      <button type="button" onClick={() => history.push('/')}>
-        Cancel
-      </button>
+      <div className={styles.buttons}>
+        <button className={styles.submit} type="submit">
+          Create Game
+        </button>
+        <button
+          className={styles.submit}
+          type="button"
+          onClick={() => history.push('/')}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }
@@ -53,7 +62,4 @@ function NewGame(props) {
 const mapStateToProps = state => ({
   gameError: state.app.errors.game
 });
-export default connect(
-  mapStateToProps,
-  { createNewGame }
-)(NewGame);
+export default connect(mapStateToProps, { createNewGame })(NewGame);
