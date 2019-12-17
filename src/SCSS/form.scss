@@ -55,6 +55,7 @@ form.standard {
       display: flex;
       margin: auto;
     }
+
     button.submit {
       @include Button;
     }
