@@ -24,7 +24,8 @@ form.standard {
     }
 
     input {
-      margin: 0 auto;
+      color: black;
+      margin: $lh/2 auto;
       width: 90%;
       height: 2 * $lh;
       padding: 0 10px;
@@ -35,8 +36,18 @@ form.standard {
   div.inputs {
     display: flex;
     flex-direction: column;
-    min-height: 250px;
+    justify-content: space-between;
+    // min-height: 250px;
     width: 470px;
+    // margin: $lh/2 0;
+
+    p:first-of-type {
+      margin: $lh/2 0;
+    }
+
+    @media #{$min} {
+      width: 310px;
+    }
 
     p {
       text-align: center;
@@ -58,6 +69,8 @@ form.standard {
 
     button.submit {
       @include Button;
+      max-width: none;
+      border-radius: 0;
     }
   }
 }
