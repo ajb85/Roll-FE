@@ -21,7 +21,7 @@ function Login(props) {
   return (
     <form className={styles.standard} onSubmit={e => onSubmit(e)}>
       <div className={styles.inputs}>
-        <p>Login to your account your account</p>
+        <p>Login to your account</p>
         <input
           name="username"
           type="text"
