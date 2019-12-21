@@ -5,7 +5,7 @@ class ColorManager {
   constructor() {
     this.dark = {
       primary: '#191919',
-      secondary: '#949494',
+      secondary: '#E3E2E2',
       highlight: '#E5ADAA',
       mode: 'dark'
     };
