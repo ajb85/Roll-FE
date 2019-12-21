@@ -5,7 +5,6 @@ import Login from './helpers/Login.js';
 import Register from './helpers/Register.js';
 
 import { authAccount } from 'reducers/account.js';
-import { Slider } from './Styles.js';
 import styles from './styles.module.scss';
 
 import { colorContext } from 'js/Colors.js';
@@ -19,26 +18,22 @@ function Account(props) {
   return (
     <section className={styles.Account}>
       <div className={styles.container}>
-        <Slider
-          isRegistering={isRegistering}
-          className={styles.slider}
-          style={{
-            left: isRegistering ? '492px' : '0px'
-          }}
-        >
+        {isRegistering && (
           <Register
             state={formState}
             authAccount={authAccount}
             colors={colors}
             setIsRegistering={setIsRegistering}
           />
+        )}
+        {!isRegistering && (
           <Login
             state={formState}
             authAccount={authAccount}
             colors={colors}
             setIsRegistering={setIsRegistering}
           />
-        </Slider>
+        )}
       </div>
     </section>
   );
