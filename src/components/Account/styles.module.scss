@@ -8,43 +8,52 @@
   width: 100%;
 
   .buttons {
+    flex-direction: column;
     justify-content: flex-start;
     margin: $lh auto;
     width: 423px;
+
+    p {
+      line-height: $lh;
+      &:first-of-type {
+        margin: 2 * $lh 0 0;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
   }
 
   form {
-    min-width: 500px;
+    // min-width: 500px;
+    width: 100%;
     max-width: 500px;
+
+    @media #{$min} {
+      max-width: 340px;
+    }
   }
 }
 
 .container {
   max-width: 500px;
-  max-height: 400px;
   overflow: hidden;
   width: 100%;
 
+  @media #{$min} {
+    max-width: 340px;
+  }
+
   .slider {
-    display: flex;
-    // flex-wrap: nowrap;
-    // justify-content: space-between;
-    width: 1000px;
-
     position: relative;
-
-    transition: 0.5s;
+    display: flex;
+    justify-content: space-between;
+    width: 1000px;
 
     form {
       display: inline-block;
     }
   }
-}
-
-.darkMode {
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  width: 100%;
 }

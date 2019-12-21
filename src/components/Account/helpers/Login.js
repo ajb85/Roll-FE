@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import styles from '../styles.module.scss';
-import ArrowButton from 'components/UI/ArrowButton/';
 
 function Login(props) {
   const {
@@ -22,46 +21,37 @@ function Login(props) {
   return (
     <form className={styles.standard} onSubmit={e => onSubmit(e)}>
       <div className={styles.inputs}>
-        <p>Log into an existing account</p>
+        <p>Login to your account your account</p>
         <input
-          name='username'
-          type='text'
+          name="username"
+          type="text"
           value={form.username}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete='username'
+          autoComplete="username"
           autoFocus
-          placeholder='Account'
+          placeholder="Account"
         />
 
         <input
-          name='password'
-          type='password'
+          name="password"
+          type="password"
           value={form.password}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete='current-password'
-          placeholder='Password'
+          autoComplete="current-password"
+          placeholder="Password"
         />
-      </div>
-
-      <div className={styles.buttons}>
-        <ArrowButton click={() => setIsRegistering(true)} direction='left'>
-          Register
-        </ArrowButton>
-        <p style={{ position: 'relative', zIndex: 10 }}>OR</p>
-        <button
-          className={styles.submit}
-          type='submit'
-          style={{
-            backgroundColor: colors.secondary,
-            color: colors.primary
-          }}
-        >
-          {isLoading ? '...Loading' : 'Login'}
-        </button>
       </div>
       <p className={styles.error} style={{ color: colors.highlight }}>
         {props.loginError}
       </p>
+      <div className={styles.buttons}>
+        <button type="submit" className={styles.submit}>
+          {isLoading ? '...Loading' : 'Login'}
+        </button>
+        <p onClick={() => setIsRegistering(true)} className={styles.link}>
+          Register a new account
+        </p>
+      </div>
     </form>
   );
 }
