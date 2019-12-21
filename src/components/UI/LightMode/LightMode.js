@@ -9,10 +9,12 @@ function LightMode(props) {
   const { colors, switchMode } = useContext(colorContext);
 
   return (
-    <div className={styles.lightMode} onClick={() => switchMode()}>
-      <FontAwesomeIcon
-        icon={colors.mode === 'dark' ? 'lightbulb-slash' : 'lightbulb-on'}
-      />
+    <div style={{ position: 'relative' }}>
+      <div className={styles.lightMode} onClick={() => switchMode()}>
+        <FontAwesomeIcon
+          icon={colors.mode === 'dark' ? 'lightbulb-slash' : 'lightbulb-on'}
+        />
+      </div>
     </div>
   );
 }
