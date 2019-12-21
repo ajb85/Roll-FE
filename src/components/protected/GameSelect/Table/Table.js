@@ -2,51 +2,46 @@ import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import Prompt from 'components/UI/Prompt';
+
 import { colorContext } from 'js/Colors.js';
-import { PromptContext } from 'components/UI/Prompt/Context.js';
 
 import { getUsersGames, leaveGame } from 'reducers/games.js';
 import styles from './styles.module.scss';
 
 function Table(props) {
   const { getUsersGames, games, leaveGame } = props;
-  console.log('LENGTH: ', games.length);
   const history = useHistory();
   const [game, setGame] = useState({});
   const { colors } = useContext(colorContext);
-  const { setPromptState, togglePrompt } = useContext(PromptContext);
+
   const [pagination, setPagination] = useState({
     limit: 5,
     offset: 0,
-    max: props.games.length - 1
+    max: props.games.length || 5
   });
 
-  useEffect(() => {
-    function confirmLeave() {
-      leaveGame(game.game_id);
-      togglePrompt();
-      setGame({});
-    }
-
-    setPromptState({
-      cancel: togglePrompt,
-      confirm: confirmLeave,
-      copy: 'Are you sure you want to leave? You may not be able to rejoin.'
-    });
-
-    // Including Prompt functions (from context) will cause
-    // infinite loop.  What the function does will never change
-    // but they gets a new value every prompt state change
-    // eslint-disable-next-line
-  }, [leaveGame, setGame, game, setPromptState.showPrompt]);
+  const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
     getUsersGames();
   }, [getUsersGames]);
 
   useEffect(() => {
-    setPagination(p => ({ ...p, max: games.length - 1 }));
-  }, [games, setPagination]);
+    let current = { ...pagination };
+    current.max = games.length || 5;
+    while (current.offset >= current.max) {
+      current.offset -= current.limit;
+    }
+
+    if (
+      current.offset !== pagination.offset ||
+      current.limit !== pagination.limit ||
+      current.max !== pagination.max
+    ) {
+      setPagination(current);
+    }
+  }, [games, pagination, setPagination]);
 
   const getRows = () => {
     const sorted = [...games].sort((a, b) => {
@@ -80,7 +75,7 @@ function Table(props) {
                 style={{ color: 'red', cursor: 'pointer' }}
                 onClick={() => {
                   setGame(g);
-                  togglePrompt();
+                  setShowPrompt(true);
                 }}
               >
                 X
@@ -95,13 +90,9 @@ function Table(props) {
       }
     } else {
       rows.push(
-        <tr key="No Games">
-          <td
-            className={styles.noGames}
-            colSpan="3"
-            style={{ textAlign: 'center' }}
-          >
-            No games to display
+        <tr key="No Games" className={styles.noGames}>
+          <td className={styles.noGames} colSpan="3">
+            <p>No games to display</p>
           </td>
         </tr>
       );
@@ -109,8 +100,24 @@ function Table(props) {
     return rows;
   };
 
+  const leave = () => {
+    leaveGame(game.game_id);
+    setShowPrompt(false);
+    setGame({});
+  };
+
   return (
     <React.Fragment>
+      {showPrompt && (
+        <Prompt
+          action={leave}
+          cancel={() => {
+            setShowPrompt(false);
+          }}
+        >
+          Are you sure you want to leave? You may not be able to rejoin.
+        </Prompt>
+      )}
       <table className={styles.GameTable}>
         <thead style={{ borderColor: colors.secondary }}>
           <tr>
@@ -136,7 +143,6 @@ function Table(props) {
         >
           {games.length > 5 ? '< Prev Page' : ''}
         </p>
-        {console.log('PAGINATION: ', pagination)}
         <p
           className={
             pagination.offset + pagination.limit > pagination.max
