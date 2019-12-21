@@ -70,7 +70,9 @@ table.score {
 
   th,
   td {
-    border: 1px solid black;
+    // border: 1px solid black;
+    border-width: 1px;
+    border-style: solid;
     vertical-align: middle;
     min-width: 32px;
     font-size: 0.9rem;

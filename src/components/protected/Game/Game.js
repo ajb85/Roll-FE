@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -9,14 +9,19 @@ import { showHeader, hideHeader } from 'reducers/app.js';
 
 import { isUsersTurn, getGameRound } from 'js/rounds.js';
 import history from 'history.js';
+
+import { colorContext } from 'js/Colors.js';
+import { Table } from './Styles.js';
 import styles from './styles.module.scss';
 
 function Game(props) {
   const [locked, setLocked] = useState([false, false, false, false, false]);
   const [selected, setSelected] = useState(null);
+  const [isTurn, setIsTurn] = useState(false);
+  const { colors } = useContext(colorContext);
+
   const params = useParams();
   const game = props.games.find(g => g.name === params.name);
-  const [isTurn, setIsTurn] = useState(false);
 
   useEffect(() => {
     if (game && props.user_id) {
@@ -87,7 +92,25 @@ function Game(props) {
           </tr>
         </tbody>
       </table>
-      <table className={styles.score} style={{ opacity: isTurn ? 1 : 0.5 }}>
+      <section className={styles.dice}>
+        {dice && dice.length
+          ? dice.map((_, i) => (
+              <img
+                key={i}
+                onClick={() => toggleLockOnDie(i)}
+                src={require(`../../../img/${dice[i]}${
+                  locked[i] ? 'l' : ''
+                }.png`)}
+                alt="die"
+              />
+            ))
+          : defaultDice}
+      </section>
+      <Table
+        colors={colors}
+        className={styles.score}
+        style={{ opacity: isTurn ? 1 : 0.5 }}
+      >
         <thead>
           <tr>
             <th>Type</th>
@@ -104,7 +127,7 @@ function Game(props) {
           setSelected={setSelected}
           isTurn={isTurn}
         />
-      </table>
+      </Table>
       <section className={styles.buttons}>
         <img
           onClick={() => props.rollTheDice(game.game_id, locked)}
@@ -124,20 +147,6 @@ function Game(props) {
         />
       </section>
       <p className={styles.error}>{props.error}</p>
-      <section className={styles.dice}>
-        {dice && dice.length
-          ? dice.map((_, i) => (
-              <img
-                key={i}
-                onClick={() => toggleLockOnDie(i)}
-                src={require(`../../../img/${dice[i]}${
-                  locked[i] ? 'l' : ''
-                }.png`)}
-                alt="die"
-              />
-            ))
-          : defaultDice}
-      </section>
     </div>
   );
 }
