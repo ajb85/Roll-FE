@@ -14,7 +14,6 @@ import './interceptors/';
 
 // Providers
 import ColorProvider from 'js/Colors.js';
-import { PromptProvider } from './components/UI/Prompt/Context.js';
 
 import App from './App.js';
 import 'SCSS/';
@@ -24,9 +23,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <ColorProvider>
-        <PromptProvider>
-          <App />
-        </PromptProvider>
+        <App />
       </ColorProvider>
     </Router>
   </Provider>,
