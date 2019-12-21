@@ -16,7 +16,12 @@
     display: flex;
     align-items: center;
     height: $lh * 2;
-    margin: $lh/2 0;
+    margin: $lh 0;
+
+    @media #{$smHeight} {
+      height: $lh;
+      // margin: $lh;
+    }
     &:first-of-type {
       margin: 0 0 $lh/2;
       th {
