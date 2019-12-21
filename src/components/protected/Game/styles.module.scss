@@ -3,11 +3,12 @@
 .Game {
   padding: 0 10px;
   min-height: 500px;
+  max-width: 400px;
   height: 100vh;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .stats {
@@ -27,7 +28,7 @@
 .dice {
   display: flex;
   justify-content: center;
-  margin: $lh/2 auto;
+  margin: $lh auto;
   // position: absolute;
   // bottom: 10px;
   // left: 0;
@@ -45,7 +46,8 @@
 .buttons {
   display: flex;
   justify-content: space-evenly;
-  padding: $lh/2 0;
+  margin: 0 0 $lh;
+
   img {
     width: 45%;
 
@@ -106,6 +108,7 @@ table.score {
 
 td.selected {
   background-color: rgba(yellow, 1);
+  color: black;
 }
 td.scoreCell {
   background-color: rgba(yellow, 0.2);

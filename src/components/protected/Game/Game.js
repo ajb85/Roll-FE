@@ -106,6 +106,24 @@ function Game(props) {
             ))
           : defaultDice}
       </section>
+      <section className={styles.buttons}>
+        <img
+          onClick={() => props.rollTheDice(game.game_id, locked)}
+          src={require(`../../../img/roll${turns}.png`)}
+          alt={`Roll the dice. ${turns || 0} rolls left`}
+          style={{
+            opacity: isTurn && (!game.rolls || game.rolls.length < 3) ? 1 : 0.5
+          }}
+        />
+        <img
+          onClick={() => {
+            endRound();
+          }}
+          src={require('../../../img/submit.png')}
+          alt={`Submit turn`}
+          style={{ opacity: selected && isTurn ? 1 : 0.5 }}
+        />
+      </section>
       <Table
         colors={colors}
         className={styles.score}
@@ -128,24 +146,6 @@ function Game(props) {
           isTurn={isTurn}
         />
       </Table>
-      <section className={styles.buttons}>
-        <img
-          onClick={() => props.rollTheDice(game.game_id, locked)}
-          src={require(`../../../img/roll${turns}.png`)}
-          alt={`Roll the dice. ${turns || 0} rolls left`}
-          style={{
-            opacity: isTurn && (!game.rolls || game.rolls.length < 3) ? 1 : 0.5
-          }}
-        />
-        <img
-          onClick={() => {
-            endRound();
-          }}
-          src={require('../../../img/submit.png')}
-          alt={`Submit turn`}
-          style={{ opacity: selected && isTurn ? 1 : 0.5 }}
-        />
-      </section>
       <p className={styles.error}>{props.error}</p>
     </div>
   );
