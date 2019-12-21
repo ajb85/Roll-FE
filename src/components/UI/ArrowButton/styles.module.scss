@@ -71,6 +71,8 @@ div.arrowContainer {
       border-width: 1px 1px 0 0;
 
       transform: rotate(45deg);
+      transition: all $aniTime;
+      -webkit-transition: all $aniTime;
 
       z-index: 2;
       border-style: solid;
