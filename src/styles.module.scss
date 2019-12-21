@@ -3,7 +3,10 @@
 .App {
   max-width: 500px;
   margin: 0 auto;
-  position: relative;
+
+  @media #{$min} {
+    max-width: 340px;
+  }
 }
 
 .logout {

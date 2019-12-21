@@ -5,7 +5,6 @@ import { Route } from 'react-router-dom';
 import Account from './components/Account/';
 import LoggedInRoutes from './components/Routes/';
 import LightMode from './components/UI/LightMode/';
-import Prompt from 'components/UI/Prompt/';
 
 import { setToken } from 'reducers/account.js';
 
@@ -21,7 +20,6 @@ function App(props) {
     <AppContainer
       colors={colors || { primary: '', secondary: '', highlight: '' }}
     >
-      <Prompt />
       <div className={styles.App}>
         {props.showHeader && <LightMode />}
         {props.showHeader && <h1>Roll!</h1>}

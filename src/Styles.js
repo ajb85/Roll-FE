@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const AppContainer = styled.div`
   background-color: ${props => props.colors.primary};
   height: 100vh;
-  transition: 0.5s;
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s;
 
   p,
   span,
@@ -15,11 +15,12 @@ export const AppContainer = styled.div`
   h4,
   h5,
   div {
-    transition: 0.5s;
+    transition: background-color 0.5s, color 0.5s, border-color 0.5s;
     color: ${props => props.colors.secondary};
   }
 
   button {
+    transition: background-color 0.5s, color 0.5s, border-color 0.5s;
     background-color: ${props => props.colors.primary};
     color: ${props => props.colors.secondary};
     border: 1px solid ${props => props.colors.secondary};
