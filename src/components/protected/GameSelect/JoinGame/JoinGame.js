@@ -45,10 +45,18 @@ function JoinGame(props) {
         />
       </div>
       <p className={styles.error}>{props.gameError}</p>
-      <button type="submit">Join</button>
-      <button type="button" onClick={() => history.push('/')}>
-        Cancel
-      </button>
+      <div className={styles.buttons}>
+        <button className={styles.submit} type="submit">
+          Join
+        </button>
+        <button
+          className={styles.submit}
+          type="button"
+          onClick={() => history.push('/')}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }
@@ -57,7 +65,4 @@ const mapStateToProps = state => ({
   gameError: state.app.errors.game
 });
 
-export default connect(
-  mapStateToProps,
-  { joinGame }
-)(JoinGame);
+export default connect(mapStateToProps, { joinGame })(JoinGame);
