@@ -1,34 +1,21 @@
-import React, { useContext } from 'react';
-
-import { PromptContext } from './Context';
+import React from 'react';
 
 import styles from './styles.module.scss';
 
-function Prompt() {
-  const {
-    promptState: {
-      cancel,
-      confirm,
-      copy,
-      showPrompt,
-      yesButtonText,
-      noButtonText
-    }
-  } = useContext(PromptContext);
-
-  const display = showPrompt ? 'initial' : 'none';
+function Prompt(props) {
+  const { action, cancel, confirmCopy, cancelCopy } = props;
 
   return (
-    <div style={{ display }}>
+    <>
       <div onClick={cancel} className={styles.shadow} />
       <div className={styles.content}>
-        <p>{copy}</p>
+        <p>{props.children}</p>
         <div>
-          <button onClick={confirm}>{yesButtonText || 'Yes'}</button>
-          <button onClick={cancel}>{noButtonText || 'Cancel'}</button>
+          <button onClick={action}>{confirmCopy || 'Yes'}</button>
+          <button onClick={cancel}>{cancelCopy || 'Cancel'}</button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
