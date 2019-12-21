@@ -7,11 +7,11 @@
   max-width: 184px;
   width: 100%;
   cursor: pointer;
-  transition: 0.5s;
+  // transition: 0.5s;
 }
 
 @mixin Input {
-  margin: 0 auto;
+  margin: $lh/2 auto;
   width: 90%;
   height: 2 * $lh;
   padding: 0 10px;
