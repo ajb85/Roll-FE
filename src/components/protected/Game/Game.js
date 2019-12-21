@@ -77,7 +77,9 @@ function Game(props) {
       <table className={styles.stats}>
         <thead>
           <tr>
-            <th onClick={() => history.push('/')}>Back to</th>
+            <th style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>
+              Back to
+            </th>
             <th>Game</th>
             <th>Players</th>
             <th>Round</th>
@@ -85,13 +87,38 @@ function Game(props) {
         </thead>
         <tbody>
           <tr>
-            <td onClick={() => history.push('/')}>Lobby</td>
+            <td style={{ cursor: 'pointer' }} onClick={() => history.push('/')}>
+              Lobby
+            </td>
             <td>{game.name}</td>
             <td>{game.playerCount}</td>
             <td>{getGameRound(game ? game.scores : [])}</td>
           </tr>
         </tbody>
       </table>
+
+      <Table
+        colors={colors}
+        className={styles.score}
+        style={{ opacity: isTurn ? 1 : 0.5 }}
+      >
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>You</th>
+            <th>Top</th>
+            <th>Type</th>
+            <th>You</th>
+            <th>Top</th>
+          </tr>
+        </thead>
+        <ScoreTable
+          game={game}
+          selected={selected}
+          setSelected={setSelected}
+          isTurn={isTurn}
+        />
+      </Table>
       <section className={styles.dice}>
         {dice && dice.length
           ? dice.map((_, i) => (
@@ -124,28 +151,6 @@ function Game(props) {
           style={{ opacity: selected && isTurn ? 1 : 0.5 }}
         />
       </section>
-      <Table
-        colors={colors}
-        className={styles.score}
-        style={{ opacity: isTurn ? 1 : 0.5 }}
-      >
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>You</th>
-            <th>Top</th>
-            <th>Type</th>
-            <th>You</th>
-            <th>Top</th>
-          </tr>
-        </thead>
-        <ScoreTable
-          game={game}
-          selected={selected}
-          setSelected={setSelected}
-          isTurn={isTurn}
-        />
-      </Table>
       <p className={styles.error}>{props.error}</p>
     </div>
   );

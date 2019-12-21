@@ -1,7 +1,7 @@
 @import 'SCSS/errorText.scss';
 
 .Game {
-  padding: 0 10px;
+  padding: $lh 10px 0;
   min-height: 500px;
   max-width: 400px;
   height: 100vh;
@@ -69,6 +69,7 @@ table.score {
   width: 100%;
   text-align: center;
   border-collapse: collapse;
+  margin: $lh 0 0;
 
   th,
   td {
