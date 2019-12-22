@@ -17,11 +17,16 @@
     align-items: center;
     height: $lh * 2;
     margin: $lh 0;
+    padding: 0 15px;
 
     @media #{$smHeight} {
       height: $lh;
       // margin: $lh;
     }
+
+    // &.isUserTurn {
+    //   background-color: ;
+    // }
     &:first-of-type {
       margin: 0 0 $lh/2;
       th {

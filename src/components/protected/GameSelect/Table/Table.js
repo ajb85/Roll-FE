@@ -1,31 +1,51 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import Prompt from 'components/UI/Prompt';
 
 import { colorContext } from 'js/Colors.js';
+import { isUsersTurn } from 'js/rounds.js';
 
 import { getUsersGames, leaveGame } from 'reducers/games.js';
+import { populateAccount } from 'reducers/account.js';
+
+import { Row } from './Styles.js';
 import styles from './styles.module.scss';
 
 function Table(props) {
-  const { getUsersGames, games, leaveGame } = props;
+  const dispatch = useDispatch();
   const history = useHistory();
+
   const [game, setGame] = useState({});
   const { colors } = useContext(colorContext);
-
+  const { games, user_id } = useSelector(state => ({
+    games: state.games.active,
+    user_id: state.account.id
+  }));
   const [pagination, setPagination] = useState({
     limit: 5,
     offset: 0,
-    max: props.games.length || 5
+    max: games.length || 5
   });
 
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
-    getUsersGames();
-  }, [getUsersGames]);
+    dispatch(getUsersGames());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!user_id) {
+      dispatch(populateAccount());
+    }
+  }, [dispatch, user_id]);
+
+  useEffect(() => {
+    games.forEach(
+      g => (g.isUsersTurn = isUsersTurn(g.scores, user_id) ? 1 : 0)
+    );
+  }, [games, user_id]);
 
   useEffect(() => {
     let current = { ...pagination };
@@ -44,12 +64,13 @@ function Table(props) {
   }, [games, pagination, setPagination]);
 
   const getRows = () => {
-    const sorted = [...games].sort((a, b) => {
-      const aTurn = a.round - a.userRound;
-      const bTurn = b.round - b.userRound;
-      return aTurn > bTurn ? 1 : aTurn < bTurn ? -1 : 0;
-    });
-
+    const sorted = [...games].sort((a, b) =>
+      a.isUsersTurn === b.isUsersTurn
+        ? 0
+        : a.isUsersTurn < b.isUsersTurn
+        ? 1
+        : -1
+    );
     const rows = [];
     if (sorted.length) {
       for (
@@ -64,7 +85,7 @@ function Table(props) {
 
         rows.push(
           g ? (
-            <tr key={g.game_id}>
+            <Row key={g.game_id} colors={colors} isUsersTurn={g.isUsersTurn}>
               <td onClick={goToGame} style={{ cursor: 'pointer' }}>
                 {g.name}
               </td>
@@ -80,18 +101,18 @@ function Table(props) {
               >
                 X
               </td>
-            </tr>
+            </Row>
           ) : (
             <tr key={`No Game ${i}`}>
-              <td colSpan="3"></td>
+              <td colSpan='3'></td>
             </tr>
           )
         );
       }
     } else {
       rows.push(
-        <tr key="No Games" className={styles.noGames}>
-          <td className={styles.noGames} colSpan="3">
+        <tr key='No Games' className={styles.noGames}>
+          <td className={styles.noGames} colSpan='3'>
             <p>No games to display</p>
           </td>
         </tr>
@@ -101,7 +122,7 @@ function Table(props) {
   };
 
   const leave = () => {
-    leaveGame(game.game_id);
+    dispatch(leaveGame(game.game_id));
     setShowPrompt(false);
     setGame({});
   };
@@ -164,7 +185,5 @@ function Table(props) {
     </React.Fragment>
   );
 }
-const mapStateToProps = state => ({
-  games: state.games.active
-});
-export default connect(mapStateToProps, { getUsersGames, leaveGame })(Table);
+
+export default Table;
