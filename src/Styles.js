@@ -14,8 +14,20 @@ export const AppContainer = styled.div`
   h3,
   h4,
   h5,
+  tr,
   div {
     transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+  }
+
+  p,
+  span,
+  input,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  div {
     color: ${props => props.colors.secondary};
   }
 
