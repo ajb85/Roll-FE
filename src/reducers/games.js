@@ -87,7 +87,6 @@ export const getUsersGames = () => async dispatch => {
   dispatch({ type: GETTING_GAMES });
   const userGames = await axios.get('/games/user');
   if (userGames) {
-    console.log('RECEIVED GAMES: ', userGames.data);
     const { data: payload } = userGames;
     dispatch({ type: SET_GAMES, payload });
     Sockets.joinList(payload.map(({ name }) => name));
