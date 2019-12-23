@@ -42,9 +42,10 @@ function Table(props) {
   }, [dispatch, user_id]);
 
   useEffect(() => {
-    games.forEach(
-      g => (g.isUsersTurn = isUsersTurn(g.scores, user_id) ? 1 : 0)
-    );
+    games.forEach(g => {
+      g.isUsersTurn = isUsersTurn(g.scores, user_id) ? 1 : 0;
+      g.isActive = g.isActive ? 1 : 0;
+    });
   }, [games, user_id]);
 
   useEffect(() => {
@@ -65,7 +66,11 @@ function Table(props) {
 
   const getRows = () => {
     const sorted = [...games].sort((a, b) =>
-      a.isUsersTurn === b.isUsersTurn
+      a.isActive < b.isActive
+        ? 1
+        : a.isActive > b.isActive
+        ? -1
+        : a.isUsersTurn === b.isUsersTurn
         ? 0
         : a.isUsersTurn < b.isUsersTurn
         ? 1
@@ -85,7 +90,12 @@ function Table(props) {
 
         rows.push(
           g ? (
-            <Row key={g.game_id} colors={colors} isUsersTurn={g.isUsersTurn}>
+            <Row
+              key={g.game_id}
+              colors={colors}
+              isUsersTurn={g.isUsersTurn}
+              isActive={g.isActive}
+            >
               <td onClick={goToGame} style={{ cursor: 'pointer' }}>
                 {g.name}
               </td>
@@ -93,13 +103,16 @@ function Table(props) {
                 {g.playerCount}
               </td>
               <td
-                style={{ color: 'red', cursor: 'pointer' }}
+                style={{
+                  color: g.isActive ? 'red' : 'green',
+                  cursor: 'pointer'
+                }}
                 onClick={() => {
                   setGame(g);
                   setShowPrompt(true);
                 }}
               >
-                X
+                {g.isActive ? 'X' : '✓'}
               </td>
             </Row>
           ) : (
@@ -136,7 +149,9 @@ function Table(props) {
             setShowPrompt(false);
           }}
         >
-          Are you sure you want to leave? You may not be able to rejoin.
+          {game.isActive
+            ? 'Are you sure you want to leave? You may not be able to rejoin.'
+            : 'Clear this game from your list?  (Wins and losses will still count.)'}
         </Prompt>
       )}
       <table className={styles.GameTable}>
