@@ -88,7 +88,7 @@ function Game(props) {
         toggleSelected={toggleSelected}
         isTurn={isTurn}
       />
-      {game.isActive && (
+      {game.isActive > 0 && (
         // Dice hide when the game is complete
         <Dice
           dice={dice}
@@ -97,7 +97,7 @@ function Game(props) {
           isTurn={isTurn}
         />
       )}
-      {game.isActive && (
+      {game.isActive > 0 && (
         // Buttons hide when the game is complete
         <section className={styles.buttons}>
           <img
