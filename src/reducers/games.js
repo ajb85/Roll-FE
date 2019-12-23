@@ -33,7 +33,9 @@ export default (state = initialState, action) => {
     case LEAVING_GAME:
       return {
         ...state,
-        active: state.active.filter(g => g.game_id !== action.payload),
+        active: state.active.filter(
+          g => parseInt(g.game_id, 10) !== parseInt(action.payload, 10)
+        ),
         wereFetched: true
       };
     case NEW_ROLL:
@@ -119,8 +121,7 @@ export const leaveGame = game_id => async dispatch => {
   dispatch({ type: GETTING_GAMES });
 
   const leaving = await axios.delete(`games/user/leave/${game_id}`);
-
-  if (leaving) {
+  if (leaving && parseInt(leaving.status, 10) === 201) {
     dispatch({ type: LEAVING_GAME, payload: game_id });
   }
 };
