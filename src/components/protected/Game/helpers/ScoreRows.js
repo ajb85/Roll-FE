@@ -1,10 +1,12 @@
 import React from 'react';
 
 import { leftCategories, rightCategories } from 'js/categories.js';
+import { colorContext } from 'js/Colors';
 
-import styles from '../styles.module.scss';
+// import styles from '../styles.module.scss';
 
 function ScoreRow(props) {
+  const { colors } = React.useContext(colorContext);
   const {
     isTurn,
     game,
@@ -24,28 +26,39 @@ function ScoreRow(props) {
           game.rolls &&
           game.rolls.length &&
           rawUserScore[l.name] === null;
+
         const rClickable =
           isTurn &&
           r.isClickable &&
           game.rolls &&
           game.rolls.length &&
           rawUserScore[r.name] === null;
+
+        const leftBG = lClickable
+          ? selected === l.name
+            ? colors.brightAccent
+            : rawUserScore[l.name]
+            ? colors.primary
+            : colors.accent
+          : colors.primary;
+
+        const rightBG = rClickable
+          ? selected === r.name
+            ? colors.brightAccent
+            : rawUserScore[r.name]
+            ? colors.primary
+            : colors.accent
+          : colors.primary;
         return (
           <tr key={`${l.name} ${r.name}`}>
             <td>{l.name}</td>
-
             <td
               id={l.name}
               onClick={e => (lClickable ? toggleSelected(e) : null)}
-              className={
-                lClickable
-                  ? selected === l.name
-                    ? styles.selected
-                    : rawUserScore[l.name]
-                    ? null
-                    : styles.scoreCell
-                  : null
-              }
+              style={{
+                backgroundColor: leftBG,
+                color: selected === l.name ? 'black' : colors.secondary
+              }}
             >
               {userScore[l.name]}
             </td>
@@ -54,15 +67,10 @@ function ScoreRow(props) {
             <td
               id={r.name}
               onClick={e => (rClickable ? toggleSelected(e) : null)}
-              className={
-                rClickable
-                  ? selected === r.name
-                    ? styles.selected
-                    : rawUserScore[r.name]
-                    ? null
-                    : styles.scoreCell
-                  : null
-              }
+              style={{
+                backgroundColor: rightBG,
+                color: selected === r.name ? 'black' : colors.secondary
+              }}
             >
               {userScore[r.name]}
             </td>
