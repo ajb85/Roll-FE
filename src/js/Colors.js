@@ -7,6 +7,8 @@ class ColorManager {
       primary: '#191919',
       secondary: '#E3E2E2',
       highlight: '#E5ADAA',
+      accent: '#474714',
+      brightAccent: '#FFFF00',
       mode: 'dark'
     };
 
@@ -14,6 +16,8 @@ class ColorManager {
       primary: '#FCFCFC',
       secondary: '#191919',
       highlight: '#B33A3A',
+      accent: '#FDFDCA',
+      brightAccent: '#FFFF00',
       mode: 'light'
     };
 
