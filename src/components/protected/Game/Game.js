@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import ScoreTable from './helpers/ScoreTable.js';
 import Dice from './helpers/Dice.js';
 import GameMenu from './helpers/GameMenu.js';
+import Players from './helpers/Players.js';
 
 import { rollTheDice, submitScore } from 'reducers/games.js';
 import { showHeader, hideHeader } from 'reducers/app.js';
@@ -36,13 +37,11 @@ function Game(props) {
     }
   }, [game, user_id]);
 
-  const toggleLockOnDie = index => {
+  const toggleLockOnDie = index =>
     setLocked(locked.map((d, i) => (i === index ? !d : d)));
-  };
 
-  const toggleSelected = e => {
+  const toggleSelected = e =>
     setSelected(e.target.id === selected ? null : e.target.id);
-  };
 
   const endRound = () => {
     dispatch(submitScore(game.game_id, selected));
@@ -60,7 +59,7 @@ function Game(props) {
   useEffect(() => {
     dispatch(hideHeader());
     return () => dispatch(showHeader());
-  }, [hideHeader, showHeader]);
+  }, [dispatch]);
 
   if (!gamesWereFetched) {
     // Loading state
@@ -82,13 +81,22 @@ function Game(props) {
   return (
     <div className={styles.Game}>
       <GameMenu game={game} />
+      <Players game={game} />
       <ScoreTable
         game={game}
         selected={selected}
         toggleSelected={toggleSelected}
         isTurn={isTurn}
       />
-      <Dice dice={dice} toggleLockOnDie={toggleLockOnDie} locked={locked} />
+      {game.isActive && (
+        // Dice hide when the game is complete
+        <Dice
+          dice={dice}
+          toggleLockOnDie={toggleLockOnDie}
+          locked={locked}
+          isTurn={isTurn}
+        />
+      )}
       {game.isActive && (
         // Buttons hide when the game is complete
         <section className={styles.buttons}>
