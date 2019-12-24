@@ -18,19 +18,19 @@ function Routes(props) {
   }, [gamesWereFetched, games, getUsersGames]);
   return (
     <React.Fragment>
-      <Route path="/" exact>
+      <Route path='/' exact>
         <GameSelect />
       </Route>
 
-      <Route path="/game/create">
+      <Route path='/game/create'>
         <NewGame />
       </Route>
 
-      <Route path="/game/join">
+      <Route path='/game/join'>
         <JoinGame />
       </Route>
 
-      <Route path="/game/play/:name">
+      <Route path='/game/play/:game_id'>
         <PlayGame />
       </Route>
     </React.Fragment>
@@ -42,7 +42,4 @@ const mapStateToProps = state => ({
   gamesWereFetched: state.games.wereFetched
 });
 
-export default connect(
-  mapStateToProps,
-  { getUsersGames }
-)(Routes);
+export default connect(mapStateToProps, { getUsersGames })(Routes);

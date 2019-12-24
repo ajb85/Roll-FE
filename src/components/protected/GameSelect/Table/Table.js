@@ -85,7 +85,7 @@ function Table(props) {
       ) {
         const g = i < sorted.length ? sorted[i] : null;
         const goToGame = () => {
-          history.push(`/game/play/${g.name}`);
+          history.push(`/game/play/${g.game_id}`);
         };
 
         rows.push(

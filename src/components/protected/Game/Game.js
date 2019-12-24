@@ -16,10 +16,6 @@ import history from 'history.js';
 import styles from './styles.module.scss';
 
 function Game(props) {
-  const [locked, setLocked] = useState([false, false, false, false, false]);
-  const [selected, setSelected] = useState(null);
-  const [isTurn, setIsTurn] = useState(false);
-
   const dispatch = useDispatch();
   const { user_id, gamesWereFetched, games, error } = useSelector(state => ({
     user_id: state.account.id,
@@ -28,10 +24,15 @@ function Game(props) {
     error: state.app.errors.play
   }));
 
+  const [locked, setLocked] = useState([false, false, false, false, false]);
+  const [selected, setSelected] = useState(null);
+  const [isTurn, setIsTurn] = useState(false);
   const [viewing, setViewing] = useState(user_id);
   const isViewingSelf = viewing === user_id;
   const params = useParams();
-  const game = games.find(g => g.name === params.name);
+  const game = games.find(
+    g => parseInt(g.game_id, 10) === parseInt(params.game_id, 10)
+  );
 
   useEffect(() => {
     setViewing(user_id);
