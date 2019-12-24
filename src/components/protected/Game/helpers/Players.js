@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { colorContext } from 'js/Colors.js';
 import styles from '../styles.module.scss';
 
-function Players({ game }) {
+function Players({ game, setViewing }) {
   const { colors } = React.useContext(colorContext);
   const users = Object.keys(game.scores)
     .map(id => ({
+      id: parseInt(id, 10),
       username: game.scores[id].username,
       grandTotal: game.scores[id].score['Grand Total']
     }))
@@ -18,8 +19,9 @@ function Players({ game }) {
       <p className={styles.label}>Players: </p>
       <div>
         {users.map((u, i) => (
-          <>
+          <Fragment key={u.id}>
             <p
+              onClick={() => setViewing(u.id)}
               style={{
                 color:
                   i === 0 || u.grandTotal === users[0].grandTotal
@@ -27,10 +29,10 @@ function Players({ game }) {
                     : null
               }}
             >
-              {u.username} ({u.grandTotal})
+              {u.username} ({u.grandTotal || 0})
             </p>
             {i < users.length - 1 && <span>,</span>}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>

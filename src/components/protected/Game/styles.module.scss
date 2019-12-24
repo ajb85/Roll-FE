@@ -53,6 +53,7 @@ div.players {
   p {
     font-size: 0.8rem;
     line-height: $lh/2;
+    cursor: pointer;
   }
 
   span {
@@ -99,45 +100,89 @@ div.players {
   }
 }
 
-table.score {
-  // margin-bottom: 40px;
+div.score {
   width: 100%;
   text-align: center;
   border-collapse: collapse;
   margin: 0;
 
-  th,
-  td {
-    // border: 1px solid black;
-    border-width: 1px;
-    border-style: solid;
-    vertical-align: middle;
-    min-width: 32px;
-    font-size: 0.9rem;
-  }
-  tr {
-    height: 27px;
+  .header {
+    display: flex;
 
-    td,
-    th {
-      height: 27px;
+    p {
+      border-style: solid;
+      border-width: 0 0 1px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding: $lh/2 0;
 
       &:nth-child(1),
-      &:nth-child(4) {
-        font-size: 0.7rem;
-        width: 25%;
+      &:nth-child(3) {
+        width: 35%;
         min-width: 85px;
+      }
+
+      &:nth-child(2),
+      &:nth-child(4) {
+        width: 15%;
       }
     }
   }
-  th {
-    font-weight: 800;
-    font-size: 0.7rem;
+
+  .row {
+    display: flex;
+
+    p {
+      border-style: solid;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      min-width: 32px;
+      line-height: $lh;
+      margin: $lh/4 0;
+
+      &:nth-child(1),
+      &:nth-child(3) {
+        font-size: 0.7rem;
+        width: 35%;
+        min-width: 85px;
+      }
+
+      &:nth-child(2),
+      &:nth-child(4) {
+        width: 15%;
+      }
+    }
   }
 
-  td {
-    img {
-      width: 20px;
+  .footer {
+    display: flex;
+
+    div {
+      width: 50%;
+    }
+
+    p:first-of-type {
+      padding: 5px;
+      font-size: 1rem;
+      width: 35%;
+      text-align: center;
+      line-height: $lh;
+    }
+
+    p:nth-of-type(2) {
+      padding: 5px;
+      font-size: 1rem;
+      width: 15%;
+      text-align: center;
+      line-height: $lh;
     }
   }
 }

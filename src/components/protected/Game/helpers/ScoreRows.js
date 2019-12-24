@@ -3,24 +3,25 @@ import React from 'react';
 import { leftCategories, rightCategories } from 'js/categories.js';
 import { colorContext } from 'js/Colors';
 
-// import styles from '../styles.module.scss';
+import styles from '../styles.module.scss';
 
 function ScoreRow(props) {
   const { colors } = React.useContext(colorContext);
   const {
     isTurn,
+    isViewingSelf,
     game,
     rawUserScore,
     toggleSelected,
     selected,
-    userScore,
-    leader
+    userScore
   } = props;
   return (
     <>
       {leftCategories.map((l, i) => {
         const r = rightCategories[i];
         const lClickable =
+          isViewingSelf &&
           isTurn &&
           l.isClickable &&
           game.rolls &&
@@ -28,6 +29,7 @@ function ScoreRow(props) {
           rawUserScore[l.name] === null;
 
         const rClickable =
+          isViewingSelf &&
           isTurn &&
           r.isClickable &&
           game.rolls &&
@@ -49,10 +51,11 @@ function ScoreRow(props) {
             ? colors.primary
             : colors.accent
           : colors.primary;
+
         return (
-          <tr key={`${l.name} ${r.name}`}>
-            <td>{l.name}</td>
-            <td
+          <div className={styles.row} key={`${l.name} ${r.name}`}>
+            <p>{l.name}</p>
+            <p
               id={l.name}
               onClick={e => (lClickable ? toggleSelected(e) : null)}
               style={{
@@ -61,10 +64,9 @@ function ScoreRow(props) {
               }}
             >
               {userScore[l.name]}
-            </td>
-            <td>{leader.score[l.name]}</td>
-            <td>{r.name}</td>
-            <td
+            </p>
+            <p>{r.name}</p>
+            <p
               id={r.name}
               onClick={e => (rClickable ? toggleSelected(e) : null)}
               style={{
@@ -73,9 +75,8 @@ function ScoreRow(props) {
               }}
             >
               {userScore[r.name]}
-            </td>
-            <td>{leader.score[r.name]}</td>
-          </tr>
+            </p>
+          </div>
         );
       })}
     </>
