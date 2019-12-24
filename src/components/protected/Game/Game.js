@@ -28,8 +28,14 @@ function Game(props) {
     error: state.app.errors.play
   }));
 
+  const [viewing, setViewing] = useState(user_id);
+  const isViewingSelf = viewing === user_id;
   const params = useParams();
   const game = games.find(g => g.name === params.name);
+
+  useEffect(() => {
+    setViewing(user_id);
+  }, [user_id, setViewing]);
 
   useEffect(() => {
     if (game && user_id) {
@@ -81,14 +87,15 @@ function Game(props) {
   return (
     <div className={styles.Game}>
       <GameMenu game={game} />
-      <Players game={game} />
+      <Players game={game} setViewing={setViewing} />
       <ScoreTable
         game={game}
         selected={selected}
         toggleSelected={toggleSelected}
         isTurn={isTurn}
+        viewing={viewing}
       />
-      {game.isActive > 0 && (
+      {game.isActive > 0 && isViewingSelf && (
         // Dice hide when the game is complete
         <Dice
           dice={dice}
@@ -97,7 +104,7 @@ function Game(props) {
           isTurn={isTurn}
         />
       )}
-      {game.isActive > 0 && (
+      {game.isActive > 0 && isViewingSelf && (
         // Buttons hide when the game is complete
         <section className={styles.buttons}>
           <img
