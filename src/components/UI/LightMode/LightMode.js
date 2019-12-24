@@ -3,19 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { colorContext } from 'js/Colors.js';
 
-import styles from './styles.module.scss';
+import { BulbContainer } from './Styles.js';
 
-function LightMode(props) {
+function LightMode({ inline }) {
   const { colors, switchMode } = useContext(colorContext);
 
   return (
-    <div style={{ position: 'relative' }}>
-      <div className={styles.lightMode} onClick={() => switchMode()}>
+    <BulbContainer inline={inline} onClick={() => switchMode()}>
+      <div>
         <FontAwesomeIcon
           icon={colors.mode === 'dark' ? 'lightbulb-slash' : 'lightbulb-on'}
         />
       </div>
-    </div>
+    </BulbContainer>
   );
 }
 
