@@ -113,7 +113,7 @@ export const joinGame = form => async dispatch => {
     const { data: payload } = joined;
     dispatch({ type: NEW_GAME, payload });
     Sockets.join(payload.name);
-    history.push(`/game/play/${payload.name}`);
+    history.push(`/game/play/${payload.game_id}`);
   }
 };
 
