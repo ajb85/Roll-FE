@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { joinGame } from 'reducers/games.js';
 import styles from './styles.module.scss';
@@ -8,7 +8,11 @@ import styles from './styles.module.scss';
 function JoinGame(props) {
   const [form, setForm] = useState({ name: '', password: '' });
   const history = useHistory();
+  const { uuid } = useParams();
 
+  if (uuid) {
+    props.joinGame({ uuid });
+  }
   const updateForm = e => {
     if (e.target.name !== 'name' || e.target.value.length < 16) {
       setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,32 +30,32 @@ function JoinGame(props) {
     <form className={styles.standard} onSubmit={e => handleSubmit(e)}>
       <div>
         <input
-          type="text"
-          name="name"
+          type='text'
+          name='name'
           value={form.name}
           onChange={e => updateForm(e)}
-          autoComplete="one-time-code"
-          placeholder="Game name"
+          autoComplete='one-time-code'
+          placeholder='Game name'
         />
       </div>
       <div>
         <input
-          type="password"
-          name="password"
+          type='password'
+          name='password'
           value={form.password}
           onChange={e => updateForm(e)}
-          autoComplete="new-password"
-          placeholder="Password"
+          autoComplete='new-password'
+          placeholder='Password'
         />
       </div>
       <p className={styles.error}>{props.gameError}</p>
       <div className={styles.buttons}>
-        <button className={styles.submit} type="submit">
+        <button className={styles.submit} type='submit'>
           Join
         </button>
         <button
           className={styles.submit}
-          type="button"
+          type='button'
           onClick={() => history.push('/')}
         >
           Cancel

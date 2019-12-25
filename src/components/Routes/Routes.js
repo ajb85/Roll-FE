@@ -33,6 +33,10 @@ function Routes(props) {
       <Route path='/game/play/:game_id'>
         <PlayGame />
       </Route>
+
+      <Route path='/j/:uuid'>
+        <JoinGame />
+      </Route>
     </React.Fragment>
   );
 }
