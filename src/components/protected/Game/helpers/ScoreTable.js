@@ -51,7 +51,7 @@ function ScoreTable({
       <div className={styles.footer} style={{ fontWeight: 800 }}>
         <div />
         <p>Grand Total</p>
-        <p>{userScore['Grand Total']}</p>
+        <p>{userScore['Grand Total'] || 0}</p>
       </div>
     </Table>
   );
