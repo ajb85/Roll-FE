@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -6,6 +7,7 @@ import ScoreTable from './helpers/ScoreTable.js';
 import Dice from './helpers/Dice.js';
 import GameMenu from './helpers/GameMenu.js';
 import Players from './helpers/Players.js';
+import Prompt from 'components/UI/Prompt/';
 
 import { rollTheDice, submitScore } from 'reducers/games.js';
 import { showHeader, hideHeader } from 'reducers/app.js';
@@ -27,6 +29,9 @@ function Game(props) {
   const [locked, setLocked] = useState([false, false, false, false, false]);
   const [selected, setSelected] = useState(null);
   const [isTurn, setIsTurn] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const initialLinkText = 'Generating link...';
+  const [link, setLink] = useState(initialLinkText);
   const [viewing, setViewing] = useState(user_id);
   const isViewingSelf = viewing === user_id;
   const params = useParams();
@@ -43,6 +48,11 @@ function Game(props) {
       setIsTurn(isUsersTurn(game.scores, user_id));
     }
   }, [game, user_id]);
+
+  useEffect(() => {
+    dispatch(hideHeader());
+    return () => dispatch(showHeader());
+  }, [dispatch]);
 
   const toggleLockOnDie = index =>
     setLocked(locked.map((d, i) => (i === index ? !d : d)));
@@ -63,11 +73,6 @@ function Game(props) {
       ? game.rolls[game.rolls.length - 1]
       : [];
 
-  useEffect(() => {
-    dispatch(hideHeader());
-    return () => dispatch(showHeader());
-  }, [dispatch]);
-
   if (!gamesWereFetched) {
     // Loading state
     return <p className={styles.error}>Loading...</p>;
@@ -85,9 +90,49 @@ function Game(props) {
     );
   }
 
+  const isOwner = parseInt(game.owner) === parseInt(user_id);
+
+  const promptOn = () => {
+    if (isOwner) {
+      axios.get(`/games/invite/create/${game.game_id}`).then(res => {
+        if (res && res.data && res.data.uuid) {
+          const { uuid } = res.data;
+          setLink(
+            `${window.location.protocol}//${window.location.host}/j/${uuid}`
+          );
+        } else {
+          console.error('NO INVITE LINK: ', res);
+        }
+      });
+      setShowPrompt(true);
+    }
+  };
+
+  const promptOff = () => {
+    setLink(initialLinkText);
+    setShowPrompt(false);
+  };
+
+  const togglePrompt = () => {
+    if (showPrompt) {
+      promptOff();
+    } else {
+      promptOn();
+    }
+  };
+
   return (
     <div className={styles.Game}>
-      <GameMenu game={game} />
+      {showPrompt && (
+        <Prompt copy={true} cancel={promptOff} textToCopy={link}>
+          <p>
+            Send this link to a friend, which will automatically enter them in
+            the game (bypassing the password):
+          </p>
+          <p>{link}</p>
+        </Prompt>
+      )}
+      <GameMenu game={game} togglePrompt={togglePrompt} isOwner={isOwner} />
       <Players game={game} setViewing={setViewing} />
       <ScoreTable
         game={game}
