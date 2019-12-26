@@ -1,0 +1,17 @@
+@import 'SCSS/variables.scss';
+@import 'SCSS/mixins.scss';
+
+div.loadingDice {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+
+  div {
+    @include JumpingDice;
+
+    svg {
+      margin: 0 3px;
+      @include SpinningDice;
+    }
+  }
+}
