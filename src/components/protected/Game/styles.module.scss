@@ -1,3 +1,5 @@
+@import 'SCSS/variables.scss';
+@import 'SCSS/mixins.scss';
 @import 'SCSS/errorText.scss';
 
 .Game {
@@ -91,18 +93,25 @@ div.players {
   justify-content: space-evenly;
   margin: 0 0 $lh;
 
-  img {
-    width: 45%;
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
 
-    &:active {
-      transform: translateY(1px);
-    }
-    &:first-of-type {
-      margin-right: 5px;
+    p {
+      margin-right: 10px;
     }
 
-    &:nth-of-type(2) {
-      margin-left: 5px;
+    &:hover {
+      svg {
+        @include SpinningDice(1);
+      }
+    }
+
+    svg {
+      margin: 0 5px;
     }
   }
 }

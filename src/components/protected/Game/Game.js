@@ -7,11 +7,12 @@ import ScoreTable from './helpers/ScoreTable.js';
 import Dice from './helpers/Dice.js';
 import GameMenu from './helpers/GameMenu.js';
 import Players from './helpers/Players.js';
+import PlayButtons from './helpers/PlayButtons.js';
 import Prompt from 'components/UI/Prompt/';
+import LoadingDice from 'components/UI/LoadingDice/';
 
-import { rollTheDice, submitScore } from 'reducers/games.js';
+import { submitScore } from 'reducers/games.js';
 import { showHeader, hideHeader } from 'reducers/app.js';
-
 import { isUsersTurn } from 'js/rounds.js';
 import history from 'history.js';
 
@@ -20,12 +21,14 @@ import styles from './styles.module.scss';
 function Game(props) {
   const dispatch = useDispatch();
   const { user_id, gamesWereFetched, games, error } = useSelector(state => ({
+    // isLoading: state.app.isLoading,
     user_id: state.account.id,
     gamesWereFetched: state.games.wereFetched,
     games: state.games.active,
     error: state.app.errors.play
   }));
 
+  const [isLoading, setIsLoading] = useState(false);
   const [locked, setLocked] = useState([false, false, false, false, false]);
   const [selected, setSelected] = useState(null);
   const [isTurn, setIsTurn] = useState(false);
@@ -75,7 +78,7 @@ function Game(props) {
 
   if (!gamesWereFetched) {
     // Loading state
-    return <p className={styles.error}>Loading...</p>;
+    return <LoadingDice />;
   }
 
   if (!game) {
@@ -125,14 +128,15 @@ function Game(props) {
     <div className={styles.Game}>
       {showPrompt && (
         <Prompt copy={true} cancel={promptOff} textToCopy={link}>
-          <p>
-            Send this link to a friend, which will automatically enter them in
-            the game (bypassing the password):
-          </p>
-          <p>{link}</p>
+          Send this link to a friend, which will automatically enter them in the
+          game (bypassing the password):
+          <br />
+          <br />
+          {link}
         </Prompt>
       )}
       <GameMenu game={game} togglePrompt={togglePrompt} isOwner={isOwner} />
+      <p onClick={() => setIsLoading(!isLoading)}>Loading</p>
       <Players game={game} setViewing={setViewing} />
       <ScoreTable
         game={game}
@@ -152,25 +156,15 @@ function Game(props) {
       )}
       {game.isActive > 0 && isViewingSelf && (
         // Buttons hide when the game is complete
-        <section className={styles.buttons}>
-          <img
-            onClick={() => dispatch(rollTheDice(game.game_id, locked))}
-            src={require(`../../../img/roll${turns}.png`)}
-            alt={`Roll the dice. ${turns || 0} rolls left`}
-            style={{
-              opacity:
-                isTurn && (!game.rolls || game.rolls.length < 3) ? 1 : 0.5
-            }}
-          />
-          <img
-            onClick={() => {
-              endRound();
-            }}
-            src={require('../../../img/submit.png')}
-            alt={`Submit turn`}
-            style={{ opacity: selected && isTurn ? 1 : 0.5 }}
-          />
-        </section>
+        <PlayButtons
+          game_id={game.game_id}
+          locked={locked}
+          isLoading={isLoading}
+          endRound={endRound}
+          turns={turns}
+          selected={selected}
+          isTurn={isTurn}
+        />
       )}
       <p className={styles.error}>{error}</p>
     </div>
