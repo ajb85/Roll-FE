@@ -139,7 +139,7 @@ export const submitScore = (game_id, category) => async dispatch => {
   const gameUpdate = await axios.post(`/games/play/${game_id}/submitRound`, {
     category
   });
-
+  console.log("GAME UPDATE: ", gameUpdate.data)
   if (gameUpdate) {
     dispatch({ type: UPDATE_SCORE, payload: gameUpdate.data });
   }
