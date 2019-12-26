@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import LoadingDice from 'components/UI/LoadingDice/';
 
@@ -8,15 +8,13 @@ import { rollTheDice } from 'reducers/games.js';
 
 import styles from '../styles.module.scss';
 
-function PlayButtons({
-  game_id,
-  locked,
-  isLoading,
-  endRound,
-  turns,
-  selected,
-  isTurn
-}) {
+function PlayButtons({ localState, endRound, isLoading }) {
+  const { game, locked, selected, isTurn } = localState;
+  const turns =
+    localState.game && localState.game.rolls
+      ? 3 - localState.game.rolls.length
+      : 3;
+  const { game_id } = game;
   const dispatch = useDispatch();
 
   const rtdDice = [];
@@ -27,13 +25,13 @@ function PlayButtons({
   return (
     <section className={styles.buttons}>
       {isLoading ? (
-        <button style={{ width: '45%' }} type='button'>
+        <button style={{ width: '50%' }} type='button'>
           <LoadingDice fontSize='1.5rem' dice={[1, 2, 3, 4, 5]} />
         </button>
       ) : (
         <button
           type='button'
-          style={{ width: '45%' }}
+          style={{ width: '50%' }}
           onClick={() => dispatch(rollTheDice(game_id, locked))}
         >
           <p>RTD!</p>

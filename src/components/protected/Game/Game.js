@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -11,77 +11,83 @@ import PlayButtons from './helpers/PlayButtons.js';
 import Prompt from 'components/UI/Prompt/';
 import LoadingDice from 'components/UI/LoadingDice/';
 
+import { initialState, reducer } from './reducer/';
 import { submitScore } from 'reducers/games.js';
 import { showHeader, hideHeader } from 'reducers/app.js';
-import { isUsersTurn } from 'js/rounds.js';
+import { populateAccount } from 'reducers/account.js';
 import history from 'history.js';
 
 import styles from './styles.module.scss';
 
 function Game(props) {
-  const dispatch = useDispatch();
-  const { user_id, gamesWereFetched, games, error } = useSelector(state => ({
-    // isLoading: state.app.isLoading,
-    user_id: state.account.id,
-    gamesWereFetched: state.games.wereFetched,
-    games: state.games.active,
-    error: state.app.errors.play
-  }));
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [locked, setLocked] = useState([false, false, false, false, false]);
-  const [selected, setSelected] = useState(null);
-  const [isTurn, setIsTurn] = useState(false);
-  const [showPrompt, setShowPrompt] = useState(false);
-  const initialLinkText = 'Generating link...';
-  const [link, setLink] = useState(initialLinkText);
-  const [viewing, setViewing] = useState(user_id);
-  const isViewingSelf = viewing === user_id;
-  const params = useParams();
-  const game = games.find(
-    g => parseInt(g.game_id, 10) === parseInt(params.game_id, 10)
+  const { user_id, gamesWereFetched, games, error, isLoading } = useSelector(
+    state => ({
+      user_id: state.account.id,
+      gamesWereFetched: state.games.wereFetched,
+      games: state.games.active,
+      isLoading: state.app.isLoading,
+      error: state.app.errors.play
+    })
   );
 
-  useEffect(() => {
-    setViewing(user_id);
-  }, [user_id, setViewing]);
+  const dispatch = useDispatch();
+
+  const localReducer = useReducer(reducer, initialState);
+  const [localState, localDispatch] = localReducer;
+
+  const isViewingSelf = localState.viewing === user_id;
+
+  const { game_id } = useParams();
 
   useEffect(() => {
-    if (game && user_id) {
-      setIsTurn(isUsersTurn(game.scores, user_id));
+    if (!user_id) {
+      dispatch(populateAccount());
     }
-  }, [game, user_id]);
+    localDispatch({ type: 'SET_VIEW', payload: user_id });
+  }, [user_id, dispatch, localDispatch]);
+
+  useEffect(() => {
+    if (games && games.length && user_id) {
+      const payload = games.find(
+        g => parseInt(g.game_id, 10) === parseInt(game_id, 10)
+      );
+      if (payload && payload !== localState.game) {
+        localDispatch({
+          type: 'UPDATE_GAME',
+          payload,
+          user_id
+        });
+      }
+    }
+  }, [games, localState.game, user_id, game_id, localDispatch]);
 
   useEffect(() => {
     dispatch(hideHeader());
     return () => dispatch(showHeader());
   }, [dispatch]);
 
-  const toggleLockOnDie = index =>
-    setLocked(locked.map((d, i) => (i === index ? !d : d)));
-
   const toggleSelected = e =>
-    setSelected(e.target.id === selected ? null : e.target.id);
+    localDispatch({
+      type: 'TOGGLE_SELECTED',
+      payload: e.target.id
+    });
 
   const endRound = () => {
-    dispatch(submitScore(game.game_id, selected));
-    setSelected(null);
-    setLocked([false, false, false, false, false]);
+    dispatch(submitScore(localState.game.game_id, localState.selected));
+    localDispatch({ type: 'ROUND_RESET' });
   };
-
-  const turns = game && game.rolls ? 3 - game.rolls.length : 3;
-
-  const dice =
-    game && game.rolls && game.rolls.length
-      ? game.rolls[game.rolls.length - 1]
-      : [];
 
   if (!gamesWereFetched) {
     // Loading state
-    return <LoadingDice />;
+    return (
+      <div style={{ paddingTop: '50px' }}>
+        <LoadingDice />
+        <p style={{ textAlign: 'center', marginTop: '25px' }}>Loading Game</p>
+      </div>
+    );
   }
 
-  if (!game) {
+  if (!localState.game) {
     // Wrong URL state
     return (
       <>
@@ -93,32 +99,24 @@ function Game(props) {
     );
   }
 
-  const isOwner = parseInt(game.owner) === parseInt(user_id);
+  const isOwner = parseInt(localState.game.owner) === parseInt(user_id);
 
   const promptOn = () => {
     if (isOwner) {
-      axios.get(`/games/invite/create/${game.game_id}`).then(res => {
-        if (res && res.data && res.data.uuid) {
-          const { uuid } = res.data;
-          setLink(
-            `${window.location.protocol}//${window.location.host}/j/${uuid}`
-          );
-        } else {
-          console.error('NO INVITE LINK: ', res);
-        }
+      localDispatch({ type: 'ENABLE_PROMPT' });
+      axios.get(`/games/invite/create/${localState.game.game_id}`).then(res => {
+        const { uuid } = res.data;
+        localDispatch({
+          type: 'UPDATE_LINK',
+          payload: `${window.location.protocol}//${window.location.host}/j/${uuid}`
+        });
       });
-      setShowPrompt(true);
     }
   };
 
-  const promptOff = () => {
-    setLink(initialLinkText);
-    setShowPrompt(false);
-  };
-
   const togglePrompt = () => {
-    if (showPrompt) {
-      promptOff();
+    if (localState.showPrompt) {
+      localDispatch({ type: 'PROMPT_OFF' });
     } else {
       promptOn();
     }
@@ -126,44 +124,41 @@ function Game(props) {
 
   return (
     <div className={styles.Game}>
-      {showPrompt && (
-        <Prompt copy={true} cancel={promptOff} textToCopy={link}>
+      {localState.showPrompt && (
+        <Prompt
+          copy={true}
+          cancel={() => localDispatch({ type: 'PROMPT_OFF' })}
+          textToCopy={localState.link}
+        >
           Send this link to a friend, which will automatically enter them in the
           game (bypassing the password):
           <br />
           <br />
-          {link}
+          {localState.link}
         </Prompt>
       )}
-      <GameMenu game={game} togglePrompt={togglePrompt} isOwner={isOwner} />
-      <p onClick={() => setIsLoading(!isLoading)}>Loading</p>
-      <Players game={game} setViewing={setViewing} />
-      <ScoreTable
-        game={game}
-        selected={selected}
-        toggleSelected={toggleSelected}
-        isTurn={isTurn}
-        viewing={viewing}
+      <GameMenu
+        game={localState.game}
+        togglePrompt={togglePrompt}
+        isOwner={isOwner}
       />
-      {game.isActive > 0 && isViewingSelf && (
+      <Players localReducer={localReducer} />
+      <ScoreTable localState={localState} toggleSelected={toggleSelected} />
+      {localState.game.isActive > 0 && isViewingSelf && (
         // Dice hide when the game is complete
         <Dice
-          dice={dice}
-          toggleLockOnDie={toggleLockOnDie}
-          locked={locked}
-          isTurn={isTurn}
+          toggleLockOnDie={payload =>
+            localDispatch({ type: 'LOCK_DIE', payload })
+          }
+          localState={localState}
         />
       )}
-      {game.isActive > 0 && isViewingSelf && (
+      {localState.game.isActive > 0 && isViewingSelf && (
         // Buttons hide when the game is complete
         <PlayButtons
-          game_id={game.game_id}
-          locked={locked}
-          isLoading={isLoading}
           endRound={endRound}
-          turns={turns}
-          selected={selected}
-          isTurn={isTurn}
+          localState={localState}
+          isLoading={isLoading}
         />
       )}
       <p className={styles.error}>{error}</p>

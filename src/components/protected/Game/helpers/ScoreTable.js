@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import ScoreRows from './ScoreRows.js';
 
@@ -9,15 +9,11 @@ import { colorContext } from 'js/Colors.js';
 import { Table } from '../Styles.js';
 import styles from '../styles.module.scss';
 
-function ScoreTable({
-  game,
-  selected,
-  toggleSelected,
-  user_id,
-  isTurn,
-  viewing
-}) {
+function ScoreTable({ localState, toggleSelected }) {
+  const { game, selected, isTurn, viewing } = localState;
   const { scores, rolls } = game;
+  const { user_id } = useSelector(state => ({ user_id: state.account.id }));
+
   const rawUserScore = scores[viewing] ? scores[viewing].score : {};
   const dice = rolls && rolls.length ? rolls[rolls.length - 1] : [];
   const userScore = selected
@@ -40,13 +36,11 @@ function ScoreTable({
         <p>Score</p>
       </div>
       <ScoreRows
-        isTurn={isTurn}
+        localState={localState}
         isViewingSelf={isViewingSelf}
-        game={game}
-        rawUserScore={rawUserScore}
-        toggleSelected={toggleSelected}
-        selected={selected}
         userScore={userScore}
+        toggleSelected={toggleSelected}
+        rawUserScore={rawUserScore}
       />
       <div className={styles.footer} style={{ fontWeight: 800 }}>
         <div />
@@ -57,8 +51,4 @@ function ScoreTable({
   );
 }
 
-const mapStateToProps = state => ({
-  user_id: state.account.id
-});
-
-export default connect(mapStateToProps, {})(ScoreTable);
+export default ScoreTable;

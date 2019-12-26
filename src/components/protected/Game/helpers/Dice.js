@@ -2,7 +2,13 @@ import React from 'react';
 
 import styles from '../styles.module.scss';
 
-function Dice({ isTurn, dice, toggleLockOnDie, locked }) {
+function Dice({ localState, toggleLockOnDie }) {
+  const { isTurn, locked, game } = localState;
+  const dice =
+    game && game.rolls && game.rolls.length
+      ? game.rolls[game.rolls.length - 1]
+      : [];
+
   return (
     <section className={styles.dice}>
       {dice && dice.length ? (

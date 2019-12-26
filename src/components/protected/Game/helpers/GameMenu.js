@@ -1,15 +1,13 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import history from 'history.js';
 import LightMode from 'components/UI/LightMode';
-import { getGameRound } from 'js/rounds';
-// import { colorContext } from 'js/Colors.js';
+
+import history from 'history.js';
 
 import styles from '../styles.module.scss';
 
 function GameMenu({ game, togglePrompt, isOwner }) {
-  // const { colors } = React.useContext(colorContext);
   return (
     <>
       <div className={styles.controls}>
@@ -24,22 +22,7 @@ function GameMenu({ game, togglePrompt, isOwner }) {
         />
         {isOwner && <FontAwesomeIcon icon='user-plus' onClick={togglePrompt} />}
       </div>
-      <table className={styles.menu}>
-        <thead>
-          <tr>
-            <th>Current Game</th>
-            <th>Players</th>
-            <th>Round</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{game.name}</td>
-            <td>{game.playerCount}</td>
-            <td>{getGameRound(game ? game.scores : [])}</td>
-          </tr>
-        </tbody>
-      </table>
+      <h2>{game.name}</h2>
     </>
   );
 }

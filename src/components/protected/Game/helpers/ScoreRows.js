@@ -5,17 +5,16 @@ import { colorContext } from 'js/Colors';
 
 import styles from '../styles.module.scss';
 
-function ScoreRow(props) {
+function ScoreRow({
+  localState,
+  rawUserScore,
+  toggleSelected,
+  userScore,
+  isViewingSelf
+}) {
   const { colors } = React.useContext(colorContext);
-  const {
-    isTurn,
-    isViewingSelf,
-    game,
-    rawUserScore,
-    toggleSelected,
-    selected,
-    userScore
-  } = props;
+  const { isTurn, game, selected } = localState;
+
   return (
     <>
       {leftCategories.map((l, i) => {

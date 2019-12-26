@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { colorContext } from 'js/Colors.js';
 import styles from '../styles.module.scss';
 
-function Players({ game, setViewing }) {
+function Players({ localReducer: [{ game }, localDispatch] }) {
   const { colors } = React.useContext(colorContext);
   const users = Object.keys(game.scores)
     .map(id => ({
@@ -21,7 +21,7 @@ function Players({ game, setViewing }) {
         {users.map((u, i) => (
           <Fragment key={u.id}>
             <p
-              onClick={() => setViewing(u.id)}
+              onClick={() => localDispatch({ type: 'SET_VIEW', payload: u.id })}
               style={{
                 color:
                   i === 0 || u.grandTotal === users[0].grandTotal

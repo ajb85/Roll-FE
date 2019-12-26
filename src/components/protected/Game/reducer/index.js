@@ -4,7 +4,7 @@ const initialLinkText = 'Generating link...';
 
 export const initialState = {
   locked: [false, false, false, false, false],
-  game: {},
+  game: { scores: {} },
   selected: null,
   isTurn: false,
   showPrompt: false,
@@ -22,7 +22,8 @@ export const reducer = (state, action) => {
     case 'UPDATE_GAME':
       return {
         ...state,
-        game: action.payload
+        game: action.payload,
+        isTurn: isUsersTurn(action.payload.scores, action.user_id)
       };
     case 'UPDATE_LINK':
       return { ...state, link: action.payload };
@@ -36,9 +37,11 @@ export const reducer = (state, action) => {
       return {
         ...state,
         locked: state.locked.map((l, i) =>
-          i === parseInt(action.payload, 10) ? true : l
+          i === parseInt(action.payload, 10) ? !state.locked[i] : l
         )
       };
+    case 'SET_VIEW':
+      return { ...state, viewing: action.payload };
     case 'ROUND_RESET':
       return {
         ...state,
@@ -46,12 +49,14 @@ export const reducer = (state, action) => {
         locked: [false, false, false, false, false]
       };
     case 'TOGGLE_SELECTED':
+      console.log(
+        'SELECTED: ',
+        action.payload,
+        parseInt(action.payload, 10) === state.selected
+      );
       return {
         ...state,
-        selected:
-          parseInt(action.payload, 10) === state.selected
-            ? null
-            : parseInt(action.payload, 10)
+        selected: action.payload === state.selected ? null : action.payload
       };
     default:
       return { ...state };
