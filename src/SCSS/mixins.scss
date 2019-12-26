@@ -17,3 +17,48 @@
   padding: 0 10px;
   font-size: 1.2rem;
 }
+
+@mixin SpinningDice($count: infinite) {
+  transform-origin: center center;
+  animation-name: spin;
+  animation-iteration-count: $count;
+}
+
+@mixin JumpingDice($count: infinite) {
+  animation-name: jump;
+  animation-iteration-count: $count;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(27deg);
+  }
+  18% {
+    transform: rotate(32.4deg);
+  }
+
+  33%,
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0px);
+  }
+  15% {
+    transform: translateY(-8px);
+  }
+  18% {
+    transform: translateY(-8px);
+  }
+
+  33%,
+  100% {
+    transform: translateY(0px);
+  }
+}
