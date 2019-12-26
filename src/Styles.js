@@ -29,6 +29,7 @@ export const AppContainer = styled.div`
   h5,
   div {
     color: ${props => props.colors.secondary};
+    border-color: ${props => props.colors.secondary};
   }
 
   button {
