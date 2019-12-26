@@ -40,10 +40,5 @@ export const setToken = payload => {
 export const populateAccount = () => dispatch => {
   axios
     .get('/auth')
-    .then(
-      res =>
-        res &&
-        res.data &&
-        dispatch({ type: SET_ACCOUNT_INFO, payload: res.data })
-    );
+    .then(res => dispatch({ type: SET_ACCOUNT_INFO, payload: res.data }));
 };
