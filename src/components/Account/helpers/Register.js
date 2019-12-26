@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingDice from 'components/UI/LoadingDice/';
+
 import styles from '../styles.module.scss';
 
 function Register(props) {
@@ -23,39 +25,39 @@ function Register(props) {
       <div className={`${styles.inputs} ${styles.register}`}>
         <p>Register your account</p>
         <input
-          name="username"
-          type="text"
+          name='username'
+          type='text'
           value={form.username}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="username"
+          autoComplete='username'
           autoFocus
-          placeholder="Username"
+          placeholder='Username'
         />
 
         <input
-          name="email"
-          type="email"
+          name='email'
+          type='email'
           value={form.email}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="email"
-          placeholder="Email"
+          autoComplete='email'
+          placeholder='Email'
         />
 
         <input
-          name="password"
-          type="password"
+          name='password'
+          type='password'
           value={form.password}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="current-password"
-          placeholder="Password"
+          autoComplete='current-password'
+          placeholder='Password'
         />
       </div>
       <p className={styles.error} style={{ color: colors.highlight }}>
         {props.registerError}
       </p>
       <div className={styles.buttons}>
-        <button type="submit" className={styles.submit}>
-          {isLoading ? '...Loading' : 'Register'}
+        <button type='submit' className={styles.submit}>
+          {isLoading ? <LoadingDice /> : 'Register'}
         </button>
         <p onClick={() => setIsRegistering(false)} className={styles.link}>
           Login to an existing account

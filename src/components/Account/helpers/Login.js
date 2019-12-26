@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import LoadingDice from 'components/UI/LoadingDice/';
+
 import styles from '../styles.module.scss';
 
 function Login(props) {
@@ -23,30 +25,30 @@ function Login(props) {
       <div className={styles.inputs}>
         <p>Login to your account</p>
         <input
-          name="username"
-          type="text"
+          name='username'
+          type='text'
           value={form.username}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="username"
+          autoComplete='username'
           autoFocus
-          placeholder="Account"
+          placeholder='Account'
         />
 
         <input
-          name="password"
-          type="password"
+          name='password'
+          type='password'
           value={form.password}
           onChange={e => setForm({ ...form, [e.target.name]: e.target.value })}
-          autoComplete="current-password"
-          placeholder="Password"
+          autoComplete='current-password'
+          placeholder='Password'
         />
       </div>
       <p className={styles.error} style={{ color: colors.highlight }}>
         {props.loginError}
       </p>
       <div className={styles.buttons}>
-        <button type="submit" className={styles.submit}>
-          {isLoading ? '...Loading' : 'Login'}
+        <button type='submit' className={styles.submit}>
+          {isLoading ? <LoadingDice /> : 'Login'}
         </button>
         <p onClick={() => setIsRegistering(true)} className={styles.link}>
           Register a new account
