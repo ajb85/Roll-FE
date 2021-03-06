@@ -1,26 +1,19 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
 
-import LightMode from 'components/UI/LightMode';
+import LightMode from "components/UI/LightMode";
 
-import history from 'history.js';
+import history from "history.js";
 
-import styles from '../styles.module.scss';
+import styles from "../styles.module.scss";
 
 function GameMenu({ game, togglePrompt, isOwner }) {
   return (
     <>
       <div className={styles.controls}>
-        <FontAwesomeIcon
-          icon='chevron-square-left'
-          onClick={() => history.push('/')}
-        />
+        <p>chevron-square-left</p>
         <LightMode inline={true} />
-        <FontAwesomeIcon
-          icon={game.isJoinable ? 'lock-open-alt' : 'lock-alt'}
-          style={{ opacity: isOwner ? 1 : 0.5 }}
-        />
-        {isOwner && <FontAwesomeIcon icon='user-plus' onClick={togglePrompt} />}
+        {game.isJoinable ? "lock-open-alt" : "lock-alt"}
+        {isOwner && "user-plus"}
       </div>
       <h2>{game.name}</h2>
     </>
