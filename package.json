@@ -11,7 +11,7 @@
     "@fortawesome/pro-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "^0.1.8",
     "axios": "^0.21.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "polished": "^3.4.2",
     "react": "^16.9.0",
     "react-copy-to-clipboard": "^5.0.2",
