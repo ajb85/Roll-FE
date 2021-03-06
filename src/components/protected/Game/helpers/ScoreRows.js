@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import { leftCategories, rightCategories } from 'js/categories.js';
-import { colorContext } from 'js/Colors';
+import { leftCategories, rightCategories } from "js/categories.js";
+import useColorMode from "hooks/useColorMode.js";
 
-import styles from '../styles.module.scss';
+import styles from "../styles.module.scss";
 
 function ScoreRow({
   localState,
   rawUserScore,
   toggleSelected,
   userScore,
-  isViewingSelf
+  isViewingSelf,
 }) {
-  const { colors } = React.useContext(colorContext);
+  const { colors } = useColorMode();
   const { isTurn, game, selected } = localState;
 
   return (
@@ -56,10 +56,10 @@ function ScoreRow({
             <p>{l.name}</p>
             <p
               id={l.name}
-              onClick={e => (lClickable ? toggleSelected(e) : null)}
+              onClick={(e) => (lClickable ? toggleSelected(e) : null)}
               style={{
                 backgroundColor: leftBG,
-                color: selected === l.name ? 'black' : colors.secondary
+                color: selected === l.name ? "black" : colors.secondary,
               }}
             >
               {userScore[l.name]}
@@ -67,10 +67,10 @@ function ScoreRow({
             <p>{r.name}</p>
             <p
               id={r.name}
-              onClick={e => (rClickable ? toggleSelected(e) : null)}
+              onClick={(e) => (rClickable ? toggleSelected(e) : null)}
               style={{
                 backgroundColor: rightBG,
-                color: selected === r.name ? 'black' : colors.secondary
+                color: selected === r.name ? "black" : colors.secondary,
               }}
             >
               {userScore[r.name]}

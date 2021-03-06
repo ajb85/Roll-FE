@@ -1,15 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from "react";
 
-import { colorContext } from 'js/Colors.js';
-import styles from '../styles.module.scss';
+import useColorMode from "hooks/useColorMode.js";
+import styles from "../styles.module.scss";
 
 function Players({ localReducer: [{ game }, localDispatch] }) {
-  const { colors } = React.useContext(colorContext);
+  const { colors } = useColorMode();
   const users = Object.keys(game.scores)
-    .map(id => ({
+    .map((id) => ({
       id: parseInt(id, 10),
       username: game.scores[id].username,
-      grandTotal: game.scores[id].score['Grand Total']
+      grandTotal: game.scores[id].score["Grand Total"],
     }))
     .sort((a, b) =>
       a.grandTotal === b.grandTotal ? 0 : a.grandTotal > b.grandTotal ? -1 : 1
@@ -21,12 +21,12 @@ function Players({ localReducer: [{ game }, localDispatch] }) {
         {users.map((u, i) => (
           <Fragment key={u.id}>
             <p
-              onClick={() => localDispatch({ type: 'SET_VIEW', payload: u.id })}
+              onClick={() => localDispatch({ type: "SET_VIEW", payload: u.id })}
               style={{
                 color:
                   i === 0 || u.grandTotal === users[0].grandTotal
                     ? colors.highlight
-                    : null
+                    : null,
               }}
             >
               {u.username} ({u.grandTotal || 0})

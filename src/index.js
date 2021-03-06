@@ -13,7 +13,7 @@ import history from "./history.js";
 import "./interceptors/";
 
 // Providers
-import ColorProvider from "js/Colors.js";
+import { ColorProvider } from "hooks/useColorMode.js";
 
 import App from "./App.js";
 import "SCSS/";

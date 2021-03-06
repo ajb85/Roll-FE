@@ -1,13 +1,13 @@
-import React from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import React from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { colorContext } from 'js/Colors.js';
-import { Shadow } from './Styles.js';
-import styles from './styles.module.scss';
+import useColorMode from "hooks/useColorMode.js";
+import { Shadow } from "./Styles.js";
+import styles from "./styles.module.scss";
 
 function Prompt(props) {
   const { action, cancel, confirmCopy, cancelCopy, copy } = props;
-  const { colors } = React.useContext(colorContext);
+  const { colors } = useColorMode();
   return (
     <>
       <Shadow colors={colors} onClick={cancel} className={styles.shadow} />
@@ -19,12 +19,12 @@ function Prompt(props) {
         <div>
           {copy ? (
             <CopyToClipboard text={props.textToCopy}>
-              <button>{confirmCopy || 'Copy'}</button>
+              <button>{confirmCopy || "Copy"}</button>
             </CopyToClipboard>
           ) : (
-            <button onClick={action}>{confirmCopy || 'Yes'}</button>
+            <button onClick={action}>{confirmCopy || "Yes"}</button>
           )}
-          <button onClick={cancel}>{cancelCopy || 'Cancel'}</button>
+          <button onClick={cancel}>{cancelCopy || "Cancel"}</button>
         </div>
       </div>
     </>
