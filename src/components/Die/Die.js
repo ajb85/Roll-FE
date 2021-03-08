@@ -18,6 +18,8 @@ import oDie from "img/O.png";
 import lDie from "img/L.png";
 import exclaimDie from "img/e.png";
 
+import { DieContainer } from "./Styles.js";
+
 const dieImageLookup = {
   r: rDie,
   o: oDie,
@@ -37,10 +39,14 @@ const lightDieIconLookup = [
   GiInvertedDice6,
 ];
 
-export default function Die({ face }) {
+export default function Die({ face, size = "medium", style }) {
   const img = dieImageLookup[face] && (
     <img src={dieImageLookup[face]} alt={`${face} die`} />
   );
   const Icon = lightDieIconLookup[face];
-  return <div>{img || (Icon && <Icon />) || <BiErrorAlt />}</div>;
+  return (
+    <DieContainer size={size} style={style}>
+      {img || (Icon && <Icon />) || <BiErrorAlt />}
+    </DieContainer>
+  );
 }

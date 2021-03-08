@@ -2,9 +2,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import LoadingDice from "components/UI/LoadingDice/";
+import Die from "components/Die/";
 
 import { rollTheDice } from "reducers/games.js";
 
+import submitImage from "img/submit.png";
 import styles from "../styles.module.scss";
 
 function PlayButtons({ localState, endRound, isLoading }) {
@@ -17,10 +19,10 @@ function PlayButtons({ localState, endRound, isLoading }) {
   const dispatch = useDispatch();
 
   const rtdDice = [];
-  const convert = { 1: "one", 2: "two", 3: "three" };
   for (let i = 1; i <= turns; i++) {
     rtdDice.push(i);
   }
+
   return (
     <section className={styles.buttons}>
       {isLoading ? (
@@ -35,18 +37,18 @@ function PlayButtons({ localState, endRound, isLoading }) {
         >
           <p>RTD!</p>
           {rtdDice.map((d, i) => (
-            <p
+            <Die
               style={{ animationDuration: "1.5s" }}
               key={`${d} at ${i}`}
-            >{`dice-${convert[d]}`}</p>
+              face={d}
+              size="small"
+            />
           ))}
         </button>
       )}
       <img
-        onClick={() => {
-          endRound();
-        }}
-        src={require("../../../../img/submit.png")}
+        onClick={endRound}
+        src={submitImage}
         alt={`Submit turn`}
         style={{ opacity: selected && isTurn ? 1 : 0.5 }}
       />

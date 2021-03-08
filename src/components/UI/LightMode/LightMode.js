@@ -6,14 +6,12 @@ import useColorMode from "hooks/useColorMode.js";
 import { BulbContainer } from "./Styles.js";
 
 function LightMode({ inline }) {
-  const { colors, toggleMode } = useColorMode();
+  const { colors, toggleMode, isMode } = useColorMode();
 
   return (
     <BulbContainer inline={inline} onClick={toggleMode}>
       <div>
-        <p>
-          {colors.mode === "dark" ? <VscLightbulbAutofix /> : <VscLightbulb />}
-        </p>
+        <p>{isMode("dark") ? <VscLightbulbAutofix /> : <VscLightbulb />}</p>
       </div>
     </BulbContainer>
   );
