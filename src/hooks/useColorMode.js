@@ -37,11 +37,12 @@ class ColorManager {
       const nextIndex =
         currentIndex + 1 >= this.modeNames.length ? 0 : currentIndex + 1;
 
-      mode = this.modes[this.modeNames[nextIndex]];
+      mode = this.modeNames[nextIndex];
     }
 
+    console.log("NEXT MDOE: ", mode, this.modes[mode]);
     this.mode = mode;
-    return this[mode];
+    return this.modes[mode];
   }
 }
 
@@ -50,7 +51,7 @@ export const colorsMgr = new ColorManager();
 export const ColorProvider = (props) => {
   const [colors, setColors] = useState(colorsMgr.modes[colorsMgr.mode]);
   const { Provider } = colorContext;
-  const toggleMode = (mode) => setColors(colorsMgr.retrieve(mode));
+  const toggleMode = (mode) => setColors(colorsMgr.nextMode(mode));
   const isMode = (mode) => colorsMgr.mode === mode;
   return (
     <Provider
