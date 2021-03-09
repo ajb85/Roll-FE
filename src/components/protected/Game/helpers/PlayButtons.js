@@ -31,11 +31,12 @@ function PlayButtons({ localState, endRound, isLoading }) {
         </button>
       ) : (
         <button
+          disabled={turns === 0}
           type="button"
           style={{ width: "50%" }}
           onClick={() => dispatch(rollTheDice(game_id, locked))}
         >
-          <p>RTD!</p>
+          <p>{turns > 0 ? "RTD!" : "Done!"}</p>
           {rtdDice.map((d, i) => (
             <Die
               style={{ animationDuration: "1.5s" }}
