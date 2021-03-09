@@ -39,13 +39,13 @@ const lightDieIconLookup = [
   GiInvertedDice6,
 ];
 
-export default function Die({ face, size = "medium", style }) {
+export default function Die({ face, size = "medium", style, ...props }) {
   const img = dieImageLookup[face] && (
     <img src={dieImageLookup[face]} alt={`${face} die`} />
   );
   const Icon = lightDieIconLookup[face];
   return (
-    <DieContainer size={size} style={style}>
+    <DieContainer size={size} style={style} {...props}>
       {img || (Icon && <Icon />) || <BiErrorAlt />}
     </DieContainer>
   );

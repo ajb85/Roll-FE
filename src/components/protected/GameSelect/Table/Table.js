@@ -23,6 +23,7 @@ function Table(props) {
     games: state.games.active,
     user_id: state.account.id,
   }));
+
   const [pagination, setPagination] = useState({
     limit: 5,
     offset: 0,
