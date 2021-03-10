@@ -57,7 +57,7 @@ table.menu {
 div.players {
   display: flex;
   overflow: hidden;
-  margin: $lh 0px $lh/2;
+  margin: 0px;
 
   p.label {
     margin-right: 5px;
@@ -69,7 +69,7 @@ div.players {
 
   p {
     font-size: 0.8rem;
-    line-height: $lh/2;
+    line-height: $lh;
     cursor: pointer;
   }
 
@@ -81,12 +81,7 @@ div.players {
 .dice {
   display: flex;
   justify-content: center;
-  margin: $lh auto;
-  // position: absolute;
-  // bottom: 10px;
-  // left: 0;
-  // right: 0;
-  // padding: 0 5px;
+  margin: $lh/2 auto;
 
   img {
     width: 19%;
