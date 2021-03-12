@@ -10,3 +10,7 @@ export const routeUser = (route) => {
   }
   history.push("/");
 };
+
+export const noFunc = () => {};
+
+export const noProp = (e) => e.stopPropagation;

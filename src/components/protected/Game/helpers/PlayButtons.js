@@ -34,6 +34,7 @@ function PlayButtons({ localState, endRound, isLoading }) {
           disabled={turns === 0}
           type="button"
           style={{ width: "50%" }}
+          className={turns === 0 ? "disabled" : ""}
           onClick={() => dispatch(rollTheDice(game_id, locked))}
         >
           <p>{turns > 0 ? "RTD!" : "Done!"}</p>

@@ -144,15 +144,10 @@ function Table(props) {
   return (
     <React.Fragment>
       {showPrompt && (
-        <Prompt
-          action={leave}
-          cancel={() => {
-            setShowPrompt(false);
-          }}
-        >
+        <Prompt action={leave} cancel={setShowPrompt.bind(this, false)}>
           {game.isActive
             ? "Are you sure you want to leave? You may not be able to rejoin."
-            : "Clear this game from your list?  (Wins and losses will still count.)"}
+            : "Clear this game from your list?"}
         </Prompt>
       )}
       <table className={styles.GameTable}>

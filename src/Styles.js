@@ -59,5 +59,26 @@ export const AppContainer = styled.div`
         color: ${(props) => props.colors.primary};
       }
     }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: initial;
+
+      &:hover {
+        background-color: ${(props) => props.colors.primary};
+        color: ${(props) => props.colors.secondary};
+        border: 1px solid ${(props) => props.colors.secondary};
+
+        p {
+          color: ${(props) => props.colors.secondary};
+          transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+        }
+
+        svg {
+          color: ${(props) => props.colors.secondary};
+          transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+        }
+      }
+    }
   }
 `;

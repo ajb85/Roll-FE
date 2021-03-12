@@ -1,32 +1,32 @@
-import React, { useReducer, useEffect } from 'react';
-import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React, { useReducer, useEffect } from "react";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
-import ScoreTable from './helpers/ScoreTable.js';
-import Dice from './helpers/Dice.js';
-import GameMenu from './helpers/GameMenu.js';
-import Players from './helpers/Players.js';
-import PlayButtons from './helpers/PlayButtons.js';
-import Prompt from 'components/UI/Prompt/';
-import LoadingDice from 'components/UI/LoadingDice/';
+import ScoreTable from "./helpers/ScoreTable.js";
+import Dice from "./helpers/Dice.js";
+import GameMenu from "./helpers/GameMenu.js";
+import Players from "./helpers/Players.js";
+import PlayButtons from "./helpers/PlayButtons.js";
+import Prompt from "components/UI/Prompt/";
+import LoadingDice from "components/UI/LoadingDice/";
 
-import { initialState, reducer } from './reducer/';
-import { submitScore } from 'reducers/games.js';
-import { showHeader, hideHeader } from 'reducers/app.js';
-import { populateAccount } from 'reducers/account.js';
-import history from 'history.js';
+import { initialState, reducer } from "./reducer/";
+import { submitScore } from "reducers/games.js";
+import { showHeader, hideHeader } from "reducers/app.js";
+import { populateAccount } from "reducers/account.js";
+import history from "history.js";
 
-import styles from './styles.module.scss';
+import styles from "./styles.module.scss";
 
 function Game(props) {
   const { user_id, gamesWereFetched, games, error, isLoading } = useSelector(
-    state => ({
+    (state) => ({
       user_id: state.account.id,
       gamesWereFetched: state.games.wereFetched,
       games: state.games.active,
       isLoading: state.app.isLoading,
-      error: state.app.errors.play
+      error: state.app.errors.play,
     })
   );
 
@@ -43,19 +43,19 @@ function Game(props) {
     if (!user_id) {
       dispatch(populateAccount());
     }
-    localDispatch({ type: 'SET_VIEW', payload: user_id });
+    localDispatch({ type: "SET_VIEW", payload: user_id });
   }, [user_id, dispatch, localDispatch]);
 
   useEffect(() => {
     if (games && games.length && user_id) {
       const payload = games.find(
-        g => parseInt(g.game_id, 10) === parseInt(game_id, 10)
+        (g) => parseInt(g.game_id, 10) === parseInt(game_id, 10)
       );
       if (payload && payload !== localState.game) {
         localDispatch({
-          type: 'UPDATE_GAME',
+          type: "UPDATE_GAME",
           payload,
-          user_id
+          user_id,
         });
       }
     }
@@ -66,23 +66,23 @@ function Game(props) {
     return () => dispatch(showHeader());
   }, [dispatch]);
 
-  const toggleSelected = e =>
+  const toggleSelected = (e) =>
     localDispatch({
-      type: 'TOGGLE_SELECTED',
-      payload: e.target.id
+      type: "TOGGLE_SELECTED",
+      payload: e.target.id,
     });
 
   const endRound = () => {
     dispatch(submitScore(localState.game.game_id, localState.selected));
-    localDispatch({ type: 'ROUND_RESET' });
+    localDispatch({ type: "ROUND_RESET" });
   };
 
   if (!gamesWereFetched) {
     // Loading state
     return (
-      <div style={{ paddingTop: '50px' }}>
+      <div style={{ paddingTop: "50px" }}>
         <LoadingDice />
-        <p style={{ textAlign: 'center', marginTop: '25px' }}>Loading Game</p>
+        <p style={{ textAlign: "center", marginTop: "25px" }}>Loading Game</p>
       </div>
     );
   }
@@ -92,7 +92,7 @@ function Game(props) {
     return (
       <>
         <p className={styles.error}>You are not in this game</p>
-        <p onClick={() => history.push('/')} className={styles.error}>
+        <p onClick={() => history.push("/")} className={styles.error}>
           Back To Lobby
         </p>
       </>
@@ -103,20 +103,24 @@ function Game(props) {
 
   const promptOn = () => {
     if (isOwner) {
-      localDispatch({ type: 'ENABLE_PROMPT' });
-      axios.get(`/games/invite/create/${localState.game.game_id}`).then(res => {
-        const { uuid } = res.data;
-        localDispatch({
-          type: 'UPDATE_LINK',
-          payload: `${window.location.protocol}//${window.location.host}/j/${uuid}`
+      localDispatch({ type: "ENABLE_PROMPT" });
+      axios
+        .get(`/games/invite/create/${localState.game.game_id}`)
+        .then((res) => {
+          if (res) {
+            const { uuid } = res.data;
+            localDispatch({
+              type: "UPDATE_LINK",
+              payload: `${window.location.protocol}//${window.location.host}/j/${uuid}`,
+            });
+          }
         });
-      });
     }
   };
 
   const togglePrompt = () => {
     if (localState.showPrompt) {
-      localDispatch({ type: 'PROMPT_OFF' });
+      localDispatch({ type: "PROMPT_OFF" });
     } else {
       promptOn();
     }
@@ -127,7 +131,7 @@ function Game(props) {
       {localState.showPrompt && (
         <Prompt
           copy={true}
-          cancel={() => localDispatch({ type: 'PROMPT_OFF' })}
+          cancel={() => localDispatch({ type: "PROMPT_OFF" })}
           textToCopy={localState.link}
         >
           Send this link to a friend, which will automatically enter them in the
@@ -147,8 +151,8 @@ function Game(props) {
       {localState.game.isActive > 0 && isViewingSelf && (
         // Dice hide when the game is complete
         <Dice
-          toggleLockOnDie={payload =>
-            localDispatch({ type: 'LOCK_DIE', payload })
+          toggleLockOnDie={(payload) =>
+            localDispatch({ type: "LOCK_DIE", payload })
           }
           localState={localState}
         />
