@@ -19,7 +19,7 @@ function Prompt(props) {
         <div>
           {copy ? (
             <CopyToClipboard text={props.textToCopy}>
-              <button>{confirmCopy || "Copy"}</button>
+              <button onClick={cancel}>{confirmCopy || "Copy"}</button>
             </CopyToClipboard>
           ) : (
             <button onClick={action}>{confirmCopy || "Yes"}</button>
