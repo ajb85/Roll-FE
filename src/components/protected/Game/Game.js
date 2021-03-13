@@ -130,12 +130,11 @@ function Game(props) {
     <div className={styles.Game}>
       {localState.showPrompt && (
         <Prompt
-          copy={true}
+          copy
           cancel={() => localDispatch({ type: "PROMPT_OFF" })}
           textToCopy={localState.link}
         >
-          Send this link to a friend, which will automatically enter them in the
-          game (bypassing the password):
+          Send this link to a friend to have them automatically join:
           <br />
           <br />
           {localState.link}
