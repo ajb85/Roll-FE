@@ -149,3 +149,11 @@ export const updateGame = (game_id, newData, context) => ({
   type: UPDATE_GAME,
   payload: { game_id, context, newData },
 });
+
+export const fetchGame = (game_id) => async (dispatch) => {
+  const game = await axios.get(`/games/user/fetch/${game_id}`);
+
+  if (game) {
+    dispatch({ type: NEW_GAME, payload: game.data });
+  }
+};
