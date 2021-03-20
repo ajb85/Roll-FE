@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../store.js";
-import Sockets from "sockets/";
+// import Sockets from "sockets/";
 import { success, failure } from "./responses.js";
 import { loading } from "../reducers/app.js";
 import { populateAccount } from "../reducers/account.js";
@@ -13,7 +13,7 @@ axios.interceptors.request.use((req) => {
   const token = state.account.token;
 
   if (token) {
-    Sockets.emit("identify", token);
+    // Sockets.emit("identify", token);
     req.headers.authorization = token;
     req.headers['x-api-key'] = process.env.REACT_APP_API_KEY;
   }

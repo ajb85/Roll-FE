@@ -12,7 +12,7 @@ const initialState = {
 const SET_TOKEN = "SET_TOKEN";
 const SET_ACCOUNT_INFO = "SET_ACCOUNT_INFO";
 
-export default (state = initialState, action) => {
+export default function accountReducer(state = initialState, action) {
   switch (action.type) {
     case SET_TOKEN:
       return { ...state, token: action.payload };

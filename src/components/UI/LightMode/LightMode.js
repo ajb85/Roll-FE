@@ -6,7 +6,7 @@ import useColorMode from "hooks/useColorMode.js";
 import { BulbContainer } from "./Styles.js";
 
 function LightMode({ inline }) {
-  const { colors, toggleMode, isMode } = useColorMode();
+  const { toggleMode, isMode } = useColorMode();
 
   return (
     <BulbContainer inline={inline} onClick={toggleMode}>

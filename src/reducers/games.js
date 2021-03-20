@@ -1,6 +1,6 @@
 import axios from "axios";
 import history from "history.js";
-import Sockets from "sockets/";
+// import Sockets from "sockets/";
 
 const initialState = {
   active: [],
@@ -16,7 +16,7 @@ const NEW_ROLL = "NEW_ROLL";
 const UPDATE_SCORE = "UPDATE_SCORE";
 const UPDATE_GAME = "UPDATE_GAME";
 
-export default (state = initialState, action) => {
+export default function gamesReducer(state = initialState, action) {
   switch (action.type) {
     case GETTING_GAMES:
       return { ...state, wereFetched: false };
@@ -91,7 +91,7 @@ export const getUsersGames = () => async (dispatch) => {
   if (userGames) {
     const { data: payload } = userGames;
     dispatch({ type: SET_GAMES, payload });
-    Sockets.joinList(payload.map(({ name }) => name));
+    // Sockets.joinList(payload.map(({ name }) => name));
   }
 };
 
@@ -101,7 +101,7 @@ export const createNewGame = (form) => async (dispatch) => {
   if (newGame) {
     const { data: payload } = newGame;
     dispatch({ type: NEW_GAME, payload });
-    Sockets.join(payload.name);
+    // Sockets.join(payload.name);
     history.push("/");
   }
 };
@@ -112,7 +112,7 @@ export const joinGame = (form) => async (dispatch) => {
   if (joined) {
     const { data: payload } = joined;
     dispatch({ type: NEW_GAME, payload });
-    Sockets.join(payload.name);
+    // Sockets.join(payload.name);
     history.push(`/game/play/${payload.game_id}`);
   }
 };

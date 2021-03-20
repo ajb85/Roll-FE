@@ -1,4 +1,4 @@
-export default (category, dice, userScore) => {
+export default function predictScore(category, dice, userScore) {
   if (!category || !dice) {
     return userScore;
   }

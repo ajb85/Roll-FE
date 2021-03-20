@@ -12,7 +12,7 @@ const CLEAR_ERRORS = 'CLEAR_ERRORS';
 const HIDE_HEADER = 'HIDE_HEADER';
 const SHOW_HEADER = 'SHOW_HEADER';
 
-export default (state = initialState, action) => {
+export default function appReducer(state = initialState, action) {
   switch (action.type) {
     case IS_FETCHING:
       return { ...state, isLoading: true };

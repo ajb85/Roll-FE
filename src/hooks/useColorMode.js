@@ -1,6 +1,4 @@
-import React, { useState, createContext, useContext, useCallback } from "react";
-
-import { isObject } from "js/utility.js";
+import React, { useState, createContext, useContext } from "react";
 
 const colorContext = createContext();
 
