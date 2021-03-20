@@ -23,7 +23,6 @@ export function failure(error) {
   store.dispatch(doneLoading());
 
   const { response: res } = error;
-  console.log('ERROR: ', res.data.message);
 
   handleError(error);
 
