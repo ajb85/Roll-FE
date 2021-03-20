@@ -1,12 +1,13 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch } from 'react-redux';
+import React from "react";
+import { useDispatch } from "react-redux";
 
-import LoadingDice from 'components/UI/LoadingDice/';
+import LoadingDice from "components/UI/LoadingDice/";
+import Die from "components/Die/";
 
-import { rollTheDice } from 'reducers/games.js';
+import { rollTheDice } from "reducers/games.js";
 
-import styles from '../styles.module.scss';
+import submitImage from "img/submit.png";
+import styles from "../styles.module.scss";
 
 function PlayButtons({ localState, endRound, isLoading }) {
   const { game, locked, selected, isTurn } = localState;
@@ -18,37 +19,38 @@ function PlayButtons({ localState, endRound, isLoading }) {
   const dispatch = useDispatch();
 
   const rtdDice = [];
-  const convert = { 1: 'one', 2: 'two', 3: 'three' };
   for (let i = 1; i <= turns; i++) {
     rtdDice.push(i);
   }
+
   return (
     <section className={styles.buttons}>
       {isLoading ? (
-        <button style={{ width: '50%' }} type='button'>
-          <LoadingDice fontSize='1.5rem' dice={[1, 2, 3, 4, 5]} />
+        <button style={{ width: "50%" }} type="button">
+          <LoadingDice fontSize="1.5rem" dice={[1, 2, 3, 4, 5]} />
         </button>
       ) : (
         <button
-          type='button'
-          style={{ width: '50%' }}
+          disabled={turns === 0}
+          type="button"
+          style={{ width: "50%" }}
+          className={turns === 0 ? "disabled" : ""}
           onClick={() => dispatch(rollTheDice(game_id, locked))}
         >
-          <p>RTD!</p>
+          <p>{turns > 0 ? "RTD!" : "Done!"}</p>
           {rtdDice.map((d, i) => (
-            <FontAwesomeIcon
-              style={{ animationDuration: '1.5s' }}
+            <Die
+              style={{ animationDuration: "1.5s" }}
               key={`${d} at ${i}`}
-              icon={['fal', `dice-${convert[d]}`]}
+              face={d}
+              size="small"
             />
           ))}
         </button>
       )}
       <img
-        onClick={() => {
-          endRound();
-        }}
-        src={require('../../../../img/submit.png')}
+        onClick={endRound}
+        src={submitImage}
         alt={`Submit turn`}
         style={{ opacity: selected && isTurn ? 1 : 0.5 }}
       />

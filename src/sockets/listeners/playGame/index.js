@@ -1,7 +1,7 @@
 import store from 'store.js';
 import { updateGame } from 'reducers/games.js';
 
-export default {
+const playGame = {
   turns: newData => {
     console.log('TURN TAKEN!');
     store.dispatch(updateGame(newData.game_id, newData));
@@ -10,3 +10,5 @@ export default {
     console.log('GAME ENDING: ', message);
   }
 };
+
+export default playGame

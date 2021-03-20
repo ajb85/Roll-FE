@@ -1,17 +1,10 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
 
-import styles from './styles.module.scss';
+import Die from "components/Die/";
 
-function LoadingDice({ fontSize = '1.2rem', dice = [1, 2, 3] }) {
-  const conversion = {
-    1: 'one',
-    2: 'two',
-    3: 'three',
-    4: 'four',
-    5: 'five',
-    6: 'six'
-  };
+import styles from "./styles.module.scss";
+
+function LoadingDice({ fontSize = "1.2rem", dice = [1, 2, 3] }) {
   return (
     <div className={styles.loadingDice}>
       {dice.map((d, i) => (
@@ -19,16 +12,17 @@ function LoadingDice({ fontSize = '1.2rem', dice = [1, 2, 3] }) {
           key={`${d} at ${i}`}
           style={{
             animationDelay: `${i * 0.5}s`,
-            animationDuration: `${dice.length / 2}s`
+            animationDuration: `${dice.length / 2}s`,
           }}
         >
-          <FontAwesomeIcon
-            style={{
+          <Die
+            innerStyle={{
               animationDelay: `${i * 0.5}s`,
               animationDuration: `${dice.length / 2}s`,
-              fontSize
+              fontSize,
             }}
-            icon={['fal', `dice-${conversion[d]}`]}
+            face={d}
+            size="small"
           />
         </div>
       ))}

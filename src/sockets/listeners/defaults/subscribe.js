@@ -1,4 +1,4 @@
-export default function(room, cb) {
+export default function subscribe(room, cb) {
   console.log('Subscribing to ', room);
 
   if (!cb && this.listeners[room]) {

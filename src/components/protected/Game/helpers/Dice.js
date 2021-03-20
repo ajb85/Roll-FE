@@ -1,6 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import styles from '../styles.module.scss';
+import Die from "components/Die/";
+
+import styles from "../styles.module.scss";
 
 function Dice({ localState, toggleLockOnDie }) {
   const { isTurn, locked, game } = localState;
@@ -8,20 +10,22 @@ function Dice({ localState, toggleLockOnDie }) {
     game && game.rolls && game.rolls.length
       ? game.rolls[game.rolls.length - 1]
       : [];
+  const hasDiceRolls = dice && dice.length;
 
   return (
     <section className={styles.dice}>
-      {dice && dice.length ? (
-        dice.map((_, i) => (
-          <img
-            key={i}
-            onClick={() => toggleLockOnDie(i)}
-            src={require(`../../../../img/${dice[i]}${
-              locked[i] ? 'l' : ''
-            }.png`)}
-            alt='die'
-          />
-        ))
+      {hasDiceRolls ? (
+        dice.map((dieFace, i) => {
+          const isLocked = locked[i];
+          return (
+            <Die
+              style={{ opacity: isLocked ? 0.5 : 1 }}
+              key={i}
+              onClick={toggleLockOnDie.bind(this, i)}
+              face={dieFace}
+            />
+          );
+        })
       ) : (
         <RollDice isTurn={isTurn} />
       )}
@@ -32,35 +36,30 @@ function Dice({ localState, toggleLockOnDie }) {
 function RollDice({ isTurn }) {
   return (
     <>
-      <img
+      <Die
         style={{ opacity: isTurn ? 1 : 0.5 }}
-        src={require('img/R.png')}
-        key={'R'}
-        alt='R die'
+        face="r"
+        // key={"R"}
       />
-      <img
+      <Die
         style={{ opacity: isTurn ? 1 : 0.5 }}
-        src={require('img/O.png')}
-        key={'O'}
-        alt='O die'
+        face="o"
+        // key={"O"}
       />
-      <img
+      <Die
         style={{ opacity: isTurn ? 1 : 0.5 }}
-        src={require('img/L.png')}
-        key={'L1'}
-        alt='L die'
+        face="l"
+        // key={"L1"}
       />
-      <img
+      <Die
         style={{ opacity: isTurn ? 1 : 0.5 }}
-        src={require('img/L.png')}
-        key={'L2'}
-        alt='L die'
+        face="l"
+        // key={"L2"}
       />
-      <img
+      <Die
         style={{ opacity: isTurn ? 1 : 0.5 }}
-        src={require('img/e.png')}
-        key={'!'}
-        alt='! die'
+        face="!"
+        // key={"!"}
       />
     </>
   );

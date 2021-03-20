@@ -1,17 +1,12 @@
-import io from 'socket.io-client';
-import listeners from './listeners/';
-import defaultListeners from './listeners/defaults/';
-import store from '../store.js';
+import io from "socket.io-client";
+import listeners from "./listeners/";
+import defaultListeners from "./listeners/defaults/";
+import store from "../store.js";
 
 class Socket {
   constructor() {
     this.io = io;
-    this.socket = this.io.connect(process.env.REACT_APP_API_URL, {
-      reconnection: true,
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
-      reconnectionAttempts: Infinity
-    });
+    this.socket = this.io(process.env.REACT_APP_API_URL);
 
     // App should immediately identify itself to the socket manager
     this._identify();
@@ -38,8 +33,8 @@ class Socket {
   }
 
   subscribeToGames(games) {
-    console.log('SUBSCRIBING TO: ', games);
-    return this.emit('joinGames', games);
+    console.log("SUBSCRIBING TO: ", games);
+    return this.emit("joinGames", games);
   }
 
   join(room) {
@@ -49,7 +44,7 @@ class Socket {
   }
 
   joinList(games) {
-    games.forEach(room => this.join(room));
+    games.forEach((room) => this.join(room));
   }
 
   _listen(room, cb, skipBESub) {
@@ -63,13 +58,13 @@ class Socket {
   }
 
   subscribeOnBE(room) {
-    this.socket.emit('subscribe', room);
+    this.socket.emit("subscribe", room);
   }
 
   _identify() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!this.identified && token) {
-      this.socket.emit('identify', token);
+      this.socket.emit("identify", token);
       this.identified = true;
     }
   }

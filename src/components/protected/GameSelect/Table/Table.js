@@ -1,32 +1,33 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import Prompt from 'components/UI/Prompt';
+import Prompt from "components/UI/Prompt";
 
-import { colorContext } from 'js/Colors.js';
-import { isUsersTurn } from 'js/rounds.js';
+import useColorMode from "hooks/useColorMode.js";
+import { isUsersTurn } from "js/rounds.js";
 
-import { getUsersGames, leaveGame } from 'reducers/games.js';
-import { populateAccount } from 'reducers/account.js';
+import { getUsersGames, leaveGame } from "reducers/games.js";
+import { populateAccount } from "reducers/account.js";
 
-import { Row } from './Styles.js';
-import styles from './styles.module.scss';
+import { Row } from "./Styles.js";
+import styles from "./styles.module.scss";
 
 function Table(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [game, setGame] = useState({});
-  const { colors } = useContext(colorContext);
-  const { games, user_id } = useSelector(state => ({
+  const { colors } = useColorMode();
+  const { games, user_id } = useSelector((state) => ({
     games: state.games.active,
-    user_id: state.account.id
+    user_id: state.account.id,
   }));
+
   const [pagination, setPagination] = useState({
     limit: 5,
     offset: 0,
-    max: games.length || 5
+    max: games.length || 5,
   });
 
   const [showPrompt, setShowPrompt] = useState(false);
@@ -42,7 +43,7 @@ function Table(props) {
   }, [dispatch, user_id]);
 
   useEffect(() => {
-    games.forEach(g => {
+    games.forEach((g) => {
       g.isUsersTurn = isUsersTurn(g.scores, user_id) ? 1 : 0;
       g.isActive = g.isActive ? 1 : 0;
     });
@@ -96,36 +97,36 @@ function Table(props) {
               isUsersTurn={g.isUsersTurn}
               isActive={g.isActive}
             >
-              <td onClick={goToGame} style={{ cursor: 'pointer' }}>
+              <td onClick={goToGame} style={{ cursor: "pointer" }}>
                 {g.name}
               </td>
-              <td onClick={goToGame} style={{ cursor: 'pointer' }}>
+              <td onClick={goToGame} style={{ cursor: "pointer" }}>
                 {g.playerCount}
               </td>
               <td
                 style={{
-                  color: g.isActive ? 'red' : 'green',
-                  cursor: 'pointer'
+                  color: g.isActive ? "red" : "green",
+                  cursor: "pointer",
                 }}
                 onClick={() => {
                   setGame(g);
                   setShowPrompt(true);
                 }}
               >
-                {g.isActive ? 'X' : '✓'}
+                {g.isActive ? "X" : "✓"}
               </td>
             </Row>
           ) : (
             <tr key={`No Game ${i}`}>
-              <td colSpan='3'></td>
+              <td colSpan="3"></td>
             </tr>
           )
         );
       }
     } else {
       rows.push(
-        <tr key='No Games' className={styles.noGames}>
-          <td className={styles.noGames} colSpan='3'>
+        <tr key="No Games" className={styles.noGames}>
+          <td className={styles.noGames} colSpan="3">
             <p>No games to display</p>
           </td>
         </tr>
@@ -143,15 +144,10 @@ function Table(props) {
   return (
     <React.Fragment>
       {showPrompt && (
-        <Prompt
-          action={leave}
-          cancel={() => {
-            setShowPrompt(false);
-          }}
-        >
+        <Prompt action={leave} cancel={setShowPrompt.bind(this, false)}>
           {game.isActive
-            ? 'Are you sure you want to leave? You may not be able to rejoin.'
-            : 'Clear this game from your list?  (Wins and losses will still count.)'}
+            ? "Are you sure you want to leave? You may not be able to rejoin."
+            : "Clear this game from your list?"}
         </Prompt>
       )}
       <table className={styles.GameTable}>
@@ -172,12 +168,12 @@ function Table(props) {
             pagination.offset > 0
               ? setPagination({
                   ...pagination,
-                  offset: pagination.offset - pagination.limit
+                  offset: pagination.offset - pagination.limit,
                 })
               : null
           }
         >
-          {games.length > 5 ? '< Prev Page' : ''}
+          {games.length > 5 ? "< Prev Page" : ""}
         </p>
         <p
           className={
@@ -189,12 +185,12 @@ function Table(props) {
             pagination.offset + pagination.limit <= pagination.max
               ? setPagination({
                   ...pagination,
-                  offset: pagination.offset + pagination.limit
+                  offset: pagination.offset + pagination.limit,
                 })
               : null
           }
         >
-          {games.length > 5 ? 'Next Page >' : ''}
+          {games.length > 5 ? "Next Page >" : ""}
         </p>
       </div>
     </React.Fragment>

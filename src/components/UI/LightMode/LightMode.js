@@ -1,19 +1,17 @@
-import React, { useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { VscLightbulbAutofix, VscLightbulb } from "react-icons/vsc";
 
-import { colorContext } from 'js/Colors.js';
+import useColorMode from "hooks/useColorMode.js";
 
-import { BulbContainer } from './Styles.js';
+import { BulbContainer } from "./Styles.js";
 
 function LightMode({ inline }) {
-  const { colors, switchMode } = useContext(colorContext);
+  const { toggleMode, isMode } = useColorMode();
 
   return (
-    <BulbContainer inline={inline} onClick={() => switchMode()}>
+    <BulbContainer inline={inline} onClick={toggleMode}>
       <div>
-        <FontAwesomeIcon
-          icon={colors.mode === 'dark' ? 'lightbulb-slash' : 'lightbulb-on'}
-        />
+        <p>{isMode("dark") ? <VscLightbulbAutofix /> : <VscLightbulb />}</p>
       </div>
     </BulbContainer>
   );

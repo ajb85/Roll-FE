@@ -1,4 +1,4 @@
-export default function() {
+export default function connect() {
   console.log('Connected to socket manager');
   if (!this.identified) {
     this._identify();

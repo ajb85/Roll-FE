@@ -1,23 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
 // Redux
-import { Provider } from 'react-redux';
-import store from './store.js';
+import { Provider } from "react-redux";
+import store from "./store.js";
 
 // Routing
-import { Router } from 'react-router-dom';
-import history from './history.js';
+import { Router } from "react-router-dom";
+import history from "./history.js";
 
 // Axios interceptors
-import './interceptors/';
+import "./interceptors/";
 
 // Providers
-import ColorProvider from 'js/Colors.js';
+import { ColorProvider } from "hooks/useColorMode.js";
 
-import App from './App.js';
-import 'SCSS/';
-import 'faLibrary.js';
+import App from "./App.js";
+import "SCSS/";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -27,5 +26,5 @@ ReactDOM.render(
       </ColorProvider>
     </Router>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
