@@ -1,8 +1,5 @@
 export default function connect() {
-  console.log('Connected to socket manager');
-  if (!this.identified) {
-    this._identify();
-  }
+  console.log("Connected to socket manager");
 
   if (Object.keys(this.subscribedTo).length) {
     // On a reconnection, the FE may be listening to things that
@@ -10,7 +7,7 @@ export default function connect() {
     // So if the FE thinks it's listening to anything, tell the BE to re-subscribe
     // to it
     for (let room in this.subscribedTo) {
-      this.emit('subscribe', room);
+      this.emit("subscribe", room);
     }
   }
 }

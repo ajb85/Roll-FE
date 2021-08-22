@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -31,6 +31,7 @@ function Table(props) {
   });
 
   const [showPrompt, setShowPrompt] = useState(false);
+  const hidePrompt = useCallback(() => setShowPrompt(false), [setShowPrompt]);
 
   useEffect(() => {
     dispatch(getUsersGames());
@@ -65,86 +66,23 @@ function Table(props) {
     }
   }, [games, pagination, setPagination]);
 
-  const getRows = () => {
-    const sorted = [...games].sort((a, b) =>
-      a.isActive < b.isActive
-        ? 1
-        : a.isActive > b.isActive
-        ? -1
-        : a.isUsersTurn === b.isUsersTurn
-        ? 0
-        : a.isUsersTurn < b.isUsersTurn
-        ? 1
-        : -1
-    );
-    const rows = [];
-    if (sorted.length) {
-      for (
-        let i = pagination.offset;
-        i < pagination.offset + pagination.limit;
-        i++
-      ) {
-        const g = i < sorted.length ? sorted[i] : null;
-        const goToGame = () => {
-          history.push(`/game/play/${g.game_id}`);
-        };
-
-        rows.push(
-          g ? (
-            <Row
-              key={g.game_id}
-              colors={colors}
-              isUsersTurn={g.isUsersTurn}
-              isActive={g.isActive}
-            >
-              <td onClick={goToGame} style={{ cursor: "pointer" }}>
-                {g.name}
-              </td>
-              <td onClick={goToGame} style={{ cursor: "pointer" }}>
-                {g.playerCount}
-              </td>
-              <td
-                style={{
-                  color: g.isActive ? "red" : "green",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  setGame(g);
-                  setShowPrompt(true);
-                }}
-              >
-                {g.isActive ? "X" : "✓"}
-              </td>
-            </Row>
-          ) : (
-            <tr key={`No Game ${i}`}>
-              <td colSpan="3"></td>
-            </tr>
-          )
-        );
-      }
-    } else {
-      rows.push(
-        <tr key="No Games" className={styles.noGames}>
-          <td className={styles.noGames} colSpan="3">
-            <p>No games to display</p>
-          </td>
-        </tr>
-      );
-    }
-    return rows;
-  };
-
   const leave = () => {
     dispatch(leaveGame(game.game_id));
     setShowPrompt(false);
     setGame({});
   };
 
+  const sorted = [...games].sort(sortGames);
+
+  const allRows = sorted.slice(
+    pagination.offset,
+    pagination.offset + pagination.limit
+  );
+
   return (
-    <React.Fragment>
+    <>
       {showPrompt && (
-        <Prompt action={leave} cancel={setShowPrompt.bind(this, false)}>
+        <Prompt action={leave} cancel={hidePrompt}>
           {game.isActive
             ? "Are you sure you want to leave? You may not be able to rejoin."
             : "Clear this game from your list?"}
@@ -158,7 +96,50 @@ function Table(props) {
             <th>Leave</th>
           </tr>
         </thead>
-        <tbody>{getRows()}</tbody>
+        <tbody>
+          {allRows.length ? (
+            allRows.reduce((acc, g) => {
+              const goToGame = () => {
+                history.push(`/game/play/${g.game_id}`);
+              };
+
+              acc.push(
+                <Row
+                  key={g.game_id}
+                  colors={colors}
+                  isUsersTurn={g.isUsersTurn}
+                  isActive={g.isActive}
+                >
+                  <td onClick={goToGame} style={{ cursor: "pointer" }}>
+                    {g.name}
+                  </td>
+                  <td onClick={goToGame} style={{ cursor: "pointer" }}>
+                    {g.playerCount}
+                  </td>
+                  <td
+                    style={{
+                      color: g.isActive ? "red" : "green",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setGame(g);
+                      setShowPrompt(true);
+                    }}
+                  >
+                    {g.isActive ? "X" : "✓"}
+                  </td>
+                </Row>
+              );
+              return acc;
+            }, [])
+          ) : (
+            <tr key="No Games" className={styles.noGames}>
+              <td className={styles.noGames} colSpan="3">
+                <p>No games to display</p>
+              </td>
+            </tr>
+          )}
+        </tbody>
       </table>
 
       <div className={styles.pagination}>
@@ -193,8 +174,20 @@ function Table(props) {
           {games.length > 5 ? "Next Page >" : ""}
         </p>
       </div>
-    </React.Fragment>
+    </>
   );
+}
+
+function sortGames(a, b) {
+  if (a.isActive !== b.isActive) {
+    return a.isActive < b.isActive ? 1 : -1;
+  }
+
+  if (a.isUsersTurn !== b.isUsersTurn) {
+    return a.isUsersTurn < b.isUsersTurn ? 1 : -1;
+  }
+
+  return 0;
 }
 
 export default Table;

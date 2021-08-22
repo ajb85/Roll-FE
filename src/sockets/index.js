@@ -1,4 +1,4 @@
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import listeners from "./listeners/";
 import defaultListeners from "./listeners/defaults/";
 import store from "../store.js";
@@ -6,29 +6,17 @@ import store from "../store.js";
 class Socket {
   constructor() {
     this.io = io;
-    this.socket = this.io(process.env.REACT_APP_API_URL);
 
-    // App should immediately identify itself to the socket manager
-    this._identify();
-
-    // Record of everything, beyond the default, that this socket is listening to
-    this.subscribedTo = {};
-
-    this.listeners = listeners;
-    this.redux = store;
-
-    defaultListeners.forEach(({ room, callback }) => {
-      // Turn on every listener that every instance of the app
-      // should have on
-      this._listen(room, callback, true);
-    });
-
-    // Track app status
+    if (!this._startSocket()) {
+      this.unsub = store.subscribe(() => {
+        if (this._startSocket()) {
+          this.unsub();
+        }
+      });
+    }
   }
 
   emit(room, data) {
-    this._identify();
-
     return this.socket.emit(room, data);
   }
 
@@ -61,15 +49,35 @@ class Socket {
     this.socket.emit("subscribe", room);
   }
 
-  _identify() {
-    const token = localStorage.getItem("token");
-    if (!this.identified && token) {
-      this.socket.emit("identify", token);
-      this.identified = true;
-    }
-  }
   _dispatch(action) {
     this.redux.dispatch(action);
+  }
+
+  _startSocket() {
+    const { token } = store.getState().account;
+
+    if (token) {
+      console.log("ESTABLISHING SOCKET");
+      this.socket = this.io(process.env.REACT_APP_API_URL, {
+        auth: { token },
+      });
+
+      // Record of everything, beyond the default, that this socket is listening to
+      this.subscribedTo = {};
+
+      this.listeners = listeners;
+      this.redux = store;
+
+      defaultListeners.forEach(({ room, callback }) => {
+        // Turn on every listener that every instance of the app
+        // should have on
+        this._listen(room, callback, true);
+      });
+    } else {
+      console.log("NO SOCKET");
+    }
+
+    return !!token;
   }
 }
 

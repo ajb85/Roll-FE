@@ -12,6 +12,7 @@ import styles from "./styles.module.scss";
 import { AppContainer } from "Styles.js";
 
 import useColorMode from "hooks/useColorMode.js";
+import sockets from "sockets/";
 
 function App(props) {
   const { colors } = useColorMode();

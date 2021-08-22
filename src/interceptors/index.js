@@ -13,9 +13,8 @@ axios.interceptors.request.use((req) => {
   const token = state.account.token;
 
   if (token) {
-    // Sockets.emit("identify", token);
     req.headers.authorization = token;
-    req.headers['x-api-key'] = process.env.REACT_APP_API_KEY;
+    req.headers["x-api-key"] = process.env.REACT_APP_API_KEY;
   }
 
   if (!state.account.id && !(req.url === "/auth" && req.method === "get")) {

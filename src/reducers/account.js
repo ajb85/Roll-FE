@@ -21,7 +21,7 @@ export default function accountReducer(state = initialState, action) {
     default:
       return state;
   }
-};
+}
 
 export const authAccount = (form) => async (dispatch) => {
   const accountInfo = await axios.post("/auth", form);
@@ -39,7 +39,6 @@ export const setToken = (payload) => {
 
 export const populateAccount = () => (dispatch) => {
   axios.get("/auth").then((res) => {
-    console.log("AUTH RES: ", res);
     res &&
       dispatch({ type: SET_ACCOUNT_INFO, payload: res ? res.data : undefined });
   });

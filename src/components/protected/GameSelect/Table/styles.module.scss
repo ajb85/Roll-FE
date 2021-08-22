@@ -1,4 +1,4 @@
-@import 'SCSS/variables.scss';
+@import "SCSS/variables.scss";
 
 .GameTable {
   padding: 0 15px;
@@ -7,9 +7,16 @@
   line-height: $lh;
   min-height: 280px;
 
-  thead > tr {
-    border-width: 0 0 2px;
-    border-style: solid;
+  thead {
+    height: 62.5px;
+    & > tr {
+      border-width: 0 0 2px;
+      border-style: solid;
+    }
+  }
+
+  tbody {
+    height: 375px;
   }
 
   tr {
