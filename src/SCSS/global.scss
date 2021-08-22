@@ -1,20 +1,16 @@
-@import './variables.scss';
+@import "./variables.scss";
+
 * {
   box-sizing: border-box;
   font-size: 62.5%;
   font-family: $mainFont;
 }
+
 table,
 tr,
 th,
 td {
   font-family: $mainFont;
-}
-h1 {
-  font-family: $titleFont;
-  font-size: 5rem;
-  text-align: center;
-  padding: $lh 0;
 }
 
 p,

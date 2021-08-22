@@ -1,4 +1,4 @@
-import { useProviderState } from "../providers/ColorProvider";
+import { useProviderState } from "../providers/ScreenSizeProvider";
 
 export default function useColorMode() {
   return useProviderState();

@@ -61,3 +61,22 @@
     transform: translateY(0px);
   }
 }
+
+@mixin UnderlineOnHover {
+  &::after {
+    transition: width 0.1s;
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    content: "";
+    position: relative;
+    top: 2px;
+  }
+
+  &:hover {
+    &::after {
+      width: 100%;
+    }
+  }
+}

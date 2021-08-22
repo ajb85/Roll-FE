@@ -1,12 +1,10 @@
-import React from 'react';
-import Table from './Table/';
-import Buttons from './Buttons/';
+import React from "react";
+import Table from "./Table/";
 
 function GameSelect(props) {
   return (
     <div>
       <Table />
-      <Buttons />
     </div>
   );
 }

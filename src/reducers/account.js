@@ -14,10 +14,14 @@ const SET_ACCOUNT_INFO = "SET_ACCOUNT_INFO";
 
 export default function accountReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_TOKEN:
-      return { ...state, token: action.payload };
-    case SET_ACCOUNT_INFO:
+    case SET_TOKEN: {
+      return action.payload
+        ? { ...state, token: action.payload }
+        : initialState;
+    }
+    case SET_ACCOUNT_INFO: {
       return { ...state, ...action.payload };
+    }
     default:
       return state;
   }
@@ -35,6 +39,10 @@ export const setToken = (payload) => {
     ? localStorage.setItem("token", payload)
     : localStorage.removeItem("token");
   return { type: SET_TOKEN, payload };
+};
+
+export const logout = () => (dispatch) => {
+  dispatch(setToken());
 };
 
 export const populateAccount = () => (dispatch) => {

@@ -1,19 +1,7 @@
-@import 'SCSS/variables.scss';
+@import "SCSS/variables.scss";
 
 .App {
-  max-width: 500px;
   margin: 0 auto;
-
-  @media #{$min} {
-    max-width: 340px;
-  }
-
-  h1 {
-    @media #{$smHeight} {
-      font-size: 3.5rem;
-      padding: $lh/2 0;
-    }
-  }
 }
 
 .logout {

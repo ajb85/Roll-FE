@@ -13,7 +13,7 @@ import history from "./history.js";
 import "./interceptors/";
 
 // Providers
-import { ColorProvider } from "hooks/useColorMode.js";
+import Providers from "providers/";
 
 import App from "./App.js";
 import "SCSS/";
@@ -21,9 +21,9 @@ import "SCSS/";
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <ColorProvider>
+      <Providers>
         <App />
-      </ColorProvider>
+      </Providers>
     </Router>
   </Provider>,
   document.getElementById("root")

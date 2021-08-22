@@ -1,14 +1,16 @@
-@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Alfa+Slab+One&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+
 // Font
-$titleFont: 'Alfa Slab One', cursive;
-$mainFont: 'Montserrat', sans-serif;
+$titleFont: "Alfa Slab One", cursive;
+$mainFont: "Montserrat", sans-serif;
 
 // Line height
-$lh: 25px;
+$lh: 10px;
 
 // Media
-$tablet: '(min-width: 500px)';
-$min: '(max-width: 500px)';
-$smHeight: '(max-height: 700px)';
+$max: 1500px;
+$tablet: "(min-width: 501px)";
+$min: "(max-width: 500px)";
+$smHeight: "(max-height: 700px)";
