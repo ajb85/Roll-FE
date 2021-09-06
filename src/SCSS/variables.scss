@@ -2,6 +2,15 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
+:root {
+  --primary: #191919;
+  --secondary: #e3e2e2;
+  --highlight: #e5adaa;
+  --accent: #474714;
+  --brightAccent: #ffff00;
+  --error: #e5adaa;
+}
+
 // Font
 $titleFont: "Alfa Slab One", cursive;
 $mainFont: "Montserrat", sans-serif;

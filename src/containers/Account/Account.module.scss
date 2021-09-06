@@ -1,0 +1,54 @@
+@import "SCSS/variables.scss";
+
+.Account {
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+
+  .buttons {
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: $lh auto;
+    width: 423px;
+
+    p {
+      line-height: $lh;
+      &:first-of-type {
+        margin: 2 * $lh 0 0;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  form {
+    // min-width: 500px;
+    width: 100%;
+    max-width: 500px;
+
+    @media #{$min} {
+      max-width: 340px;
+    }
+  }
+}
+
+.container {
+  max-width: 500px;
+  overflow: hidden;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media #{$min} {
+    max-width: 340px;
+  }
+}
+
+.link {
+  text-align: center;
+}

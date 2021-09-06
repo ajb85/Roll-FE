@@ -1,0 +1,99 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+  max-width: 500px;
+  margin: $lh * 6 auto;
+
+  h2 {
+    margin: 0 auto;
+    font-size: 2rem;
+    line-height: $lh * 2;
+    font-family: $mainFont;
+    margin-bottom: $lh * 2;
+  }
+
+  & > div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    & > div {
+      @media #{$min} {
+        max-width: 310px;
+
+        button {
+          max-width: 340px;
+        }
+      }
+    }
+
+    &.fContainer {
+      width: 100%;
+      padding: $lh/2 0;
+    }
+
+    label {
+      width: 30%;
+      text-align: right;
+      line-height: $lh;
+      font-size: 1.2rem;
+    }
+
+    input {
+      @include Input;
+    }
+  }
+
+  & > div.formInput {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 470px;
+
+    p:first-of-type {
+      margin: $lh/2 0;
+    }
+
+    @media #{$min} {
+      max-width: 310px;
+    }
+
+    p {
+      text-align: center;
+      line-height: $lh;
+      font-size: 18px;
+    }
+
+    input {
+      @include Input;
+      width: 100%;
+    }
+  }
+
+  & > div.buttons {
+    p {
+      line-height: $lh;
+      display: flex;
+      margin: auto;
+    }
+
+    button.primary {
+      @include Button;
+      max-width: none;
+      border-radius: 0;
+
+      &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      @media #{$min} {
+        width: 90%;
+      }
+    }
+  }
+}

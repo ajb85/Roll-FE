@@ -6,6 +6,10 @@
   font-family: $mainFont;
 }
 
+body {
+  min-width: 360px;
+}
+
 table,
 tr,
 th,
@@ -14,8 +18,19 @@ td {
 }
 
 p,
+a,
 span,
 input,
 button {
+  line-height: $lh * 3;
+  margin: $lh / 2 0;
   font-family: $mainFont;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

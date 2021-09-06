@@ -2,7 +2,8 @@
 @import "SCSS/mixins.scss";
 
 .header {
-  width: 100vw;
+  width: 100%;
+  margin-bottom: $lh * 2;
 
   & > div {
     max-width: 1500px;
@@ -15,6 +16,7 @@
     h1 {
       font-family: $titleFont;
       font-size: 2rem;
+      cursor: pointer;
 
       @media #{$smHeight} {
         font-size: 3.5rem;
@@ -36,6 +38,12 @@
     p {
       cursor: pointer;
       @include UnderlineOnHover;
+
+      &.active {
+        &::after {
+          width: 100%;
+        }
+      }
     }
 
     nav {
@@ -46,7 +54,7 @@
         align-items: center;
 
         &:not(:first-child) {
-          margin-left: $lh;
+          margin-left: $lh * 2;
         }
       }
     }

@@ -1,0 +1,98 @@
+@import "SCSS/variables.scss";
+
+.GameTable {
+  padding: 0 15px;
+  width: 90%;
+  margin: 0 auto;
+  line-height: $lh;
+  min-height: 280px;
+
+  thead {
+    display: block;
+    margin-bottom: $lh;
+
+    & > tr {
+      border-width: 0 0 2px;
+      border-style: solid;
+      margin: 0 0 $lh/2;
+
+      th {
+        font-weight: 800;
+      }
+    }
+  }
+
+  tbody {
+    height: 375px;
+  }
+
+  tr:not(.noGames) {
+    display: flex;
+    align-items: center;
+    height: $lh * 2;
+    margin: $lh 0;
+    padding: $lh * 1.5;
+
+    &:not(.headerRow) {
+      cursor: pointer;
+
+      & > td.active {
+        color: red;
+      }
+
+      & > td.completed {
+        color: green;
+      }
+    }
+
+    @media #{$smHeight} {
+      height: $lh;
+    }
+
+    td,
+    th {
+      height: $lh * 2;
+      padding: $lh/2 0;
+
+      &:first-of-type {
+        text-align: left;
+        width: 100%;
+      }
+
+      &:nth-of-type(2) {
+        width: 25%;
+        text-align: center;
+      }
+
+      &:nth-of-type(3) {
+        text-align: center;
+        width: 25%;
+        max-width: 100px;
+      }
+      &:last-of-type {
+        width: 25%;
+        max-width: 50px;
+        text-align: center;
+      }
+    }
+  }
+
+  tfoot {
+    height: 100%;
+  }
+}
+
+tr.noGames {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 313px;
+  margin: 0px;
+
+  td {
+    padding: $lh / 2 0;
+    p {
+      text-align: center;
+    }
+  }
+}

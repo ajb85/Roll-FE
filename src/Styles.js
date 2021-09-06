@@ -6,6 +6,7 @@ export const AppContainer = styled.div`
   transition: background-color 0.5s, color 0.5s, border-color 0.5s;
 
   p,
+  a,
   span,
   input,
   h1,
@@ -19,6 +20,7 @@ export const AppContainer = styled.div`
   }
 
   p,
+  a,
   span,
   input,
   h1,

@@ -1,0 +1,57 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+.shadow {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.content {
+  max-width: 450px;
+  position: absolute;
+  z-index: 5;
+  top: 30%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 20px;
+  padding: $lh * 2;
+
+  & > div:first-of-type {
+    text-align: center;
+    line-height: $lh * 3;
+    font-size: 1.5rem;
+    margin-bottom: $lh * 2;
+    color: black;
+
+    & > * {
+      color: var(--primary) !important;
+      font-family: $mainFont;
+    }
+  }
+
+  div:last-of-type {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      @include Button(var(--primary));
+      margin-bottom: $lh;
+      font-size: 1.2rem;
+
+      &:first-of-type {
+        margin-right: 1px;
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    }
+  }
+}
