@@ -1,12 +1,15 @@
 import React, { Fragment } from "react";
 
 import useColorMode from "hooks/useColorMode.js";
+import { combineClasses } from "js/utility";
 
 import styles from "./Game.module.scss";
 
-function Players({ scores, viewPlayer }) {
+function Players({ game, viewPlayer, viewingPlayer }) {
   const { colors } = useColorMode();
-  const users = Object.entries(scores).map(mapUserToScore).sort(sortByGrandTotal);
+
+  const { scores, currentRound, highScore } = game;
+  const users = Object.entries(scores).map(mapUserToScore).sort(sortByRoundThenTotal);
 
   return (
     <div className={styles.players}>
@@ -17,9 +20,11 @@ function Players({ scores, viewPlayer }) {
             <p
               data-player={u.id}
               onClick={viewPlayer}
-              style={{
-                color: i === 0 || u.grandTotal === users[0].grandTotal ? colors.highlight : null,
-              }}
+              className={combineClasses(
+                u.grandTotal >= highScore && styles.highlight,
+                viewingPlayer === u.id && styles.underline,
+                u.round > currentRound && styles.greyOut
+              )}
             >
               {u.username} ({u.round}-{u.grandTotal || 0})
             </p>
@@ -33,8 +38,12 @@ function Players({ scores, viewPlayer }) {
 
 export default React.memo(Players);
 
-function sortByGrandTotal(a, b) {
-  return a.grandTotal === b.grandTotal ? 0 : a.grandTotal > b.grandTotal ? -1 : 1;
+function sortByRoundThenTotal(a, b) {
+  if (a.round !== b.round) {
+    return a.round < b.round ? -1 : 1;
+  }
+
+  return a.grandTotal < b.grandTotal ? 1 : -1;
 }
 
 function mapUserToScore([id, userScore]) {

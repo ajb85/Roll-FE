@@ -14,7 +14,6 @@ import FetchActiveGame from "components/Fetchers/ActiveGame.js";
 import { useColorMode, useToken } from "hooks/";
 import { combineClasses } from "js/utility";
 
-import { AppContainer } from "Styles.js";
 import styles from "./styles.module.scss";
 
 export default function App(props) {
@@ -23,67 +22,63 @@ export default function App(props) {
 
   if (token && !tokenIsValidated) {
     return (
-      <AppContainer colors={colors}>
-        <div className={combineClasses(styles.LoadingApp, styles.App)}>
-          <LoadingDice />
-          <p>Verifying Account</p>
-        </div>
-      </AppContainer>
+      <div className={combineClasses(styles.LoadingApp, styles.App)}>
+        <LoadingDice />
+        <p>Verifying Account</p>
+      </div>
     );
   }
 
   return (
-    <AppContainer colors={colors}>
-      <div className={styles.App}>
-        <Header />
-        <Switch>
-          {!token && (
-            <Route path="/register">
-              <Account />
-            </Route>
-          )}
-
-          {!token && (
-            <Route path="/login">
-              <Account />
-            </Route>
-          )}
-
-          {token && (
-            <Route path="/game/create">
-              <NewGame />
-            </Route>
-          )}
-
-          {token && (
-            <Route path="/game/join">
-              <NewGame />
-            </Route>
-          )}
-
-          {token && (
-            <Route path="/" exact>
-              <GameList />
-            </Route>
-          )}
-
-          {token && (
-            <Route path="/game/play/:game_id">
-              <FetchActiveGame />
-              <PlayGame />
-            </Route>
-          )}
-
-          <Route path="/j/:uuid">
-            <JoinFromLink />
-            {!token && <Redirect to="/register" />}
+    <div className={styles.App}>
+      <Header />
+      <Switch>
+        {!token && (
+          <Route path="/register">
+            <Account />
           </Route>
+        )}
 
-          <Route path="/">
-            <Redirect to={token ? "/" : "/login"} />
+        {!token && (
+          <Route path="/login">
+            <Account />
           </Route>
-        </Switch>
-      </div>
-    </AppContainer>
+        )}
+
+        {token && (
+          <Route path="/game/create">
+            <NewGame />
+          </Route>
+        )}
+
+        {token && (
+          <Route path="/game/join">
+            <NewGame />
+          </Route>
+        )}
+
+        {token && (
+          <Route path="/" exact>
+            <GameList />
+          </Route>
+        )}
+
+        {token && (
+          <Route path="/game/play/:game_id">
+            <FetchActiveGame />
+            <PlayGame />
+          </Route>
+        )}
+
+        <Route path="/j/:uuid">
+          <JoinFromLink />
+          {!token && <Redirect to="/register" />}
+        </Route>
+
+        <Route path="/">
+          <Redirect to={token ? "/" : "/login"} />
+        </Route>
+      </Switch>
+    </div>
   );
 }

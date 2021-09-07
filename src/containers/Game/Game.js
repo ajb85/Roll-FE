@@ -125,7 +125,7 @@ export default function Game(props) {
         </Prompt>
       )}
       <GameMenu game={activeGame} promptOn={promptOn} isOwner={isOwner} />
-      <Players scores={activeGame.scores} viewPlayer={viewPlayer} />
+      <Players game={activeGame} viewPlayer={viewPlayer} viewingPlayer={viewingPlayer} />
       <ScoreTable
         game={activeGame}
         viewingPlayer={viewingPlayer}

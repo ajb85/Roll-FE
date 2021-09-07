@@ -23,11 +23,11 @@ export default function Form(props) {
         {props.secondaryButton && (
           <FormButton
             {...props.secondaryButton}
-            className={styles.secondary}
+            className={styles.secondaryButton}
             type={props.secondaryButton.type || "button"}
           />
         )}
-        {props.primaryButton && <FormButton {...props.primaryButton} className={styles.primary} />}
+        {props.primaryButton && <FormButton {...props.primaryButton} />}
       </div>
     </form>
   );

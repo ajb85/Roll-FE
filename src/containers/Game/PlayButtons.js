@@ -18,6 +18,7 @@ function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }
     rtdDice.push(i);
   }
 
+  const rtdDisabled = !isUsersTurn || turns === 0;
   return (
     <section className={styles.buttons}>
       {isLoading ? (
@@ -26,10 +27,10 @@ function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }
         </button>
       ) : (
         <button
-          disabled={turns === 0}
+          disabled={rtdDisabled}
           type="button"
           style={{ width: "50%" }}
-          className={turns === 0 ? "disabled" : ""}
+          className={rtdDisabled ? styles.disabled : ""}
           onClick={() => rollTheDice(game_id, lockedDice)}
         >
           <p>{turns > 0 ? "RTD!" : "Done!"}</p>
@@ -41,7 +42,7 @@ function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }
       <img
         onClick={endRound}
         src={submitImage}
-        alt={`Submit turn`}
+        alt="Submit Turn"
         style={{ opacity: selectedCategory && isUsersTurn ? 1 : 0.5 }}
       />
     </section>

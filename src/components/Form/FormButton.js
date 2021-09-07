@@ -7,7 +7,7 @@ export default function FormButton(props) {
 
   return (
     <button
-      className={combineClasses(styles.primary, disabled && styles.disabled, className)}
+      className={combineClasses(disabled && styles.disabled, className)}
       disabled={disabled}
       onClick={onClick}
       type={type || "submit"}

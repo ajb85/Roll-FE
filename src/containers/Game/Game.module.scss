@@ -69,12 +69,21 @@ div.players {
 
   p {
     font-size: 0.8rem;
-    line-height: $lh * 2;
+    line-height: $lh * 3;
     cursor: pointer;
+
+    &.underline {
+      text-decoration: underline;
+    }
+
+    &.greyOut {
+      opacity: 0.8;
+    }
   }
 
   span {
     margin-right: 5px;
+    line-height: $lh * 3;
   }
 }
 

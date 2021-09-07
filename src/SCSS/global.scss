@@ -8,6 +8,10 @@
 
 body {
   min-width: 360px;
+
+  background-color: var(--primary);
+  height: 100vh;
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s;
 }
 
 table,
@@ -32,5 +36,63 @@ a {
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+p,
+a,
+span,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+tr,
+div {
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+}
+
+p,
+a,
+span,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+div {
+  color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+button {
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+  background-color: var(--primary);
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
+
+  p {
+    color: var(--secondary);
+    transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+  }
+
+  svg {
+    color: var(--secondary);
+    transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+  }
+
+  &:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+
+    p {
+      color: var(--primary);
+    }
+
+    svg {
+      color: var(--primary);
+    }
   }
 }

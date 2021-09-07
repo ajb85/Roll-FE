@@ -11,6 +11,58 @@
   --error: #e5adaa;
 }
 
+.primary {
+  color: var(--primary) !important;
+}
+
+.secondary {
+  color: var(--secondary) !important;
+}
+
+.highlight {
+  color: var(--highlight) !important;
+}
+
+.accent {
+  color: var(--accent) !important;
+}
+
+.brightAccent {
+  color: var(--brightAccent) !important;
+}
+
+.error {
+  color: var(--error) !important;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+button.disabled {
+  &.disabled {
+    opacity: 0.5;
+    cursor: initial;
+    pointer-events: none;
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--secondary);
+      border: 1px solid var(--secondary);
+
+      p {
+        color: var(--secondary);
+        transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+      }
+
+      svg {
+        color: var(--secondary);
+        transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+      }
+    }
+  }
+}
+
 // Font
 $titleFont: "Alfa Slab One", cursive;
 $mainFont: "Montserrat", sans-serif;
