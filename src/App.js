@@ -6,18 +6,17 @@ import PlayGame from "containers/Game/";
 import JoinFromLink from "containers/JoinFromLink";
 import NewGame from "containers/NewGame/";
 import GameList from "containers/GameList/";
-import LoadingDice from "components/LoadingDice/LoadingDice";
+import LoadingDice from "components/LoadingDice/";
 
 import Header from "components/Header";
 import FetchActiveGame from "components/Fetchers/ActiveGame.js";
 
-import { useColorMode, useToken } from "hooks/";
+import { useToken } from "hooks/";
 import { combineClasses } from "js/utility";
 
 import styles from "./styles.module.scss";
 
 export default function App(props) {
-  const { colors } = useColorMode();
   const { token, tokenIsValidated } = useToken();
 
   if (token && !tokenIsValidated) {
