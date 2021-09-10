@@ -4,13 +4,12 @@ import { GiRollingDices } from "react-icons/gi";
 import { FiSettings } from "react-icons/fi";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { useScreenSize, useColorMode } from "hooks/";
-import { goHome, hexToRGBA } from "js/utility.js";
+import { useScreenSize } from "hooks/";
+import { goHome } from "js/utility.js";
 
 import styles from "./Header.module.scss";
 
 export default function Header(props) {
-  const { colors } = useColorMode();
   const { isDesktop } = useScreenSize();
   const { pathname } = useLocation();
   const history = useHistory();
@@ -24,10 +23,7 @@ export default function Header(props) {
   }, [history]);
 
   return (
-    <header
-      className={styles.header}
-      style={{ boxShadow: `0px 0px 10px 2px ${hexToRGBA(colors.secondary, 0.2)}` }}
-    >
+    <header className={styles.header}>
       <div>
         <h1 onClick={goHome}>Roll!</h1>
         <nav>
