@@ -26,7 +26,7 @@ import styles from "./Game.module.scss";
 export default function Game(props) {
   const { game_id } = useParams();
   const { user_id } = useAccount();
-  const { isMobile, isDesktop } = useScreenSize();
+  const { isDesktop } = useScreenSize();
   const { gamesLookup, submitScore, gamesAreLoading: isLoading } = useGames();
   const { lockedDice, toggleLockOnDie, resetLockedDice } = useLockedDice();
   const { isViewingSelf, setViewingPlayer } = useViewingPlayer();
