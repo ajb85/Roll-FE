@@ -34,8 +34,10 @@ export function GamesProvider(props) {
     const newGame = await axios.post(url, gameInfo);
     if (newGame) {
       setGames([...games, newGame]);
-      history.push(`/game/play/${newGame.game_id}`);
+      setTimeout(() => history.push(`/game/play/${newGame.game_id}`));
+      return true;
     }
+    return false;
   };
 
   const leaveGame = async (game_id) => {
