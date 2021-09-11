@@ -134,11 +134,11 @@ export default function Game(props) {
         menu={menu}
         toggleMenu={toggleMenu}
       />
-      <div className={isMobile ? styles.noFlex : styles.flex}>
+      <div className={isDesktop ? styles.flex : styles.noFlex}>
         {(isDesktop || menu === "players") && <PlayerList game={activeGame} />}
         {(isDesktop || menu === "game") && (
           <div
-            className={combineClasses(styles.tableWrapper, isMobile && styles.mobileTableWrapper)}
+            className={combineClasses(styles.tableWrapper, !isDesktop && styles.mobileTableWrapper)}
           >
             <GameTable
               game={activeGame}
