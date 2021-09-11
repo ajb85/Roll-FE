@@ -1,20 +1,19 @@
 import React, { Fragment } from "react";
 
-import useColorMode from "hooks/useColorMode.js";
 import { combineClasses } from "js/utility";
+import { useScreenSize } from "hooks";
 
 import styles from "./Game.module.scss";
 
 function Players({ game, viewPlayer, viewingPlayer }) {
-  const { colors } = useColorMode();
-
   const { scores, currentRound, highScore } = game;
-  const users = Object.entries(scores).map(mapUserToScore).sort(sortByRoundThenTotal);
+  const { isMobile } = useScreenSize();
+  const users = Object.entries(scores).map(mapUserToScore).sort(sortByTotal);
 
   return (
-    <div className={styles.players}>
-      <p className={styles.label}>Players:</p>
-      <div>
+    <div className={isMobile ? styles.playersMobile : styles.players}>
+      <p className={styles.label}>Players{isMobile ? ":" : ""}</p>
+      <div className={isMobile ? styles.noFlex : styles.flexColumn}>
         {users.map((u, i) => (
           <Fragment key={u.id}>
             <p
@@ -22,13 +21,13 @@ function Players({ game, viewPlayer, viewingPlayer }) {
               onClick={viewPlayer}
               className={combineClasses(
                 u.grandTotal >= highScore && styles.highlight,
-                viewingPlayer === u.id && styles.underline,
+                viewingPlayer === u.id && styles.viewing,
                 u.round > currentRound && styles.greyOut
               )}
             >
               {u.username} ({u.round}-{u.grandTotal || 0})
             </p>
-            {i < users.length - 1 && <span>,</span>}
+            {isMobile && i < users.length - 1 && <span>,</span>}
           </Fragment>
         ))}
       </div>
@@ -38,7 +37,7 @@ function Players({ game, viewPlayer, viewingPlayer }) {
 
 export default React.memo(Players);
 
-function sortByRoundThenTotal(a, b) {
+function sortByTotal(a, b) {
   if (a.round !== b.round) {
     return a.round < b.round ? -1 : 1;
   }
