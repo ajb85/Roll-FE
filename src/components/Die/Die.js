@@ -18,7 +18,8 @@ import oDie from "img/O.png";
 import lDie from "img/L.png";
 import exclaimDie from "img/e.png";
 
-import { DieContainer } from "./Styles.js";
+import { combineClasses } from "js/utility.js";
+import styles from "./Die.module.scss";
 
 const dieImageLookup = {
   r: rDie,
@@ -39,19 +40,23 @@ const lightDieIconLookup = [
   GiInvertedDice6,
 ];
 
-export default function Die({ face, size = "medium", style = {}, innerStyle = {}, ...props }) {
+export default function Die(props) {
+  const { face, size = "medium", style = {}, innerStyle = {} } = props;
+
   const img = dieImageLookup[face] && (
     <img style={innerStyle} src={dieImageLookup[face]} alt={`${face} die`} />
   );
+
   const Icon = lightDieIconLookup[face];
+
   return (
-    <DieContainer
+    <div
       data-index={props.index === undefined ? "none" : props.index}
-      size={size}
+      className={combineClasses(styles.die, styles[size] || styles.small)}
       style={style}
       {...props}
     >
       {img || (Icon && <Icon style={innerStyle} />) || <BiErrorAlt />}
-    </DieContainer>
+    </div>
   );
 }
