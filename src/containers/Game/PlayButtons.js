@@ -5,7 +5,7 @@ import Die from "components/Die/";
 
 import { useGames } from "hooks/";
 
-import submitImage from "img/submit.png";
+import { noFunc } from "js/utility";
 import styles from "./Game.module.scss";
 
 function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }) {
@@ -27,10 +27,9 @@ function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }
         </button>
       ) : (
         <button
+          className={rtdDisabled ? styles.disabled : ""}
           disabled={rtdDisabled}
           type="button"
-          style={{ width: "50%" }}
-          className={rtdDisabled ? styles.disabled : ""}
           onClick={() => rollTheDice(game_id, lockedDice)}
         >
           <p>{turns > 0 ? "RTD!" : "Done!"}</p>
@@ -39,12 +38,12 @@ function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }
           ))}
         </button>
       )}
-      <img
-        onClick={endRound}
-        src={submitImage}
-        alt="Submit Turn"
-        style={{ opacity: selectedCategory && isUsersTurn ? 1 : 0.5 }}
-      />
+      <button
+        className={!selectedCategory || !isUsersTurn ? styles.disabled : ""}
+        onClick={!selectedCategory || !isUsersTurn ? noFunc : endRound}
+      >
+        Submit
+      </button>
     </section>
   );
 }
