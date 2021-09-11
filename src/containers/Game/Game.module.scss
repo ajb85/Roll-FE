@@ -9,58 +9,41 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-
-  h2 {
-    margin: 0 auto;
-    width: 80%;
-
-    font-size: 1.5rem;
-    text-align: center;
-  }
-}
-
-.controls {
-  line-height: $lh * 2;
-  margin-bottom: $lh * 2;
-
-  border-radius: 0 0 7px 7px;
-  border-style: solid;
-  border-width: 0 1px 1px;
-  padding: $lh/2 10px;
-
-  display: flex;
-  justify-content: space-evenly;
-
-  svg {
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-}
-
-table.menu {
-  width: 100%;
-  padding: $lh / 2;
-  td,
-  th {
-    width: 25%;
-    text-align: center;
-    padding: 5px;
-
-    &:first-child {
-      width: 50%;
-    }
-  }
 }
 
 div.players {
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 480px;
+  line-height: 2 * $lh;
+  width: 20%;
+  min-width: 200px;
+
+  background-color: rgba(var(--primary-rgb), 0.9);
+  border-radius: 10px 0 0 10px;
+  margin-right: $lh;
+
+  p.label {
+    text-align: center;
+  }
+}
+
+div.playersMobile {
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
   margin-bottom: $lh;
   line-height: 2 * $lh;
+  margin-top: 2 * $lh;
+}
+
+.players,
+.playersMobile {
+  border: 1px solid var(--secondary);
 
   p.label {
     margin-right: 5px;
+    max-height: $lh * 3;
   }
 
   div {
@@ -69,15 +52,18 @@ div.players {
 
   p {
     font-size: 0.8rem;
-    line-height: $lh * 3;
+    line-height: $lh * 2.5;
     cursor: pointer;
+    padding: 0 $lh;
+    margin: 0;
 
-    &.underline {
-      text-decoration: underline;
+    &.viewing {
+      background-color: rgba(var(--secondary-rgb), 0.2);
     }
 
     &.greyOut {
-      opacity: 0.8;
+      text-decoration: line-through;
+      font-style: italic;
     }
   }
 
@@ -93,7 +79,7 @@ div.players {
   margin: $lh/2 auto;
 
   img {
-    width: 19%;
+    width: 100%;
     max-height: 60px;
     max-width: 60px;
     margin: 0 2px 0;
@@ -103,7 +89,9 @@ div.players {
 .buttons {
   display: flex;
   justify-content: space-evenly;
-  margin: 0 0 $lh;
+  margin: 0 auto $lh;
+  max-width: 400px;
+  width: 100%;
 
   button {
     display: flex;
@@ -111,6 +99,7 @@ div.players {
     align-items: center;
     font-size: 1.5rem;
     cursor: pointer;
+    width: 100%;
 
     p {
       margin-right: 10px;
@@ -234,4 +223,49 @@ div.score {
 
 .linkText {
   line-break: anywhere;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  width: 100%;
+  margin: 0 auto $lh;
+
+  & > h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-right: 15px;
+    width: fit-content;
+  }
+
+  .buttonGroup {
+    & > svg {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.noFlex {
+  display: initial;
+}
+
+.tableWrapper {
+  width: 100%;
+  min-height: 480px;
+
+  background-color: rgba(var(--primary-rgb), 0.9);
+  border: 1px solid var(--secondary);
+  border-radius: 0 10px 10px 0;
 }
