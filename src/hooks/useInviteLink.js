@@ -9,18 +9,17 @@ export default function useInviteLink(getLink) {
   const [axios, isLoading, error, setError] = useAxios();
 
   useEffect(() => {
-    if (!link && getLink) {
+    if (!link && getLink && !error) {
       axios.get(`/games/invite/create/${game_id}`).then((res) => {
         if (res?.uuid) {
           const { uuid } = res;
           setLink(`${window.location.protocol}//${window.location.host}/j/${uuid}`);
         } else {
-          console.log("RES: ", res);
           setError(true);
         }
       });
     }
-  }, [getLink, axios, link, game_id, setError]);
+  }, [getLink, axios, link, game_id, error, setError]);
 
   return [link, isLoading, error, setError];
 }
