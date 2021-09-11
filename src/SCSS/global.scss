@@ -1,5 +1,20 @@
 @import "./variables.scss";
 
+:root {
+  --primary: #191919;
+  --primary-rgb: 25, 25, 25;
+  --secondary: #e3e2e2;
+  --secondary-rgb: 227, 226, 226;
+  --highlight: #e5adaa;
+  --highlight-rgb: 229, 173;
+  --accent: #474714;
+  --accent-rgb: 71, 71, 20;
+  --brightAccent: #ffff00;
+  --brightAccent-rgb: 225, 255, 0;
+  --error: #e5adaa;
+  --error-rgb: 229, 173, 170;
+}
+
 * {
   box-sizing: border-box;
   font-size: 62.5%;
