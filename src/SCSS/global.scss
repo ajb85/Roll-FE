@@ -85,7 +85,9 @@ button {
     transition: background-color 0.5s, color 0.5s, border-color 0.5s;
   }
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     background-color: var(--secondary);
     color: var(--primary);
 
