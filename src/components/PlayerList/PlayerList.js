@@ -20,6 +20,7 @@ function PlayerList({ game, viewPlayer, viewingPlayer }) {
               data-player={u.id}
               onClick={viewPlayer}
               className={combineClasses(
+                isMobile && styles.mobile,
                 u.grandTotal >= highScore && styles.highlight,
                 viewingPlayer === u.id && styles.viewing,
                 u.round > currentRound && styles.greyOut
