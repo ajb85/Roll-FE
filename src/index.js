@@ -9,6 +9,8 @@ import history from "./history.js";
 import Providers from "components/Providers/";
 
 import App from "./App.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "shards-ui/dist/css/shards.min.css";
 import "SCSS/";
 
 ReactDOM.render(
