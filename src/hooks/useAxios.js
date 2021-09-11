@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 
@@ -22,18 +22,33 @@ export default function useAxios() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const errorKey = useRef();
+  const cache = useRef(new Map());
+  const timeout = useRef(null);
+
+  const resetCache = useCallback(() => {
+    cache.current = new Map();
+    timeout.current = null;
+  }, []);
 
   token && (defaultConfig.headers.authorization = token);
 
   const fetch =
     (method) =>
     async (url, data = {}, config = {}) => {
-      if (!isLoading && !error) {
+      const hasData = method === "post" || method === "put";
+      const dataToCache = hasData ? data : config;
+      if (!isLoading) {
         try {
+          timeout.current && clearTimeout(timeout.current);
+          timeout.current = setTimeout(resetCache, 5000);
           setIsLoading(true);
           const callArgs = [url];
 
-          if (method === "post" || method === "put") {
+          if (cache.current.has(dataToCache)) {
+            return cache.current.get(dataToCache);
+          }
+
+          if (hasData) {
             callArgs.push(data);
           }
 
@@ -43,6 +58,7 @@ export default function useAxios() {
           setIsLoading(false);
 
           if (results && results.data) {
+            cache.current.set(dataToCache, results.data);
             setError(false);
             errorKey.current && clearError(errorKey.current);
             token && setTokenIsValidated(true);
@@ -51,6 +67,7 @@ export default function useAxios() {
         } catch (err) {
           setIsLoading(false);
           setError(true);
+          cache.current.set(dataToCache, false);
           const errorResponse = (err && err.response) || {};
           const { requestType, message } = errorResponse.data || {};
 
