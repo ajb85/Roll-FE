@@ -1,3 +1,6 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
 div.players {
   overflow: hidden;
   overflow-y: auto;
