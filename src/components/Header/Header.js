@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import { FiSettings } from "react-icons/fi";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { useScreenSize } from "hooks/";
 import { goHome } from "js/utility.js";
 
 import styles from "./Header.module.scss";
