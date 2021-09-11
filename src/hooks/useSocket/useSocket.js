@@ -20,7 +20,6 @@ export function SocketProvider(props) {
     (room, cb) => {
       subscriptions.current[room] = true;
       socket.on(room, (...args) => {
-        console.log("RECEIVED SOCKET INFO FOR ", room, args);
         cb.apply(this, args);
       });
     },
