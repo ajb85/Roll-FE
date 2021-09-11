@@ -10,9 +10,10 @@ export function JoinLinkProvider(props) {
   const { addGame } = useGames();
   const [joinLink, setJoinLink] = useState("");
 
-  useEffect(() => {
+  useEffect(async () => {
     if (joinLink && tokenIsValidated) {
-      addGame({ uuid: joinLink }, "join");
+      const successful = await addGame({ uuid: joinLink }, "join");
+      successful && setJoinLink("");
     }
   }, [addGame, joinLink, tokenIsValidated]);
 
