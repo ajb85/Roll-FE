@@ -5,13 +5,13 @@ import ErrorMessage from "components/ErrorMessage/";
 import LoadingDice from "components/LoadingDice/";
 import Prompt from "components/Prompt/";
 
-import GameMenu from "./GameMenu.js";
+import GameTitle from "./GameTitle.js";
 import Players from "./Players.js";
 import ScoreTable from "./ScoreTable.js";
 import Dice from "./Dice.js";
 import PlayButtons from "./PlayButtons.js";
 
-import { useAccount, useGames, useLockedDice, useInviteLink } from "hooks";
+import { useAccount, useGames, useLockedDice, useInviteLink, useScreenSize } from "hooks";
 import { goHome } from "js/utility.js";
 
 import styles from "./Game.module.scss";
@@ -19,6 +19,7 @@ import styles from "./Game.module.scss";
 export default function Game(props) {
   const { game_id } = useParams();
   const { user_id } = useAccount();
+  const { isMobile } = useScreenSize();
   const { gamesLookup, submitScore, gamesAreLoading: isLoading } = useGames();
   const { lockedDice, toggleLockOnDie, resetLockedDice } = useLockedDice();
 
@@ -124,29 +125,40 @@ export default function Game(props) {
           )}
         </Prompt>
       )}
-      <GameMenu game={activeGame} promptOn={promptOn} isOwner={isOwner} />
-      <Players game={activeGame} viewPlayer={viewPlayer} viewingPlayer={viewingPlayer} />
-      <ScoreTable
+      <GameTitle
         game={activeGame}
-        viewingPlayer={viewingPlayer}
-        viewPlayer={viewPlayer}
-        selectedCategory={selectedCategory}
-        toggleCategory={toggleCategory}
+        showPrompt={showPrompt}
+        promptOn={promptOn}
+        promptOff={promptOff}
+        isOwner={isOwner}
       />
-      {activeGame.isActive > 0 && isViewingSelf && (
-        // Dice hide when the game is complete
-        <Dice game={activeGame} lockedDice={lockedDice} toggleLockOnDie={toggleLockOnDie} />
-      )}
-      {activeGame.isActive > 0 && isViewingSelf && (
-        // Buttons hide when the game is complete
-        <PlayButtons
-          game={activeGame}
-          endRound={endRound}
-          lockedDice={lockedDice}
-          selectedCategory={selectedCategory}
-          isLoading={isLoading}
-        />
-      )}
+      <div className={isMobile ? styles.noFlex : styles.flex}>
+        <Players game={activeGame} viewPlayer={viewPlayer} viewingPlayer={viewingPlayer} />
+        <div className={styles.tableWrapper}>
+          <ScoreTable
+            game={activeGame}
+            viewingPlayer={viewingPlayer}
+            viewPlayer={viewPlayer}
+            selectedCategory={selectedCategory}
+            toggleCategory={toggleCategory}
+          />
+
+          {activeGame.isActive > 0 && isViewingSelf && (
+            // Dice hide when the game is complete
+            <Dice game={activeGame} lockedDice={lockedDice} toggleLockOnDie={toggleLockOnDie} />
+          )}
+          {activeGame.isActive > 0 && isViewingSelf && (
+            // Buttons hide when the game is complete
+            <PlayButtons
+              game={activeGame}
+              endRound={endRound}
+              lockedDice={lockedDice}
+              selectedCategory={selectedCategory}
+              isLoading={isLoading}
+            />
+          )}
+        </div>
+      </div>
       <ErrorMessage type="play" />
       <Prompt
         isOpen={activeGame.currentRound >= 13}
