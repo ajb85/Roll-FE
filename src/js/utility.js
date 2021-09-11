@@ -18,8 +18,12 @@ export const noFunc = () => {};
 
 export const noProp = (e) => e.stopPropagation();
 
+export function combineTwoClasses(classes, newClass) {
+  const space = classes.length ? " " : "";
+  return `${classes}${space}${newClass}`;
+}
 export const combineClasses = (...classes) => {
-  return classes.reduce((acc, c) => (c ? `${acc}${acc.length ? " " : ""}${c}` : acc), "");
+  return classes.reduce((acc, c) => (c ? combineTwoClasses(acc, c) : acc), "");
 };
 
 export function mergeObjects(obj1, obj2) {
