@@ -1,0 +1,22 @@
+@import "SCSS/variables.scss";
+
+.pagination {
+  width: 90%;
+  margin: 0 auto;
+  line-height: $lh;
+  display: flex;
+  min-height: 50px;
+  justify-content: space-between;
+
+  p {
+    padding: $lh/2 0;
+
+    &.inactive {
+      opacity: 0.2;
+    }
+
+    &.active {
+      cursor: pointer;
+    }
+  }
+}

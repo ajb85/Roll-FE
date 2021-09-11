@@ -1,69 +1,57 @@
-import React, { useState, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 
-const colorContext = createContext();
+import { hexToRGB } from "js/utility.js";
 
-class ColorManager {
-  constructor() {
-    this.modes = {
-      dark: {
-        primary: "#191919",
-        secondary: "#E3E2E2",
-        highlight: "#E5ADAA",
-        accent: "#474714",
-        brightAccent: "#FFFF00",
-        mode: "dark",
-      },
-      light: {
-        primary: "#FCFCFC",
-        secondary: "#191919",
-        highlight: "#B33A3A",
-        accent: "#FDFDCA",
-        brightAccent: "#FFFF00",
-        mode: "light",
-      },
-    };
+const context = createContext();
+const { Provider } = context;
 
-    this.modeNames = Object.keys(this.modes);
-    this.mode = "dark";
-  }
+const dark = {
+  primary: "#191919",
+  secondary: "#E3E2E2",
+  highlight: "#E5ADAA",
+  accent: "#474714",
+  brightAccent: "#FFFF00",
+  mode: "dark",
+  error: "#E5ADAA",
+};
 
-  nextMode(mode) {
-    if (!mode || !this.modes[mode]) {
-      const currentIndex = this.modeNames.findIndex(
-        (name) => name === this.mode
-      );
-      const nextIndex =
-        currentIndex + 1 >= this.modeNames.length ? 0 : currentIndex + 1;
+const light = {
+  primary: "#FCFCFC",
+  secondary: "#191919",
+  highlight: "#B33A3A",
+  accent: "#FDFDCA",
+  brightAccent: "#FFFF00",
+  mode: "light",
+  error: "#B33A3A",
+};
 
-      mode = this.modeNames[nextIndex];
-    }
+const root = document.documentElement;
 
-    console.log("NEXT MDOE: ", mode, this.modes[mode]);
-    this.mode = mode;
-    return this.modes[mode];
+function updateCSSColors(colorMode) {
+  const { mode, ...colors } = colorMode;
+  for (let category in colors) {
+    const cssVar = `--${category}`;
+    root.style.setProperty(cssVar, colors[category]);
+
+    const rgbVar = `${cssVar}-rgb`;
+    root.style.setProperty(rgbVar, hexToRGB(colors[category]));
   }
 }
 
-export const colorsMgr = new ColorManager();
+export function ColorProvider(props) {
+  const [colors, setColors] = useState(dark);
+  const toggleMode = () => setColors(colors === dark ? light : dark);
+  const isMode = (mode) =>
+    (mode === "dark" && colors === dark) || (mode === "light" && colors === light);
 
-export const ColorProvider = (props) => {
-  const [colors, setColors] = useState(colorsMgr.modes[colorsMgr.mode]);
-  const { Provider } = colorContext;
-  const toggleMode = (mode) => setColors(colorsMgr.nextMode(mode));
-  const isMode = (mode) => colorsMgr.mode === mode;
-  return (
-    <Provider
-      value={{
-        colors,
-        toggleMode,
-        isMode,
-      }}
-    >
-      {props.children}
-    </Provider>
-  );
-};
+  useEffect(() => {
+    updateCSSColors(colors);
+  }, [colors]);
+
+  const value = { colors, toggleMode, isMode };
+  return <Provider value={value}>{props.children}</Provider>;
+}
 
 export default function useColorMode() {
-  return useContext(colorContext);
+  return useContext(context);
 }

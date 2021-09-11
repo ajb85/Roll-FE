@@ -1,42 +1,85 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import Account from "./components/Account/";
-import LoggedInRoutes from "./components/Routes/";
-import LightMode from "./components/UI/LightMode/";
+import Account from "containers/Account";
+import PlayGame from "containers/Game/";
+import JoinFromLink from "containers/JoinFromLink";
+import NewGame from "containers/NewGame/";
+import GameList from "containers/GameList/";
+import LoadingDice from "components/LoadingDice/";
 
-import { setToken } from "reducers/account.js";
+import Header from "components/Header";
+import FetchActiveGame from "components/Fetchers/ActiveGame.js";
+
+import { useToken } from "hooks/";
+import { combineClasses } from "js/utility";
 
 import styles from "./styles.module.scss";
-import { AppContainer } from "Styles.js";
 
-import useColorMode from "hooks/useColorMode.js";
+export default function App(props) {
+  const { token, tokenIsValidated } = useToken();
 
-function App(props) {
-  const { colors } = useColorMode();
+  if (token && !tokenIsValidated) {
+    return (
+      <div className={combineClasses(styles.LoadingApp, styles.App)}>
+        <LoadingDice />
+        <p>Verifying Account</p>
+      </div>
+    );
+  }
 
   return (
-    <AppContainer
-      colors={colors || { primary: "", secondary: "", highlight: "" }}
-    >
-      <div className={styles.App}>
-        {props.showHeader && <LightMode />}
-        {props.showHeader && <h1>Roll!</h1>}
-        <Route path="/" component={props.token ? LoggedInRoutes : Account} />
-        {props.token && props.showHeader && (
-          <button className={styles.logout} onClick={() => props.setToken()}>
-            Logout
-          </button>
-        )}
+    <div>
+      <Header />
+      <div className={styles.appBodyWrapper}>
+        <Switch>
+          {!token && (
+            <Route path="/register">
+              <Account />
+            </Route>
+          )}
+
+          {!token && (
+            <Route path="/login">
+              <Account />
+            </Route>
+          )}
+
+          {token && (
+            <Route path="/game/create">
+              <NewGame />
+            </Route>
+          )}
+
+          {token && (
+            <Route path="/game/join">
+              <NewGame />
+            </Route>
+          )}
+
+          {token && (
+            <Route path="/" exact>
+              <GameList />
+            </Route>
+          )}
+
+          {token && (
+            <Route path="/game/play/:game_id">
+              <FetchActiveGame />
+              <PlayGame />
+            </Route>
+          )}
+
+          <Route path="/j/:uuid">
+            <JoinFromLink />
+            {!token && <Redirect to="/register" />}
+          </Route>
+
+          <Route path="/">
+            <Redirect to={token ? "/" : "/login"} />
+          </Route>
+        </Switch>
       </div>
-    </AppContainer>
+    </div>
   );
 }
-
-const mapStateToProps = (state) => ({
-  token: state.account.token,
-  showHeader: state.app.showHeader,
-});
-
-export default connect(mapStateToProps, { setToken })(App);

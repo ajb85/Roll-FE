@@ -1,30 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-// Redux
-import { Provider } from "react-redux";
-import store from "./store.js";
-
 // Routing
 import { Router } from "react-router-dom";
 import history from "./history.js";
 
-// Axios interceptors
-import "./interceptors/";
-
 // Providers
-import { ColorProvider } from "hooks/useColorMode.js";
+import Providers from "components/Providers/";
 
 import App from "./App.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "shards-ui/dist/css/shards.min.css";
 import "SCSS/";
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <ColorProvider>
-        <App />
-      </ColorProvider>
-    </Router>
-  </Provider>,
+  <Router history={history}>
+    <Providers>
+      <App />
+    </Providers>
+  </Router>,
   document.getElementById("root")
 );

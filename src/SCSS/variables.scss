@@ -1,14 +1,83 @@
-@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Alfa+Slab+One&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+
+.primary {
+  color: var(--primary) !important;
+}
+
+.secondary {
+  color: var(--secondary) !important;
+}
+
+.highlight {
+  color: var(--highlight) !important;
+}
+
+.accent {
+  color: var(--accent) !important;
+}
+
+.brightAccent {
+  color: var(--brightAccent) !important;
+}
+
+.error {
+  color: var(--error) !important;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+button.disabled {
+  &.disabled {
+    opacity: 0.5;
+    cursor: initial;
+    pointer-events: none;
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--secondary);
+      border: 1px solid var(--secondary);
+
+      p {
+        color: var(--secondary);
+        transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+      }
+
+      svg {
+        color: var(--secondary);
+        transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+      }
+    }
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.noFlex {
+  display: initial;
+}
+
 // Font
-$titleFont: 'Alfa Slab One', cursive;
-$mainFont: 'Montserrat', sans-serif;
+$titleFont: "Alfa Slab One", cursive;
+$mainFont: "Montserrat", sans-serif;
 
 // Line height
-$lh: 25px;
+$lh: 10px;
 
-// Media
-$tablet: '(min-width: 500px)';
-$min: '(max-width: 500px)';
-$smHeight: '(max-height: 700px)';
+// App Sizes
+$appMinWidth: 360px;
+$appMaxWidth: 800px;
+$tablet: "(min-width: 501px)";
+$min: "(max-width: 500px)";
+$smHeight: "(max-height: 700px)";

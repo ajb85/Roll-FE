@@ -1,0 +1,63 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+.header {
+  width: 100%;
+  box-shadow: 0px 4px 10px -7px var(--secondary);
+
+  & > div {
+    max-width: $appMaxWidth;
+    margin: 0 auto;
+    padding: $lh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+      font-family: $titleFont;
+      font-size: 2rem;
+      cursor: pointer;
+
+      @media #{$smHeight} {
+        font-size: 3.5rem;
+        padding: $lh/2 0;
+      }
+    }
+
+    svg {
+      cursor: pointer;
+      font-size: 1.5rem;
+
+      transition: transform 0.1s;
+
+      &:hover {
+        transform: rotate(15deg);
+      }
+    }
+
+    p {
+      cursor: pointer;
+      @include UnderlineOnHover;
+
+      &.active {
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+
+    nav {
+      display: flex;
+
+      & > div {
+        display: flex;
+        align-items: center;
+
+        &:not(:first-child) {
+          margin-left: $lh * 2;
+        }
+      }
+    }
+  }
+}

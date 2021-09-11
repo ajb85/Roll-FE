@@ -1,0 +1,24 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+.dropdown {
+  & > div > button {
+    background-color: transparent;
+    border: 0px;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: transparent !important;
+      box-shadow: none;
+
+      svg {
+        color: var(--secondary);
+      }
+    }
+
+    & > svg {
+      font-size: 1.5rem;
+    }
+  }
+}

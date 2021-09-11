@@ -1,0 +1,28 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: $lh * 2 auto $lh;
+
+  & > h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-right: 15px;
+    width: fit-content;
+  }
+
+  .buttonGroup {
+    & > svg {
+      font-size: 1.5rem;
+      cursor: pointer;
+
+      &:not(:last-of-type) {
+        margin-right: $lh/2;
+      }
+    }
+  }
+}

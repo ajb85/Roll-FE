@@ -1,0 +1,50 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+div.players,
+div.playersMobile {
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 480px;
+  line-height: 2 * $lh;
+  width: 20%;
+  min-width: 200px;
+
+  background-color: rgba(var(--primary-rgb), 0.9);
+  border: 1px solid var(--secondary);
+  border-radius: 10px 0 0 10px;
+  margin-right: $lh;
+
+  p {
+    padding: 0 $lh;
+    margin: 0;
+    line-height: $lh * 2.5;
+    font-size: 0.8rem;
+    cursor: pointer;
+
+    &.label {
+      margin: 5px;
+      max-height: $lh * 3;
+      text-align: center;
+    }
+
+    &.viewing {
+      background-color: rgba(var(--secondary-rgb), 0.2);
+    }
+
+    &.greyOut {
+      text-decoration: line-through;
+      font-style: italic;
+    }
+  }
+
+  span {
+    margin-right: 5px;
+    line-height: $lh * 3;
+  }
+}
+
+div.playersMobile {
+  border-radius: 10px;
+  margin: $lh auto 0;
+}
