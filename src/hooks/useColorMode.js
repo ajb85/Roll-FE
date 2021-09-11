@@ -1,5 +1,7 @@
 import { useState, useEffect, createContext, useContext } from "react";
 
+import { hexToRGB } from "js/utility.js";
+
 const context = createContext();
 const { Provider } = context;
 
@@ -25,10 +27,14 @@ const light = {
 
 const root = document.documentElement;
 
-function updateCSSColors(mode) {
-  for (let category in mode) {
+function updateCSSColors(colorMode) {
+  const { mode, ...colors } = colorMode;
+  for (let category in colors) {
     const cssVar = `--${category}`;
-    root.style.setProperty(cssVar, mode[category]);
+    root.style.setProperty(cssVar, colors[category]);
+
+    const rgbVar = `${cssVar}-rgb`;
+    root.style.setProperty(rgbVar, hexToRGB(colors[category]));
   }
 }
 
