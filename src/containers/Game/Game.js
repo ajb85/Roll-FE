@@ -6,7 +6,7 @@ import LoadingDice from "components/LoadingDice/";
 import Prompt from "components/Prompt/";
 
 import GameTitle from "./GameTitle.js";
-import Players from "./Players.js";
+import PlayerList from "components/PlayerList/";
 import ScoreTable from "./ScoreTable.js";
 import Dice from "./Dice.js";
 import PlayButtons from "./PlayButtons.js";
@@ -133,7 +133,7 @@ export default function Game(props) {
         isOwner={isOwner}
       />
       <div className={isMobile ? styles.noFlex : styles.flex}>
-        <Players game={activeGame} viewPlayer={viewPlayer} viewingPlayer={viewingPlayer} />
+        <PlayerList game={activeGame} viewPlayer={viewPlayer} viewingPlayer={viewingPlayer} />
         <div className={styles.tableWrapper}>
           <ScoreTable
             game={activeGame}

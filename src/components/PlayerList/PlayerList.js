@@ -3,9 +3,9 @@ import React, { Fragment } from "react";
 import { combineClasses } from "js/utility";
 import { useScreenSize } from "hooks";
 
-import styles from "./Game.module.scss";
+import styles from "./PlayerList.module.scss";
 
-function Players({ game, viewPlayer, viewingPlayer }) {
+function PlayerList({ game, viewPlayer, viewingPlayer }) {
   const { scores, currentRound, highScore } = game;
   const { isMobile } = useScreenSize();
   const users = Object.entries(scores).map(mapUserToScore).sort(sortByTotal);
@@ -35,7 +35,7 @@ function Players({ game, viewPlayer, viewingPlayer }) {
   );
 }
 
-export default React.memo(Players);
+export default React.memo(PlayerList);
 
 function sortByTotal(a, b) {
   if (a.round !== b.round) {
