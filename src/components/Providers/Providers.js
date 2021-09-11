@@ -7,6 +7,7 @@ import { LockedDiceProvider } from "hooks/useLockedDice.js";
 import { SocketProvider } from "hooks/useSocket/useSocket.js";
 import { TokenProvider } from "hooks/useToken.js";
 import { JoinLinkProvider } from "hooks/useJoinLink.js";
+import { ViewingPlayerProvider } from "hooks/useViewingPlayer.js";
 
 export default function Providers({ children }) {
   return (
@@ -16,11 +17,13 @@ export default function Providers({ children }) {
           <LockedDiceProvider>
             <ErrorsProvider>
               <AccountProvider>
-                <GamesProvider>
-                  <JoinLinkProvider>
-                    <SocketProvider>{children}</SocketProvider>
-                  </JoinLinkProvider>
-                </GamesProvider>
+                <ViewingPlayerProvider>
+                  <GamesProvider>
+                    <JoinLinkProvider>
+                      <SocketProvider>{children}</SocketProvider>
+                    </JoinLinkProvider>
+                  </GamesProvider>
+                </ViewingPlayerProvider>
               </AccountProvider>
             </ErrorsProvider>
           </LockedDiceProvider>

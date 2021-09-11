@@ -1,0 +1,96 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+.table {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  border-collapse: collapse;
+  margin: 0 auto;
+  border-color: var(--secondary);
+
+  .header {
+    display: flex;
+    margin-bottom: $lh;
+
+    p {
+      border-style: solid;
+      border-width: 0 0 1px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding: $lh/2 0;
+
+      &:nth-child(1),
+      &:nth-child(3) {
+        width: 35%;
+        max-width: 100px;
+        min-width: 85px;
+      }
+
+      &:nth-child(2),
+      &:nth-child(4) {
+        width: 100%;
+        max-width: 100px;
+      }
+    }
+  }
+
+  .row {
+    display: flex;
+
+    p {
+      border-style: solid;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      min-width: 32px;
+      line-height: $lh * 2;
+      margin: $lh/2 0;
+
+      &:nth-child(1),
+      &:nth-child(3) {
+        font-size: 0.7rem;
+        width: 35%;
+        min-width: 85px;
+        max-width: 100px;
+      }
+
+      &:nth-child(2),
+      &:nth-child(4) {
+        width: 100%;
+        max-width: 100px;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+
+    div {
+      width: 50%;
+    }
+
+    p:first-of-type {
+      padding: 5px;
+      font-size: 1rem;
+      width: 35%;
+      text-align: center;
+      line-height: $lh;
+    }
+
+    p:nth-of-type(2) {
+      padding: 5px;
+      font-size: 1rem;
+      width: 15%;
+      text-align: center;
+      line-height: $lh;
+    }
+  }
+}

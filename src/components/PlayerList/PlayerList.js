@@ -1,35 +1,33 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import { combineClasses } from "js/utility";
-import { useScreenSize } from "hooks";
+import { useScreenSize, useViewingPlayer } from "hooks";
 
 import styles from "./PlayerList.module.scss";
 
-function PlayerList({ game, viewPlayer, viewingPlayer }) {
+function PlayerList({ game }) {
   const { scores, currentRound, highScore } = game;
-  const { isMobile } = useScreenSize();
+  const { viewingPlayer, setViewingPlayer } = useViewingPlayer();
+  const { isDesktop } = useScreenSize();
   const users = Object.entries(scores).map(mapUserToScore).sort(sortByTotal);
 
   return (
-    <div className={isMobile ? styles.playersMobile : styles.players}>
-      <p className={styles.label}>Players{isMobile ? ":" : ""}</p>
-      <div className={isMobile ? styles.noFlex : styles.flexColumn}>
+    <div className={isDesktop ? styles.players : styles.playersMobile}>
+      <p className={styles.label}>Players</p>
+      <div className={styles.flexColumn}>
         {users.map((u, i) => (
-          <Fragment key={u.id}>
-            <p
-              data-player={u.id}
-              onClick={viewPlayer}
-              className={combineClasses(
-                isMobile && styles.mobile,
-                u.grandTotal >= highScore && styles.highlight,
-                viewingPlayer === u.id && styles.viewing,
-                u.round > currentRound && styles.greyOut
-              )}
-            >
-              {u.username} ({u.round}-{u.grandTotal || 0})
-            </p>
-            {isMobile && i < users.length - 1 && <span>,</span>}
-          </Fragment>
+          <p
+            key={u.id}
+            data-player={u.id}
+            onClick={setViewingPlayer}
+            className={combineClasses(
+              u.grandTotal >= highScore && styles.highlight,
+              viewingPlayer === u.id && styles.viewing,
+              u.round > currentRound && styles.greyOut
+            )}
+          >
+            {u.username} ({u.round}-{u.grandTotal || 0})
+          </p>
         ))}
       </div>
     </div>

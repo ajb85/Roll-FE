@@ -29,55 +29,57 @@ export default function App(props) {
   }
 
   return (
-    <div className={styles.App}>
+    <div>
       <Header />
-      <Switch>
-        {!token && (
-          <Route path="/register">
-            <Account />
+      <div className={styles.appBodyWrapper}>
+        <Switch>
+          {!token && (
+            <Route path="/register">
+              <Account />
+            </Route>
+          )}
+
+          {!token && (
+            <Route path="/login">
+              <Account />
+            </Route>
+          )}
+
+          {token && (
+            <Route path="/game/create">
+              <NewGame />
+            </Route>
+          )}
+
+          {token && (
+            <Route path="/game/join">
+              <NewGame />
+            </Route>
+          )}
+
+          {token && (
+            <Route path="/" exact>
+              <GameList />
+            </Route>
+          )}
+
+          {token && (
+            <Route path="/game/play/:game_id">
+              <FetchActiveGame />
+              <PlayGame />
+            </Route>
+          )}
+
+          <Route path="/j/:uuid">
+            <JoinFromLink />
+            {!token && <Redirect to="/register" />}
           </Route>
-        )}
 
-        {!token && (
-          <Route path="/login">
-            <Account />
+          <Route path="/">
+            <Redirect to={token ? "/" : "/login"} />
           </Route>
-        )}
-
-        {token && (
-          <Route path="/game/create">
-            <NewGame />
-          </Route>
-        )}
-
-        {token && (
-          <Route path="/game/join">
-            <NewGame />
-          </Route>
-        )}
-
-        {token && (
-          <Route path="/" exact>
-            <GameList />
-          </Route>
-        )}
-
-        {token && (
-          <Route path="/game/play/:game_id">
-            <FetchActiveGame />
-            <PlayGame />
-          </Route>
-        )}
-
-        <Route path="/j/:uuid">
-          <JoinFromLink />
-          {!token && <Redirect to="/register" />}
-        </Route>
-
-        <Route path="/">
-          <Redirect to={token ? "/" : "/login"} />
-        </Route>
-      </Switch>
+        </Switch>
+      </div>
     </div>
   );
 }

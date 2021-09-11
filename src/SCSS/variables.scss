@@ -70,6 +70,19 @@ button.disabled {
   }
 }
 
+.flex {
+  display: flex;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.noFlex {
+  display: initial;
+}
+
 // Font
 $titleFont: "Alfa Slab One", cursive;
 $mainFont: "Montserrat", sans-serif;
@@ -77,8 +90,9 @@ $mainFont: "Montserrat", sans-serif;
 // Line height
 $lh: 10px;
 
-// Media
-$max: 1500px;
+// App Sizes
+$appMinWidth: 360px;
+$appMaxWidth: 800px;
 $tablet: "(min-width: 501px)";
 $min: "(max-width: 500px)";
 $smHeight: "(max-height: 700px)";

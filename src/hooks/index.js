@@ -10,3 +10,4 @@ export { default as useInviteLink } from "./useInviteLink.js";
 export { default as useSocket } from "./useSocket/index.js";
 export { default as useToken } from "./useToken.js";
 export { default as useJoinLink } from "./useJoinLink.js";
+export { default as useViewingPlayer } from "./useViewingPlayer.js";

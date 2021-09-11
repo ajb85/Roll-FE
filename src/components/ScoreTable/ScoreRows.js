@@ -1,15 +1,16 @@
 import React from "react";
 
 import { leftCategories, rightCategories } from "js/categories.js";
-import { useColorMode } from "hooks/";
+import { useColorMode, useViewingPlayer } from "hooks/";
 import { noFunc } from "js/utility";
 
-import styles from "./Game.module.scss";
+import styles from "./ScoreTable.module.scss";
 
 function ScoreRow(props) {
-  const { rawUserScore, userScore, isViewingSelf, game, toggleCategory, selectedCategory } = props;
+  const { rawUserScore, userScore, game, toggleCategory, selectedCategory } = props;
   const { isUsersTurn, rolls } = game;
   const { colors } = useColorMode();
+  const { isViewingSelf } = useViewingPlayer();
 
   return (
     <>

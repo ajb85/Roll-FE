@@ -3,11 +3,11 @@
 
 .header {
   width: 100%;
-  margin-bottom: $lh * 2;
   box-shadow: 0px 4px 10px -7px var(--secondary);
 
   & > div {
-    max-width: 1500px;
+    max-width: $appMaxWidth;
+    margin: 0 auto;
     padding: $lh;
 
     display: flex;

@@ -1,41 +1,43 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import ErrorMessage from "components/ErrorMessage/";
 import LoadingDice from "components/LoadingDice/";
 import Prompt from "components/Prompt/";
 
-import GameTitle from "./GameTitle.js";
+import GameTitle from "components/GameTitle/";
 import PlayerList from "components/PlayerList/";
-import ScoreTable from "./ScoreTable.js";
+import GameTable from "components/ScoreTable";
 import Dice from "./Dice.js";
 import PlayButtons from "./PlayButtons.js";
 
-import { useAccount, useGames, useLockedDice, useInviteLink, useScreenSize } from "hooks";
-import { goHome } from "js/utility.js";
+import {
+  useAccount,
+  useGames,
+  useLockedDice,
+  useInviteLink,
+  useScreenSize,
+  useViewingPlayer,
+} from "hooks";
+import { combineClasses, goHome } from "js/utility.js";
 
 import styles from "./Game.module.scss";
 
 export default function Game(props) {
   const { game_id } = useParams();
   const { user_id } = useAccount();
-  const { isMobile } = useScreenSize();
+  const { isMobile, isDesktop } = useScreenSize();
   const { gamesLookup, submitScore, gamesAreLoading: isLoading } = useGames();
   const { lockedDice, toggleLockOnDie, resetLockedDice } = useLockedDice();
+  const { isViewingSelf, setViewingPlayer } = useViewingPlayer();
 
-  const [viewingPlayer, setViewingPlayer] = useState(Number(user_id));
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [menu, setMenu] = useState("game");
   const [showPrompt, setShowPrompt] = useState(false);
   const [link, linkIsLoading, linkError, setLinkError] = useInviteLink(showPrompt);
 
-  const isViewingSelf = viewingPlayer === user_id;
   const activeGame = gamesLookup[game_id];
   const isOwner = activeGame && Number(activeGame.owner) === Number(user_id);
-
-  const viewPlayer = useCallback(
-    (e) => setViewingPlayer(Number(e.target.dataset.player)),
-    [setViewingPlayer]
-  );
 
   const endRound = useCallback(() => {
     submitScore(game_id, selectedCategory);
@@ -73,11 +75,9 @@ export default function Game(props) {
     [selectedCategory, setSelectedCategory]
   );
 
-  useEffect(() => {
-    if (user_id && !viewingPlayer) {
-      setViewingPlayer(Number(user_id));
-    }
-  }, [user_id, viewingPlayer]);
+  const toggleMenu = useCallback(() => {
+    setMenu(menu === "game" ? "players" : "game");
+  }, [menu, setMenu]);
 
   if (!activeGame) {
     // Loading state
@@ -131,33 +131,38 @@ export default function Game(props) {
         promptOn={promptOn}
         promptOff={promptOff}
         isOwner={isOwner}
+        menu={menu}
+        toggleMenu={toggleMenu}
       />
       <div className={isMobile ? styles.noFlex : styles.flex}>
-        <PlayerList game={activeGame} viewPlayer={viewPlayer} viewingPlayer={viewingPlayer} />
-        <div className={styles.tableWrapper}>
-          <ScoreTable
-            game={activeGame}
-            viewingPlayer={viewingPlayer}
-            viewPlayer={viewPlayer}
-            selectedCategory={selectedCategory}
-            toggleCategory={toggleCategory}
-          />
-
-          {activeGame.isActive > 0 && isViewingSelf && (
-            // Dice hide when the game is complete
-            <Dice game={activeGame} lockedDice={lockedDice} toggleLockOnDie={toggleLockOnDie} />
-          )}
-          {activeGame.isActive > 0 && isViewingSelf && (
-            // Buttons hide when the game is complete
-            <PlayButtons
+        {(isDesktop || menu === "players") && <PlayerList game={activeGame} />}
+        {(isDesktop || menu === "game") && (
+          <div
+            className={combineClasses(styles.tableWrapper, isMobile && styles.mobileTableWrapper)}
+          >
+            <GameTable
               game={activeGame}
-              endRound={endRound}
-              lockedDice={lockedDice}
               selectedCategory={selectedCategory}
-              isLoading={isLoading}
+              toggleCategory={toggleCategory}
             />
-          )}
-        </div>
+
+            {activeGame.isActive > 0 && isViewingSelf && (
+              // Dice hide when the game is complete
+              <Dice game={activeGame} lockedDice={lockedDice} toggleLockOnDie={toggleLockOnDie} />
+            )}
+
+            {activeGame.isActive > 0 && isViewingSelf && (
+              // Buttons hide when the game is complete
+              <PlayButtons
+                game={activeGame}
+                endRound={endRound}
+                lockedDice={lockedDice}
+                selectedCategory={selectedCategory}
+                isLoading={isLoading}
+              />
+            )}
+          </div>
+        )}
       </div>
       <ErrorMessage type="play" />
       <Prompt

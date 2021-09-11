@@ -4,25 +4,27 @@ import ScoreRows from "./ScoreRows.js";
 
 import predictScore from "js/predictScore.js";
 
-import { useColorMode, useAccount } from "hooks/";
+import { useScreenSize, useViewingPlayer } from "hooks/";
 
-import { Table } from "./Styles.js";
-import styles from "./Game.module.scss";
+import styles from "./ScoreTable.module.scss";
+import { combineClasses } from "js/utility.js";
 
-function ScoreTable({ game, viewingPlayer, viewPlayer, selectedCategory, toggleCategory }) {
+export default React.memo(function ScoreTable({ game, selectedCategory, toggleCategory }) {
   const { scores, rolls, isUsersTurn } = game;
-  const { user_id } = useAccount();
-  const { colors } = useColorMode();
+  const { isMobile } = useScreenSize();
+  const { viewingPlayer } = useViewingPlayer();
 
   const rawUserScore = scores[viewingPlayer]?.score || {};
   const dice = rolls?.length ? rolls[rolls.length - 1] : [];
-  const isViewingSelf = viewingPlayer === user_id;
   const userScore = selectedCategory
     ? predictScore(selectedCategory, dice, rawUserScore)
     : rawUserScore || {};
 
   return (
-    <Table colors={colors} className={styles.score} style={{ opacity: isUsersTurn ? 1 : 0.5 }}>
+    <div
+      className={combineClasses(styles.table, isMobile ? styles.mobileScore : styles.score)}
+      style={{ opacity: isUsersTurn ? 1 : 0.5 }}
+    >
       <div className={styles.header}>
         <p>Category</p>
         <p>Score</p>
@@ -30,7 +32,6 @@ function ScoreTable({ game, viewingPlayer, viewPlayer, selectedCategory, toggleC
         <p>Score</p>
       </div>
       <ScoreRows
-        isViewingSelf={isViewingSelf}
         userScore={userScore}
         rawUserScore={rawUserScore}
         game={game}
@@ -42,8 +43,6 @@ function ScoreTable({ game, viewingPlayer, viewPlayer, selectedCategory, toggleC
         <p>Grand Total</p>
         <p>{userScore["Grand Total"] || 0}</p>
       </div>
-    </Table>
+    </div>
   );
-}
-
-export default ScoreTable;
+});
