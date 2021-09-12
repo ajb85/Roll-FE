@@ -52,14 +52,9 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 470px;
 
     p:first-of-type {
       margin: $lh/2 0;
-    }
-
-    @media #{$min} {
-      max-width: 310px;
     }
 
     p {
