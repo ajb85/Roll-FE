@@ -81,6 +81,15 @@ div {
   border-color: var(--secondary);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: $lh * 3;
+}
+
 button {
   transition: background-color 0.5s, color 0.5s, border-color 0.5s;
   background-color: var(--primary);
