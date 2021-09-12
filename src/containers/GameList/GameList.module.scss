@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
     height: $lh * 2;
-    margin: $lh 0;
+    margin: 0;
     padding: $lh * 1.5;
 
     &:not(.headerRow) {

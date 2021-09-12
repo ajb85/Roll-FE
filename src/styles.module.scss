@@ -3,7 +3,7 @@
 .appBodyWrapper {
   min-width: $appMinWidth;
   max-width: $appMaxWidth;
-  margin: 0 auto;
+  margin: $lh * 4 auto 0;
 }
 
 .logout {
