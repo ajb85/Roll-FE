@@ -21,7 +21,7 @@ export function JoinLinkProvider(props) {
         setHasError(!successful);
       });
     }
-  }, [addGame, joinLink, tokenIsValidated]);
+  }, [addGame, joinLink, tokenIsValidated, setHasError, hasError, setIsLoading, isLoading]);
 
   const value = { joinLink, setJoinLink };
   return <Provider value={value}>{props.children}</Provider>;
