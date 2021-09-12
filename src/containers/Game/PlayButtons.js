@@ -21,7 +21,7 @@ function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }
   const rtdDisabled = !isUsersTurn || turns === 0;
   return (
     <section className={styles.buttons}>
-      {true ? (
+      {isLoading ? (
         <button className={combineClasses(styles.primaryButton, styles.disabled)} type="button">
           <LoadingDice fontSize="1.5rem" dice={[1, 2, 3, 4, 5]} />
         </button>
