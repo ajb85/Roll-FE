@@ -9,11 +9,16 @@ export function JoinLinkProvider(props) {
   const { tokenIsValidated } = useToken();
   const { addGame } = useGames();
   const [joinLink, setJoinLink] = useState("");
+  const [isLoading, setIsLoading] = useState("");
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    if (joinLink && tokenIsValidated) {
+    if (joinLink && tokenIsValidated && !isLoading && !hasError) {
+      setIsLoading(true);
       addGame({ uuid: joinLink }, "join").then((successful) => {
+        setIsLoading(false);
         successful && setJoinLink("");
+        setHasError(!successful);
       });
     }
   }, [addGame, joinLink, tokenIsValidated]);
