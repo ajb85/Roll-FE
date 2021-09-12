@@ -5,7 +5,7 @@ import Die from "components/Die/";
 
 import { useGames } from "hooks/";
 
-import { noFunc } from "js/utility";
+import { combineClasses, noFunc } from "js/utility";
 import styles from "./Game.module.scss";
 
 function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }) {
@@ -21,13 +21,13 @@ function PlayButtons({ game, endRound, lockedDice, selectedCategory, isLoading }
   const rtdDisabled = !isUsersTurn || turns === 0;
   return (
     <section className={styles.buttons}>
-      {isLoading ? (
-        <button style={{ width: "50%" }} type="button">
+      {true ? (
+        <button className={combineClasses(styles.primaryButton, styles.disabled)} type="button">
           <LoadingDice fontSize="1.5rem" dice={[1, 2, 3, 4, 5]} />
         </button>
       ) : (
         <button
-          className={rtdDisabled ? styles.disabled : ""}
+          className={combineClasses(styles.primaryButton, rtdDisabled ? styles.disabled : "")}
           disabled={rtdDisabled}
           type="button"
           onClick={() => rollTheDice(game_id, lockedDice)}
