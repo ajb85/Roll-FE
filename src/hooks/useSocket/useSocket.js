@@ -32,6 +32,7 @@ export function SocketProvider(props) {
       setSocket(s);
     } else if (socket) {
       defaultListeners.forEach((callback) => {
+        console.log("LISTENING FOR: ", callback.name);
         // Turn on every listener that every instance of the app
         // should have on
         listen(callback.name, callback.bind(context.current));
