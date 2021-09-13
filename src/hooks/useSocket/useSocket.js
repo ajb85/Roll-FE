@@ -31,11 +31,11 @@ export function SocketProvider(props) {
       const s = io(backendURL, { auth: { token } });
       setSocket(s);
     } else if (socket) {
-      defaultListeners.forEach((callback) => {
-        console.log("LISTENING FOR: ", callback.name);
+      Object.entries(defaultListeners).forEach(([name, callback]) => {
+        console.log("LISTENING FOR: ", name);
         // Turn on every listener that every instance of the app
         // should have on
-        listen(callback.name, callback.bind(context.current));
+        listen(name, callback.bind(context.current));
       });
     }
   }, [token, socket, listen]);

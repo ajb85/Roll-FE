@@ -4,4 +4,4 @@ import disconnect from "./disconnect.js";
 import subscribe from "./subscribe.js";
 import gameUpdates from "./gameUpdates.js";
 
-export default [error, connect, disconnect, subscribe, gameUpdates];
+export default { error, connect, disconnect, subscribe, gameUpdates };
