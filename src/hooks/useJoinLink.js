@@ -16,9 +16,9 @@ export function JoinLinkProvider(props) {
     if (joinLink && tokenIsValidated && !isLoading && !hasError) {
       setIsLoading(true);
       addGame({ uuid: joinLink }, "join").then((successful) => {
-        setIsLoading(false);
         successful && setJoinLink("");
         setHasError(!successful);
+        setIsLoading(false);
       });
     }
   }, [addGame, joinLink, tokenIsValidated, setHasError, hasError, setIsLoading, isLoading]);
