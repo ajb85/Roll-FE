@@ -65,14 +65,22 @@ export function GamesProvider(props) {
     }
   };
 
+  const voteForRecreate = async (game_id, vote) => {
+    const url = `/games/user/recreate/vote/${game_id}`;
+    const gameUpdate = await axios.post(url, { vote });
+    updateGame(game_id, gameUpdate);
+  };
+
   const updateGame = (game_id, newData) =>
     setGames(games.map((g) => (g.game_id === game_id ? mergeObjects(g, newData) : g)));
 
   const fetchGame = async (game_id) => {
     if (!gamesLookup[game_id]?.scores) {
       const game = await axios.get(`/games/user/fetch/${game_id}`);
-      if (game) {
+      if (game && game.game_id) {
         setGames([...games, game]);
+      } else if (game !== false && history.location.pathname.includes(`game/play/${game_id}`)) {
+        history.push("/");
       }
     }
   };
@@ -89,6 +97,7 @@ export function GamesProvider(props) {
     submitScore,
     updateGame,
     fetchGame,
+    voteForRecreate,
   };
 
   return <Provider value={value}>{props.children}</Provider>;

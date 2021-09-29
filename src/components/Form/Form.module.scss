@@ -53,6 +53,10 @@
     justify-content: space-between;
     align-items: center;
 
+    & > div {
+      width: 300px;
+    }
+
     p:first-of-type {
       margin: $lh/2 0;
     }
@@ -63,9 +67,21 @@
       font-size: 18px;
     }
 
-    input {
+    input:not(label > input) {
       @include Input;
       width: 100%;
+    }
+
+    label {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      input {
+        width: 20px;
+        margin: 0 0px 0 10px;
+      }
     }
   }
 

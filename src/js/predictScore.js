@@ -1,57 +1,61 @@
+const categoryScoring = {
+  Ones: (dice) => single(1, dice),
+  Twos: (dice) => single(2, dice),
+  Threes: (dice) => single(3, dice),
+  Fours: (dice) => single(4, dice),
+  Fives: (dice) => single(5, dice),
+  Sixes: (dice) => single(6, dice),
+  "3 of a Kind": (dice) => multiple(3, dice),
+  "4 of a Kind": (dice) => multiple(4, dice),
+  "Roll!": (dice) => multiple(5, dice),
+  "Full House": fullHouse,
+  "Sm Straight": (dice) => inARow(4, dice),
+  "Lg Straight": (dice) => inARow(5, dice),
+  "Free Space": freeSpace,
+};
+
 export default function predictScore(category, dice, userScore) {
   if (!category || !dice) {
     return userScore;
   }
+
   const score = { ...userScore };
-  score[category] = {
-    Ones: () => single(1, dice),
-    Twos: () => single(2, dice),
-    Threes: () => single(3, dice),
-    Fours: () => single(4, dice),
-    Fives: () => single(5, dice),
-    Sixes: () => single(6, dice),
-    '3 of a Kind': () => multiple(3, dice),
-    '4 of a Kind': () => multiple(4, dice),
-    'Roll!': () => multiple(5, dice),
-    'Full House': () => multiple([2, 3], dice),
-    'Sm Straight': () => inARow(4, dice),
-    'Lg Straight': () => inARow(5, dice),
-    'Free Space': () => freeSpace(dice)
-  }[category]();
+  score[category] = categoryScoring[category](dice);
   calcLeft(score);
   calcRight(category, dice, score);
 
   return score;
-};
+}
 
 function single(num, dice) {
-  return dice.filter(d => parseInt(d, 10) === parseInt(num, 10)).length * num;
+  return dice.filter((d) => parseInt(d, 10) === parseInt(num, 10)).length * num;
 }
 
 function multiple(num, dice) {
-  const count = [0, 0, 0, 0, 0, 0];
-
-  dice.forEach(d => {
-    count[d - 1] += 1;
-  });
-  count.sort();
-  if (Array.isArray(num)) {
-    // Full House
-    return count[count.length - 1] === 3 && count[count.length - 2] === 2
-      ? 25
-      : 0;
-  } else {
-    return count[count.length - 1] >= num
-      ? num === 5
-        ? 50
-        : freeSpace(dice)
-      : 0;
-  }
+  const count = getSortedNumberOfEachDice(dice);
+  return count[0] >= num ? (num === 5 ? 50 : freeSpace(dice)) : 0;
 }
 
+function fullHouse(dice) {
+  const count = getSortedNumberOfEachDice(dice);
+  return count[0] === 3 && count[1] === 2 ? 25 : 0;
+}
+
+function getSortedNumberOfEachDice(dice) {
+  const count = new Array(6).fill(0);
+
+  dice.forEach((d) => {
+    count[d - 1] += 1;
+  });
+
+  count.sort(sortGreatestToLeast);
+  return count;
+}
+
+const inARowScore = { 4: 30, 5: 40 };
+const countValue = { 0: 2, 2: 3, 3: 4, 4: 5 };
 function inARow(num, dice) {
-  const score = { 4: 30, 5: 40 };
-  const copy = [...dice].sort();
+  const copy = [...new Set(dice)].sort();
   const end = copy.length;
 
   let count = 0;
@@ -61,11 +65,12 @@ function inARow(num, dice) {
       return 0;
     } else if (count >= num) {
       // Bail early if num is reached
-      return score[num];
+      return inARowScore[num];
     }
-    count = copy[i] + 1 === copy[i + 1] ? (count === 0 ? 2 : ++count) : count;
+    count = copy[i] + 1 === copy[i + 1] ? countValue[count] : 0;
   }
-  return count >= num ? score[num] : 0;
+
+  return count >= num ? inARowScore[num] : 0;
 }
 
 function freeSpace(dice) {
@@ -79,7 +84,7 @@ function calcLeft(score) {
     Threes: true,
     Fours: true,
     Fives: true,
-    Sixes: true
+    Sixes: true,
   };
 
   let bonus = 0;
@@ -92,25 +97,23 @@ function calcLeft(score) {
   bonus = bonus >= 63 ? 35 : 0;
   total += bonus;
 
-  score['Left Bonus'] = bonus;
-  score['Left Total'] = total;
+  score["Left Bonus"] = bonus;
+  score["Left Total"] = total;
 }
 
 function calcRight(category, dice, score) {
-  if (isRoll(dice) && score['Roll!'] && category !== 'Roll!') {
-    score['Roll! Bonus'] = score['Roll! Bonus']
-      ? score['Roll! Bonus'] + 50
-      : 50;
+  if (isRoll(dice) && score["Roll!"] && category !== "Roll!") {
+    score["Roll! Bonus"] = score["Roll! Bonus"] ? score["Roll! Bonus"] + 50 : 50;
   }
   const right = {
-    '3 of a Kind': true,
-    '4 of a Kind': true,
-    'Full House': true,
-    'Sm Straight': true,
-    'Lg Straight': true,
-    'Roll!': true,
-    'Roll! Bonus': true,
-    'Free Space': true
+    "3 of a Kind": true,
+    "4 of a Kind": true,
+    "Full House": true,
+    "Sm Straight": true,
+    "Lg Straight": true,
+    "Roll!": true,
+    "Roll! Bonus": true,
+    "Free Space": true,
   };
 
   let total = 0;
@@ -118,9 +121,13 @@ function calcRight(category, dice, score) {
   for (let c in right) {
     total += score[c] ? score[c] : 0;
   }
-  score['Grand Total'] = (score['Left Total'] || 0) + total;
+  score["Grand Total"] = (score["Left Total"] || 0) + total;
 }
 
 function isRoll(dice) {
-  return dice.length === dice.filter(d => d === dice[0]).length;
+  return dice.length === dice.filter((d) => d === dice[0]).length;
+}
+
+function sortGreatestToLeast(a, b) {
+  return b - a;
 }

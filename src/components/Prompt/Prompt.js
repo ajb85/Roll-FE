@@ -2,7 +2,7 @@ import React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import { useColorMode } from "hooks/";
-import { noProp } from "js/utility";
+import { combineClasses, noProp } from "js/utility";
 
 import styles from "./Prompt.module.scss";
 
@@ -18,10 +18,10 @@ function Prompt(props) {
     <div onClick={close} className={styles.shadow}>
       <div
         onClick={noProp}
-        className={styles.content}
+        className={styles.contentWrapper}
         style={{ backgroundColor: colors.secondary }}
       >
-        <div style={{ color: colors.primary }}>{props.children}</div>
+        <div className={combineClasses(styles.content, props.className)}>{props.children}</div>
         <div>
           {primaryButton &&
             (primaryButton?.hasOwnProperty("copy") ? (

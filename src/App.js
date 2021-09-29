@@ -4,12 +4,13 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Account from "containers/Account";
 import PlayGame from "containers/Game/";
 import JoinFromLink from "containers/JoinFromLink";
-import NewGame from "containers/NewGame/";
+import NewGame from "containers/CreateGame";
 import GameList from "containers/GameList/";
 import LoadingDice from "components/LoadingDice/";
 
 import Header from "components/Header";
 import FetchActiveGame from "components/Fetchers/ActiveGame.js";
+import AllGames from "components/Fetchers/AllGames.js";
 
 import { useToken } from "hooks/";
 import { combineClasses } from "js/utility";
@@ -59,6 +60,7 @@ export default function App(props) {
 
           {token && (
             <Route path="/" exact>
+              <AllGames />
               <GameList />
             </Route>
           )}

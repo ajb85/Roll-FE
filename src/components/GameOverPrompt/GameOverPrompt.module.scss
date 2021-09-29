@@ -1,0 +1,78 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+.gameOver {
+  & > h2 {
+    text-decoration: underline;
+  }
+
+  & > p {
+    margin: $lh 0;
+  }
+}
+
+.playerVotes {
+  display: flex;
+  flex-direction: column;
+
+  button > svg {
+    font-size: 1rem;
+  }
+}
+
+div.playerWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  margin: $lh 0;
+  max-height: 20vh;
+  overflow-y: auto;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $lh;
+
+  &:not(:first-of-type) {
+    margin-left: $lh;
+  }
+
+  span {
+    color: var(--primary);
+    font-size: 0.8rem;
+    line-height: $lh * 2;
+  }
+
+  svg {
+    font-size: 1rem;
+  }
+}
+
+.yes {
+  & > svg {
+    color: green;
+  }
+}
+
+.no {
+  & > svg {
+    color: red;
+  }
+}
+
+.unknown {
+  color: var(--primary);
+}
+
+.buttonsWrapper {
+  display: flex;
+
+  & > button {
+    margin: 0;
+    margin-bottom: 0 !important;
+  }
+}

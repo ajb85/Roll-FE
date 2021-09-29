@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import { combineClasses } from "js/utility";
 import { useScreenSize, useViewingPlayer } from "hooks";
 
 import styles from "./PlayerList.module.scss";
 
-function PlayerList({ game }) {
+function PlayerList({ game, setMenu, setViewingPlayer }) {
   const { scores, currentRound, highScore } = game;
-  const { viewingPlayer, setViewingPlayer } = useViewingPlayer();
+  const { viewingPlayer } = useViewingPlayer();
   const { isDesktop } = useScreenSize();
   const users = Object.entries(scores).map(mapUserToScore).sort(sortByTotal);
+
+  const handleUserSelect = useCallback(
+    (e) => {
+      setViewingPlayer(e);
+      setMenu("game");
+    },
+    [setViewingPlayer, setMenu]
+  );
 
   return (
     <div className={isDesktop ? styles.players : styles.playersMobile}>
@@ -19,7 +27,7 @@ function PlayerList({ game }) {
           <p
             key={u.id}
             data-player={u.id}
-            onClick={setViewingPlayer}
+            onClick={handleUserSelect}
             className={combineClasses(
               u.grandTotal >= highScore && styles.highlight,
               viewingPlayer === u.id && styles.viewing,

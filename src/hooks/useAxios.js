@@ -45,6 +45,7 @@ export default function useAxios() {
           const callArgs = [url];
 
           if (cache.current.has(dataToCache)) {
+            console.log("AXIOS RETURNING CACHED: ", cache.current.get(dataToCache));
             return cache.current.get(dataToCache);
           }
 
@@ -80,9 +81,9 @@ export default function useAxios() {
             history.push("/");
           }
 
-          return false;
+          return err;
         }
-      }
+      } else return false;
     };
 
   return [

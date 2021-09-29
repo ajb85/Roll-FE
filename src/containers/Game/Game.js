@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useState, useCallback, useEffect } from "react";
+import { useParams, useHistory, Link } from "react-router-dom";
 
 import ErrorMessage from "components/ErrorMessage/";
 import LoadingDice from "components/LoadingDice/";
 import Prompt from "components/Prompt/";
+import GameOverPrompt from "components/GameOverPrompt/";
 
 import GameTitle from "components/GameTitle/";
 import PlayerList from "components/PlayerList/";
@@ -19,18 +20,19 @@ import {
   useScreenSize,
   useViewingPlayer,
 } from "hooks";
-import { combineClasses, goHome } from "js/utility.js";
+
+import { combineClasses } from "js/utility.js";
 
 import styles from "./Game.module.scss";
 
 export default function Game(props) {
   const { game_id } = useParams();
+  const history = useHistory();
   const { user_id } = useAccount();
   const { isDesktop } = useScreenSize();
   const { gamesLookup, submitScore, gamesAreLoading: isLoading } = useGames();
   const { lockedDice, toggleLockOnDie, resetLockedDice } = useLockedDice();
-  const { isViewingSelf, setViewingPlayer } = useViewingPlayer();
-
+  const { setViewingPlayer, setViewSelf } = useViewingPlayer();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [menu, setMenu] = useState("game");
   const [showPrompt, setShowPrompt] = useState(false);
@@ -38,6 +40,14 @@ export default function Game(props) {
 
   const activeGame = gamesLookup[game_id];
   const isOwner = activeGame && Number(activeGame.owner) === Number(user_id);
+
+  const viewSelfOnDieToggle = useCallback(
+    (e) => {
+      toggleLockOnDie(e);
+      setViewSelf();
+    },
+    [toggleLockOnDie, setViewSelf]
+  );
 
   const endRound = useCallback(() => {
     submitScore(game_id, selectedCategory);
@@ -79,6 +89,25 @@ export default function Game(props) {
     setMenu(menu === "game" ? "players" : "game");
   }, [menu, setMenu]);
 
+  const resetCategoryOnViewPlayer = useCallback(
+    (e) => {
+      setViewingPlayer(e);
+      setSelectedCategory("");
+    },
+    [setViewingPlayer, setSelectedCategory]
+  );
+
+  useEffect(() => {
+    if (activeGame) {
+      const { newGame, votesComplete } = activeGame;
+      const vote = activeGame?.votes?.[user_id]?.vote;
+
+      if (votesComplete) {
+        history.push(vote && newGame ? `/game/play/${newGame}` : "/");
+      }
+    }
+  }, [activeGame, user_id, history]);
+
   if (!activeGame) {
     // Loading state
     return (
@@ -99,13 +128,6 @@ export default function Game(props) {
       </div>
     );
   }
-
-  const winnerList = Object.values(activeGame.scores).reduce((winners, { isWinner, username }) => {
-    if (isWinner) {
-      winners.push(username);
-    }
-    return winners;
-  }, []);
 
   return (
     <div className={styles.Game}>
@@ -135,7 +157,13 @@ export default function Game(props) {
         toggleMenu={toggleMenu}
       />
       <div className={isDesktop ? styles.flex : styles.noFlex}>
-        {(isDesktop || menu === "players") && <PlayerList game={activeGame} />}
+        {(isDesktop || menu === "players") && (
+          <PlayerList
+            setViewingPlayer={resetCategoryOnViewPlayer}
+            game={activeGame}
+            setMenu={setMenu}
+          />
+        )}
         {(isDesktop || menu === "game") && (
           <div
             className={combineClasses(styles.tableWrapper, !isDesktop && styles.mobileTableWrapper)}
@@ -146,12 +174,16 @@ export default function Game(props) {
               toggleCategory={toggleCategory}
             />
 
-            {activeGame.isActive > 0 && isViewingSelf && (
+            {activeGame.isActive > 0 && (
               // Dice hide when the game is complete
-              <Dice game={activeGame} lockedDice={lockedDice} toggleLockOnDie={toggleLockOnDie} />
+              <Dice
+                game={activeGame}
+                lockedDice={lockedDice}
+                toggleLockOnDie={viewSelfOnDieToggle}
+              />
             )}
 
-            {activeGame.isActive > 0 && isViewingSelf && (
+            {activeGame.isActive > 0 && (
               // Buttons hide when the game is complete
               <PlayButtons
                 game={activeGame}
@@ -165,23 +197,7 @@ export default function Game(props) {
         )}
       </div>
       <ErrorMessage type="play" />
-      <Prompt
-        isOpen={activeGame.currentRound >= 13}
-        cancel={goHome}
-        secondaryButton={{ label: "Go Back", onClick: goHome }}
-      >
-        <h2>Game Over</h2>
-        <p>{getWinners(winnerList)} won!</p>
-      </Prompt>
+      <GameOverPrompt game={activeGame} />
     </div>
   );
-}
-
-function getWinners(winnerList) {
-  if (winnerList.length === 1) {
-    return winnerList[0];
-  }
-
-  const lastWinner = winnerList.pop();
-  return `${winnerList.join(", ")}, and ${lastWinner}}`;
 }

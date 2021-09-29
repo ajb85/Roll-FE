@@ -12,18 +12,9 @@ function Dice({ game, lockedDice, toggleLockOnDie }) {
   return (
     <section className={styles.dice}>
       {hasDiceRolls ? (
-        dice.map((dieFace, i) => {
-          const isLocked = lockedDice[i];
-          return (
-            <Die
-              index={i}
-              style={{ opacity: isLocked ? 0.5 : 1 }}
-              key={i}
-              onClick={toggleLockOnDie}
-              face={dieFace}
-            />
-          );
-        })
+        dice.map((dieFace, i) => (
+          <Die locked={lockedDice[i]} index={i} key={i} onClick={toggleLockOnDie} face={dieFace} />
+        ))
       ) : (
         <RollDice isUsersTurn={isUsersTurn} />
       )}
@@ -34,11 +25,11 @@ function Dice({ game, lockedDice, toggleLockOnDie }) {
 function RollDice({ isUsersTurn }) {
   return (
     <>
-      <Die style={{ opacity: isUsersTurn ? 1 : 0.5 }} face="r" />
-      <Die style={{ opacity: isUsersTurn ? 1 : 0.5 }} face="o" />
-      <Die style={{ opacity: isUsersTurn ? 1 : 0.5 }} face="l" />
-      <Die style={{ opacity: isUsersTurn ? 1 : 0.5 }} face="l" />
-      <Die style={{ opacity: isUsersTurn ? 1 : 0.5 }} face="!" />
+      <Die face="r" />
+      <Die face="o" />
+      <Die face="l" />
+      <Die face="l" />
+      <Die face="!" />
     </>
   );
 }

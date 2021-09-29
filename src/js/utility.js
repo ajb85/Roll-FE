@@ -22,6 +22,7 @@ export function combineTwoClasses(classes, newClass) {
   const space = classes.length ? " " : "";
   return `${classes}${space}${newClass}`;
 }
+
 export const combineClasses = (...classes) => {
   return classes.reduce((acc, c) => (c ? combineTwoClasses(acc, c) : acc), "");
 };
@@ -76,4 +77,15 @@ export function hexToRGB(h) {
   }
 
   return +r + ", " + +g + ", " + +b;
+}
+
+export function getRandomItemFromArray(array, multiplicand = 10000) {
+  const itemCount = array.length;
+  const max = itemCount * multiplicand;
+  const random = getRandomNumberBetween(0, max);
+  return array[random % itemCount];
+}
+
+function getRandomNumberBetween(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }

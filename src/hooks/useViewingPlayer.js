@@ -16,6 +16,8 @@ export function ViewingPlayerProvider(props) {
     [setViewingPlayer]
   );
 
+  const setViewSelf = useCallback(() => setViewingPlayer(user_id), [user_id]);
+
   useEffect(() => {
     if (user_id && !viewingPlayer) {
       setViewingPlayer(Number(user_id));
@@ -24,6 +26,7 @@ export function ViewingPlayerProvider(props) {
 
   const value = {
     viewingPlayer,
+    setViewSelf,
     setViewingPlayer: updateViewingPlayer,
     isViewingSelf: viewingPlayer === Number(user_id),
   };

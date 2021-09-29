@@ -41,10 +41,10 @@ const lightDieIconLookup = [
 ];
 
 export default function Die(props) {
-  const { face, size = "medium", style = {}, innerStyle = {} } = props;
+  const { face, size = "medium", className, innerClassName, locked, innerStyle, ...other } = props;
 
   const img = dieImageLookup[face] && (
-    <img style={innerStyle} src={dieImageLookup[face]} alt={`${face} die`} />
+    <img className={innerClassName} src={dieImageLookup[face]} alt={`${face} die`} />
   );
 
   const Icon = lightDieIconLookup[face];
@@ -52,11 +52,16 @@ export default function Die(props) {
   return (
     <div
       data-index={props.index === undefined ? "none" : props.index}
-      className={combineClasses(styles.die, styles[size] || styles.small)}
-      style={style}
-      {...props}
+      className={combineClasses(styles.die, styles[size] || styles.small, className)}
+      {...other}
     >
-      {img || (Icon && <Icon style={innerStyle} />) || <BiErrorAlt />}
+      {img ||
+        (Icon && (
+          <Icon
+            style={innerStyle}
+            className={combineClasses(innerClassName, locked && styles.locked)}
+          />
+        )) || <BiErrorAlt />}
     </div>
   );
 }

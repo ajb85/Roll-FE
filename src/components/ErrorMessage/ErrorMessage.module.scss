@@ -1,9 +1,9 @@
 @import "SCSS/variables.scss";
 
 p.error {
-  font-size: 1.2rem;
-  line-height: $lh;
-  min-height: $lh;
+  font-size: 1rem;
+  line-height: 2 * $lh;
+  min-height: 2 * $lh;
   text-align: center;
-  margin: $lh * 2 0;
+  margin: $lh 0;
 }

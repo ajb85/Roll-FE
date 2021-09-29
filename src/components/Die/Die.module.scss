@@ -1,32 +1,82 @@
 @import "SCSS/variables.scss";
 @import "SCSS/mixins.scss";
 
+$dieTransition: 0.2s;
+
 .die {
   width: fit-content;
   height: fit-content;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+
+  transition: opacity $dieTransition;
+
+  img,
+  svg {
+    transition: width $dieTransition, height $dieTransition, transform $dieTransition;
+    transform: rotateZ(0deg);
+  }
+
+  .locked {
+    opacity: 0.5;
+    transform: rotateZ(90deg);
+  }
 
   &.small {
+    height: 20px;
+    width: 20px;
+    margin: 0 2px;
+
     & > img,
     & > svg {
       height: 20px;
       width: 20px;
+      min-height: 20px;
+      min-width: 20px;
+      margin: $lh/2;
+
+      &.locked {
+        height: 15px;
+        width: 15px;
+        min-height: 15px;
+        min-width: 15px;
+      }
     }
   }
 
   &.medium {
+    height: 60px;
+    width: 60px;
+    margin: 0 2px;
+
     & > img,
     & > svg {
       height: 60px;
       width: 60px;
+
+      &.locked {
+        height: 50px;
+        width: 50px;
+      }
     }
   }
 
   &.large {
+    height: 80px;
+    width: 80px;
+    margin: 0 3px;
+
     & > img,
     & > svg {
       height: 80px;
       width: 80px;
+
+      &.locked {
+        height: 65px;
+        width: 65px;
+      }
     }
   }
 }

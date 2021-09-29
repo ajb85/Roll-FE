@@ -1,0 +1,11 @@
+{
+  "winner": [
+    "Continue your reign of terror?",
+    "You can do it again, right?",
+    "Think your luck will hold out?"
+  ],
+  "loser": [
+    "Your luck has to be better next time, right?",
+    "It's okay though, I'm sure you're good at other things."
+  ]
+}
