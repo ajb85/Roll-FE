@@ -13,6 +13,8 @@ export function SocketProvider(props) {
   const { updateGame } = useGames();
 
   const [socket, setSocket] = useState();
+  const [isConnected, setIsConnected] = useState(false);
+
   const subscriptions = useRef({});
   const context = useRef({});
 
@@ -46,8 +48,9 @@ export function SocketProvider(props) {
   context.current.games = {
     update: updateGame,
   };
+  context.current.status = { isConnected, setIsConnected };
 
-  return <Provider value={{ socket, listen }}>{props.children}</Provider>;
+  return <Provider value={{ socket, listen, isConnected }}>{props.children}</Provider>;
 }
 
 export default function useSocket() {
