@@ -98,6 +98,7 @@ export function GamesProvider(props) {
     updateGame,
     fetchGame,
     voteForRecreate,
+    activeGameIds: games.reduce(reduceGamesToActiveIds, []),
   };
 
   return <Provider value={value}>{props.children}</Provider>;
@@ -125,3 +126,11 @@ const getGamesLookup = (function (cache) {
     return cache.results;
   };
 })({});
+
+function reduceGamesToActiveIds(acc, { game_id, isActive }) {
+  if (isActive) {
+    acc.push(game_id);
+  }
+
+  return acc;
+}

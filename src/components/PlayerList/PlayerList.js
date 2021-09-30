@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { CgCrown } from "react-icons/cg";
 
 import { combineClasses } from "js/utility";
 import { useScreenSize, useViewingPlayer } from "hooks";
@@ -29,11 +30,13 @@ function PlayerList({ game, setMenu, setViewingPlayer }) {
             data-player={u.id}
             onClick={handleUserSelect}
             className={combineClasses(
+              styles.player,
               u.grandTotal >= highScore && styles.highlight,
               viewingPlayer === u.id && styles.viewing,
               u.round > currentRound && styles.greyOut
             )}
           >
+            {game.owner === u.id && <CgCrown />}
             {u.username} ({u.round}-{u.grandTotal || 0})
           </p>
         ))}

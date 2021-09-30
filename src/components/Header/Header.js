@@ -11,7 +11,7 @@ import styles from "./Header.module.scss";
 export default function Header(props) {
   const { pathname } = useLocation();
   const history = useHistory();
-  const { isConnected } = useSocket();
+  const { isConnected, connect, disconnect } = useSocket();
 
   const createGame = useCallback(() => {
     history.push("/game/create");
@@ -41,9 +41,9 @@ export default function Header(props) {
           </div>
           <div className={styles.wifi}>
             {isConnected ? (
-              <BiWifi style={{ color: "green" }} />
+              <BiWifi style={{ color: "green" }} onClick={disconnect} />
             ) : (
-              <BiWifiOff style={{ color: "grey" }} />
+              <BiWifiOff style={{ color: "grey" }} onClick={connect} />
             )}
           </div>
         </nav>
