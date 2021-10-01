@@ -2,11 +2,14 @@ import { useCallback, memo, useEffect } from "react";
 import EmojiPicker from "emoji-picker-react";
 
 import styles from "./EmojiPrompt.module.scss";
-import { noFunc, noProp } from "js/utility";
+import { combineClasses, noFunc, noProp } from "js/utility";
 import { addSubscription } from "js/closeOnClick";
+import { useScreenSize } from "hooks";
 
 export default memo(function EmojiPrompt(props) {
   const { onChange, close, isOpen } = props;
+  const { isDesktop } = useScreenSize();
+
   const onEmojiClick = useCallback(
     (event, emojiObject) => {
       onChange?.(emojiObject);
@@ -23,7 +26,10 @@ export default memo(function EmojiPrompt(props) {
   }
 
   return (
-    <div className={styles.emojiWrapper} onClick={noProp}>
+    <div
+      className={combineClasses(styles.emojiWrapper, !isDesktop && styles.mobile)}
+      onClick={noProp}
+    >
       <EmojiPicker preload onEmojiClick={onEmojiClick} />
     </div>
   );

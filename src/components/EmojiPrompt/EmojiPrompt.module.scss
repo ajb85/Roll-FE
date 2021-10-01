@@ -3,4 +3,8 @@
   top: -10%;
   right: -90%;
   z-index: 3;
+
+  &.mobile {
+    right: 20px;
+  }
 }
