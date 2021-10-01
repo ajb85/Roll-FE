@@ -1,24 +1,91 @@
 @import "SCSS/variables.scss";
 @import "SCSS/mixins.scss";
 
+.logsWrapper {
+  position: relative;
+}
+
 .logs {
   height: 85%;
   overflow: auto;
 
-  & > * {
+  .log {
     padding: 0 $lh $lh;
-    &:hover {
+    display: flex;
+    align-items: center;
+
+    &.selected {
       background-color: rgba(var(--secondary-rgb), 0.2);
     }
-  }
 
-  .log {
+    & > div {
+      &:first-of-type {
+        // Log
+        width: 100%;
+      }
+
+      &.emoji {
+        position: relative;
+        visibility: none;
+        opacity: 0;
+
+        & > div {
+          cursor: pointer;
+          padding: $lh;
+
+          position: absolute;
+          right: 0px;
+          top: -15px;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+
+    &:hover {
+      .emoji {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
     span {
       font-size: 0.8rem;
+    }
+
+    svg {
+      font-size: 1rem;
     }
   }
 }
 
 .dice {
   display: flex;
+}
+
+.reactionEmojisWrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  & > div {
+    margin: $lh / 2;
+    border-radius: 7px;
+    cursor: pointer;
+    padding: 0px 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+
+    background-color: rgba(var(--secondary-rgb), 0.1);
+
+    &:hover {
+      border-color: var(--secondary);
+    }
+
+    &.userVoted {
+      border-color: var(--brightAccent);
+    }
+  }
 }

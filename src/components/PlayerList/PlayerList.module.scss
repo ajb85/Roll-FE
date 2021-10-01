@@ -29,11 +29,6 @@ div.playersMobile {
     margin-right: 5px;
     line-height: $lh * 3;
   }
-}
-
-.player {
-  display: flex;
-  align-items: center;
 
   svg {
     font-size: 1rem;
@@ -44,5 +39,5 @@ div.playersMobile {
 
 div.playersMobile {
   border-radius: 10px;
-  margin: $lh auto 0;
+  margin: 0 auto;
 }

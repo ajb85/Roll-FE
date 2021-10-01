@@ -5,13 +5,13 @@ import { useGames } from "hooks/";
 
 export default function ActiveGame(props) {
   const { game_id } = useParams();
-  const { games, fetchGame } = useGames();
+  const { gamesLookup, fetchGame } = useGames();
 
   useEffect(() => {
-    if (!games[game_id]?.logs) {
+    if (!gamesLookup[game_id]?.logs) {
       fetchGame(game_id);
     }
-  }, [fetchGame, game_id, games]);
+  }, [fetchGame, game_id, gamesLookup]);
 
   return null;
 }

@@ -157,9 +157,11 @@ export default function Game(props) {
         menu={menu}
         toggleMenu={toggleMenu}
       />
-      <div className={isDesktop ? styles.flex : styles.noFlex}>
+      <div className={styles.flex}>
         {(isDesktop || menu === "players") && (
-          <div className={styles.leftWrapper}>
+          <div
+            className={combineClasses(styles.leftWrapper, !isDesktop && styles.leftWrapperMobile)}
+          >
             <PlayerList
               setViewingPlayer={resetCategoryOnViewPlayer}
               game={activeGame}

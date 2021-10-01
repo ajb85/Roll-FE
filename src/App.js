@@ -16,6 +16,7 @@ import { useToken } from "hooks/";
 import { combineClasses } from "js/utility";
 
 import styles from "./styles.module.scss";
+import { closeEverythingOnClick } from "js/closeOnClick";
 
 export default function App(props) {
   const { token, tokenIsValidated } = useToken();
@@ -30,7 +31,7 @@ export default function App(props) {
   }
 
   return (
-    <div>
+    <div onClick={closeEverythingOnClick}>
       <Header />
       <div className={styles.appBodyWrapper}>
         <Switch>

@@ -60,7 +60,7 @@ export function GamesProvider(props) {
     const url = `/games/play/${game_id}/submitRound`;
     const gameUpdate = await axios.post(url, { category });
 
-    if (gameUpdate) {
+    if (gameUpdate && gameUpdate.game_id) {
       setGames(games.map((g) => (Number(g.game_id) === Number(game_id) ? gameUpdate : g)));
     }
   };
@@ -98,6 +98,17 @@ export function GamesProvider(props) {
     }
   };
 
+  const reactToLog = async (log_id, reaction) => {
+    const url = `/games/logs/react/${log_id}`;
+    const logs = await axios.post(url, { reaction });
+
+    if (logs) {
+      setGames(
+        games.map((g) => (Number(g.game_id) === Number(logs[0].game_id) ? { ...g, logs } : g))
+      );
+    }
+  };
+
   const value = {
     games,
     gamesLookup,
@@ -111,6 +122,7 @@ export function GamesProvider(props) {
     updateGame,
     fetchGame,
     voteForRecreate,
+    reactToLog,
     activeGameIds: games.reduce(reduceGamesToActiveIds, []),
   };
 

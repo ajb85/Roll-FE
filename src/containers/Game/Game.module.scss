@@ -97,7 +97,6 @@
   display: flex;
   flex-direction: column;
 
-  overflow: hidden;
   max-height: 480px;
   line-height: 2 * $lh;
   min-width: 200px;
@@ -107,6 +106,11 @@
   border: 1px solid var(--secondary);
   border-radius: 10px 0 0 10px;
   margin-right: $lh;
+
+  &.leftWrapperMobile {
+    margin: 0 auto;
+    border-radius: 10px;
+  }
 
   & > div {
     // Players / History Containers
