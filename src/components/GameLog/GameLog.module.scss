@@ -1,0 +1,24 @@
+@import "SCSS/variables.scss";
+@import "SCSS/mixins.scss";
+
+.logs {
+  height: 85%;
+  overflow: auto;
+
+  & > * {
+    padding: 0 $lh $lh;
+    &:hover {
+      background-color: rgba(var(--secondary-rgb), 0.2);
+    }
+  }
+
+  .log {
+    span {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.dice {
+  display: flex;
+}

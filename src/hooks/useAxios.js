@@ -45,7 +45,6 @@ export default function useAxios() {
           const callArgs = [url];
 
           if (cache.current.has(dataToCache)) {
-            console.log("AXIOS RETURNING CACHED: ", cache.current.get(dataToCache));
             return cache.current.get(dataToCache);
           }
 

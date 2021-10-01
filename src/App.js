@@ -85,3 +85,5 @@ export default function App(props) {
     </div>
   );
 }
+
+Notification.requestPermission();

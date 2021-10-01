@@ -3,17 +3,10 @@
 
 div.players,
 div.playersMobile {
-  overflow: hidden;
-  overflow-y: auto;
-  max-height: 480px;
-  line-height: 2 * $lh;
-  width: 20%;
-  min-width: 200px;
-
-  background-color: rgba(var(--primary-rgb), 0.9);
-  border: 1px solid var(--secondary);
-  border-radius: 10px 0 0 10px;
-  margin-right: $lh;
+  .flexColumn {
+    overflow: auto;
+    height: 83%;
+  }
 
   p {
     padding: 0 $lh;
@@ -21,12 +14,6 @@ div.playersMobile {
     line-height: $lh * 2.5;
     font-size: 0.8rem;
     cursor: pointer;
-
-    &.label {
-      margin: 5px;
-      max-height: $lh * 3;
-      text-align: center;
-    }
 
     &.viewing {
       background-color: rgba(var(--secondary-rgb), 0.2);
@@ -49,7 +36,7 @@ div.playersMobile {
   align-items: center;
 
   svg {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: yellow;
     margin-right: 5px;
   }

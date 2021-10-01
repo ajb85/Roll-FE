@@ -9,6 +9,7 @@ import GameOverPrompt from "components/GameOverPrompt/";
 import GameTitle from "components/GameTitle/";
 import PlayerList from "components/PlayerList/";
 import GameTable from "components/ScoreTable";
+import GameLog from "components/GameLog/";
 import Dice from "./Dice.js";
 import PlayButtons from "./PlayButtons.js";
 
@@ -158,11 +159,14 @@ export default function Game(props) {
       />
       <div className={isDesktop ? styles.flex : styles.noFlex}>
         {(isDesktop || menu === "players") && (
-          <PlayerList
-            setViewingPlayer={resetCategoryOnViewPlayer}
-            game={activeGame}
-            setMenu={setMenu}
-          />
+          <div className={styles.leftWrapper}>
+            <PlayerList
+              setViewingPlayer={resetCategoryOnViewPlayer}
+              game={activeGame}
+              setMenu={setMenu}
+            />
+            <GameLog game={activeGame} />
+          </div>
         )}
         {(isDesktop || menu === "game") && (
           <div

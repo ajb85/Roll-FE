@@ -22,7 +22,7 @@ function PlayerList({ game, setMenu, setViewingPlayer }) {
 
   return (
     <div className={isDesktop ? styles.players : styles.playersMobile}>
-      <p className={styles.label}>Players</p>
+      <h3>Players</h3>
       <div className={styles.flexColumn}>
         {users.map((u, i) => (
           <p

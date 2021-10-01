@@ -8,7 +8,7 @@ export default function ActiveGame(props) {
   const { games, fetchGame } = useGames();
 
   useEffect(() => {
-    if (!games[game_id]?.scores) {
+    if (!games[game_id]?.logs) {
       fetchGame(game_id);
     }
   }, [fetchGame, game_id, games]);

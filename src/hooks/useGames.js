@@ -71,8 +71,21 @@ export function GamesProvider(props) {
     updateGame(game_id, gameUpdate);
   };
 
-  const updateGame = (game_id, newData) =>
-    setGames(games.map((g) => (g.game_id === game_id ? mergeObjects(g, newData) : g)));
+  const updateGame = (game_id, newData) => {
+    setGames(
+      games.map((g) => {
+        const isUpdatingGame = g.game_id === game_id;
+        const updatedGame = isUpdatingGame && mergeObjects(g, newData);
+        if (isUpdatingGame) {
+          if (!g.isUsersTurn && updatedGame.isUsersTurn) {
+            new Notification(`It is now your turn in ${updatedGame.name}`);
+          }
+        }
+
+        return isUpdatingGame ? updatedGame : g;
+      })
+    );
+  };
 
   const fetchGame = async (game_id) => {
     if (!gamesLookup[game_id]?.scores) {

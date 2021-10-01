@@ -92,3 +92,42 @@
 .rtdDie {
   animation-duration: 1.5s;
 }
+
+.leftWrapper {
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+  max-height: 480px;
+  line-height: 2 * $lh;
+  min-width: 200px;
+  width: 70%;
+
+  background-color: rgba(var(--primary-rgb), 0.9);
+  border: 1px solid var(--secondary);
+  border-radius: 10px 0 0 10px;
+  margin-right: $lh;
+
+  & > div {
+    // Players / History Containers
+    width: 100%;
+    flex-basis: auto;
+
+    &:first-of-type {
+      // Players
+      margin-bottom: $lh;
+      height: 35%;
+    }
+
+    &:last-of-type {
+      // History
+      height: 65%;
+    }
+
+    h3 {
+      margin: 5px;
+      max-height: $lh * 3;
+      text-align: center;
+    }
+  }
+}
