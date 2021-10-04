@@ -6,19 +6,13 @@ import NoGames from "./NoGames.js";
 import Prompt from "components/Prompt/";
 import Pagination from "components/Pagination/";
 
-import { useGames, usePagination, useColorMode } from "hooks/";
+import { useGames, usePagination, useColorThemes } from "hooks/";
 
 import styles from "./GameList.module.scss";
 
-// const initialFilters = {
-//   name: localStorage.getItem("nameFilter") || "",
-//   isActive: JSON.parse(localStorage.getItem("isActiveFilter")) || true,
-//   isUsersTurn: JSON.parse(localStorage.getItem("isUsersTurnFilter")) || false,
-// };
-
 export default function GameList(props) {
   const { games, getUsersGames, leaveGame } = useGames();
-  const { colors } = useColorMode();
+  const { colors } = useColorThemes();
   const paginationData = usePagination(games.length);
   const { pagination } = paginationData;
 

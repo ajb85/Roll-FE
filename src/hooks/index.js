@@ -1,6 +1,6 @@
 export { default as useAccount } from "./useAccount.js";
 export { default as useAxios } from "./useAxios.js";
-export { default as useColorMode } from "./useColorMode.js";
+export { default as useColorThemes } from "./useColorThemes.js";
 export { default as useErrors } from "./useErrors.js";
 export { default as useScreenSize } from "./useScreenSize.js";
 export { default as useGames } from "./useGames.js";

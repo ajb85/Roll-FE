@@ -1,20 +1,5 @@
 @import "./variables.scss";
 
-:root {
-  --primary: #191919;
-  --primary-rgb: 25, 25, 25;
-  --secondary: #e3e2e2;
-  --secondary-rgb: 227, 226, 226;
-  --highlight: #e5adaa;
-  --highlight-rgb: 229, 173;
-  --accent: #474714;
-  --accent-rgb: 71, 71, 20;
-  --brightAccent: #ffff00;
-  --brightAccent-rgb: 225, 255, 0;
-  --error: #e5adaa;
-  --error-rgb: 229, 173, 170;
-}
-
 * {
   box-sizing: border-box;
   font-family: $mainFont;
@@ -24,8 +9,9 @@
 body {
   background-color: var(--primary);
   height: 100vh;
-  width: 100vw;
+  width: calc(100vw - var(--scroll-bar));
   transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+  margin: 0 auto;
 }
 
 table,
@@ -95,6 +81,7 @@ button {
   background-color: var(--primary);
   color: var(--secondary);
   border: 1px solid var(--secondary);
+  border-color: var(--secondary);
 
   p {
     color: var(--secondary);
@@ -104,6 +91,11 @@ button {
   svg {
     color: var(--secondary);
     transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 
   &:hover,

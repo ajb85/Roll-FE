@@ -1,4 +1,4 @@
-import { ColorProvider } from "../../hooks/useColorMode.js";
+import { ColorThemesProvider } from "../../hooks/useColorThemes.js";
 import { ScreenSizeProvider } from "../../hooks/useScreenSize.js";
 import { AccountProvider } from "hooks/useAccount.js";
 import { ErrorsProvider } from "hooks/useErrors.js";
@@ -13,9 +13,9 @@ export default function Providers({ children }) {
   return (
     <TokenProvider>
       <ScreenSizeProvider>
-        <ColorProvider>
-          <LockedDiceProvider>
-            <ErrorsProvider>
+        <ErrorsProvider>
+          <ColorThemesProvider>
+            <LockedDiceProvider>
               <AccountProvider>
                 <ViewingPlayerProvider>
                   <GamesProvider>
@@ -25,9 +25,9 @@ export default function Providers({ children }) {
                   </GamesProvider>
                 </ViewingPlayerProvider>
               </AccountProvider>
-            </ErrorsProvider>
-          </LockedDiceProvider>
-        </ColorProvider>
+            </LockedDiceProvider>
+          </ColorThemesProvider>
+        </ErrorsProvider>
       </ScreenSizeProvider>
     </TokenProvider>
   );

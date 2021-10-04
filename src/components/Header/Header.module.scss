@@ -62,14 +62,9 @@
   }
 }
 
-.wifi {
-  position: relative;
-  height: 0;
-  width: 0;
-
-  & > * {
-    position: absolute;
-    top: 55px;
-    right: 20px;
+.settingsMenu {
+  & > div > div > button {
+    // Remove padding around settings svg
+    padding: 0;
   }
 }

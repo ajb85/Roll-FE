@@ -17,6 +17,7 @@ $dieTransition: 0.2s;
   svg {
     transition: width $dieTransition, height $dieTransition, transform $dieTransition;
     transform: rotateZ(0deg);
+    color: var(--dice);
   }
 
   .locked {

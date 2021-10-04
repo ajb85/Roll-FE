@@ -15,6 +15,9 @@ div.playersMobile {
     font-size: 0.8rem;
     cursor: pointer;
 
+    display: flex;
+    align-items: center;
+
     &.viewing {
       background-color: rgba(var(--secondary-rgb), 0.2);
     }
@@ -32,7 +35,7 @@ div.playersMobile {
 
   svg {
     font-size: 1rem;
-    color: yellow;
+    color: var(--host);
     margin-right: 5px;
   }
 }

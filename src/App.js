@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import Account from "containers/Account";
@@ -6,8 +6,9 @@ import PlayGame from "containers/Game/";
 import JoinFromLink from "containers/JoinFromLink";
 import NewGame from "containers/CreateGame";
 import GameList from "containers/GameList/";
-import LoadingDice from "components/LoadingDice/";
+import EditColors from "containers/EditColors/";
 
+import LoadingDice from "components/LoadingDice/";
 import Header from "components/Header";
 import FetchActiveGame from "components/Fetchers/ActiveGame.js";
 import AllGames from "components/Fetchers/AllGames.js";
@@ -20,6 +21,8 @@ import { closeEverythingOnClick } from "js/closeOnClick";
 
 export default function App(props) {
   const { token, tokenIsValidated } = useToken();
+
+  useEffect(handleWindow);
 
   if (token && !tokenIsValidated) {
     return (
@@ -73,6 +76,12 @@ export default function App(props) {
             </Route>
           )}
 
+          {token && (
+            <Route path="/colors">
+              <EditColors />
+            </Route>
+          )}
+
           <Route path="/j/:uuid">
             <JoinFromLink />
             {!token && <Redirect to="/register" />}
@@ -85,6 +94,19 @@ export default function App(props) {
       </div>
     </div>
   );
+}
+
+function handleWindow() {
+  var body = document.querySelector("body");
+
+  if (window.innerWidth > body.clientWidth + 5) {
+    document.documentElement.style.setProperty(
+      "--scroll-bar: ",
+      `${window.innerWidth - body.clientWidth}px`
+    );
+  } else {
+    document.documentElement.style.setProperty("--scroll-bar: ", "0px");
+  }
 }
 
 Notification.requestPermission();

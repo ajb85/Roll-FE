@@ -10,6 +10,11 @@
   &:hover {
     border: 1px solid var(--primary);
   }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 @mixin Input {

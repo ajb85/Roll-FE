@@ -1,9 +1,9 @@
-import { useColorMode, useErrors } from "hooks/";
+import { useColorThemes, useErrors } from "hooks/";
 
 import styles from "./ErrorMessage.module.scss";
 
 export default function ErrorMessage(props) {
-  const { colors } = useColorMode();
+  const { colors } = useColorThemes();
   const { errors } = useErrors();
 
   return (

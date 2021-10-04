@@ -1,14 +1,14 @@
 import React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { useColorMode } from "hooks/";
+import { useColorThemes } from "hooks/";
 import { combineClasses, noProp } from "js/utility";
 
 import styles from "./Prompt.module.scss";
 
 function Prompt(props) {
   const { close, primaryButton, secondaryButton, isOpen } = props;
-  const { colors } = useColorMode();
+  const { colors } = useColorThemes();
 
   if (!isOpen) {
     return null;

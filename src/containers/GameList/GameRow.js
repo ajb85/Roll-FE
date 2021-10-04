@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
-import { useColorMode } from "hooks/";
+import { useColorThemes } from "hooks/";
 
 import { Row } from "./Styles.js";
 import styles from "./GameList.module.scss";
@@ -11,7 +11,7 @@ export default function GameRow(props) {
   const { setGame } = props;
 
   const history = useHistory();
-  const { colors } = useColorMode();
+  const { colors } = useColorThemes();
 
   const goToGame = useCallback(() => history.push(`/game/play/${g.game_id}`), [g.game_id, history]);
   const selectGame = useCallback(() => setGame(g), [setGame, g]);

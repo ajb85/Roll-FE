@@ -4,11 +4,16 @@
 .dropdown {
   & > div > button {
     background-color: transparent;
-    border: 0px;
+    color: var(--secondary);
+
+    &.noBorder {
+      border: 0px;
+    }
 
     &:hover,
     &:active,
     &:focus {
+      color: var(--secondary);
       background-color: transparent !important;
       box-shadow: none;
 

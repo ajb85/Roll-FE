@@ -37,11 +37,11 @@
       cursor: pointer;
 
       & > td.active {
-        color: red;
+        color: var(--negative);
       }
 
       & > td.completed {
-        color: green;
+        color: var(--affirmative);
       }
     }
 

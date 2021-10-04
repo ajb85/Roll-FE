@@ -54,13 +54,13 @@ div.playerWrapper {
 
 .yes {
   & > svg {
-    color: green;
+    color: var(--affirmative);
   }
 }
 
 .no {
   & > svg {
-    color: red;
+    color: var(--negative);
   }
 }
 

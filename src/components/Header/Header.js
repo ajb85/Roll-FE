@@ -1,17 +1,17 @@
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import { FiSettings } from "react-icons/fi";
-import { BiWifi, BiWifiOff } from "react-icons/bi";
 import { useHistory, useLocation } from "react-router-dom";
 
+import Dropdown from "components/Dropdown/";
+
 import { goHome } from "js/utility.js";
-import { useSocket } from "hooks";
 
 import styles from "./Header.module.scss";
 
 export default function Header(props) {
   const { pathname } = useLocation();
   const history = useHistory();
-  const { isConnected, connect, disconnect } = useSocket();
+  const [settingsPrompt, setSettingsPrompt] = useState(false);
 
   const createGame = useCallback(() => {
     history.push("/game/create");
@@ -20,6 +20,14 @@ export default function Header(props) {
   const joinGame = useCallback(() => {
     history.push("/game/join");
   }, [history]);
+
+  const editColors = useCallback(() => {
+    history.push("/colors");
+  }, [history]);
+
+  const toggleSettingsPrompt = useCallback(() => {
+    setSettingsPrompt(!settingsPrompt);
+  }, [settingsPrompt, setSettingsPrompt]);
 
   return (
     <header className={styles.header}>
@@ -36,15 +44,15 @@ export default function Header(props) {
               Join Game
             </p>
           </div>
-          <div>
-            <FiSettings />
-          </div>
-          <div className={styles.wifi}>
-            {isConnected ? (
-              <BiWifi style={{ color: "green" }} onClick={disconnect} />
-            ) : (
-              <BiWifiOff style={{ color: "grey" }} onClick={connect} />
-            )}
+          <div className={styles.settingsMenu}>
+            <Dropdown
+              right
+              isOpen={settingsPrompt}
+              toggle={toggleSettingsPrompt}
+              menu={[{ label: "Colors", onClick: editColors }]}
+            >
+              <FiSettings onClick={toggleSettingsPrompt} />
+            </Dropdown>
           </div>
         </nav>
       </div>
