@@ -88,15 +88,11 @@ export function ColorThemesProvider(props) {
     }
   };
 
-  const overrideColors = (customColors) => {
-    setPreviewTheme(customColors);
-  };
-
-  const deleteTheme = async (themeName) => {
-    const updatedThemes = await axios.delete(`/account/themes/${themeName}`);
+  const deleteTheme = async () => {
+    const updatedThemes = await axios.delete(`/account/themes/${activeTheme}`);
     if (updatedThemes?.themes) {
-      setThemes({ ...themes, ...updatedThemes?.themes });
-      setActiveTheme("dark");
+      setThemes({ ...updatedThemes.themes, dark, light });
+      setActiveTheme(updatedThemes.active);
       setPreviewTheme(null);
     }
   };
@@ -111,17 +107,23 @@ export function ColorThemesProvider(props) {
         }
       });
     }
-  }, [axios, setThemes, error]);
+  }, [axios, isLoading, themes, setThemes, error]);
 
   useEffect(() => {
-    updateCSSColors(activeColors);
-  }, [activeColors]);
+    if (activeColors) {
+      updateCSSColors(activeColors);
+    } else {
+      setTheme("dark");
+    }
+  }, [activeColors]); // eslint-disable-line
 
   const value = {
-    colors: activeColors,
+    colors: activeColors || themes.dark,
     addTheme,
     setTheme,
+    activeTheme,
     updateCSSColors,
+    deleteTheme,
     themes,
   };
   return <Provider value={value}>{props.children}</Provider>;

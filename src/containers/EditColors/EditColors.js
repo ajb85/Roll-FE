@@ -15,8 +15,9 @@ import styles from "./EditColors.module.scss";
 
 export default function EditColors(props) {
   const colorState = useColorThemes();
+  const { addTheme, activeTheme, updateCSSColors, colors: providerColors } = colorState;
 
-  const [colors, setColors] = useState(colorState.colors);
+  const [colors, setColors] = useState(providerColors);
   const [themeName, setThemeName] = useState("");
   const [prompts, setPrompts] = useState(
     colorKeys.reduce((acc, color) => {
@@ -26,7 +27,7 @@ export default function EditColors(props) {
   );
 
   const noChangesMade = colorKeys.every((color) => {
-    return colorState.colors[color.name] === colors[color.name];
+    return providerColors[color.name] === colors[color.name];
   });
 
   const openPrompt = useCallback(
@@ -57,16 +58,15 @@ export default function EditColors(props) {
     );
   }, [setPrompts]);
 
-  const updatethemeName = useCallback((e) => setThemeName(e.target.value), [setThemeName]);
-
+  const updateThemeName = useCallback((e) => setThemeName(e.target.value), [setThemeName]);
   const saveColors = useCallback(() => {
-    colorState.addTheme(colorState.colors.name, colors);
-  }, [colorState.addTheme, colorState.colors.name, colors]);
+    addTheme(activeTheme, colors);
+  }, [addTheme, activeTheme, colors]);
 
   const saveColorsAs = useCallback(() => {
-    themeName && colorState.addTheme(themeName, colors);
+    themeName && addTheme(themeName, colors);
     setThemeName("");
-  }, [colorState.addTheme, themeName, colors]);
+  }, [addTheme, themeName, colors]);
 
   useEffect(() => {
     const allPromptsClosed = Object.values(prompts).every((v) => !v);
@@ -74,13 +74,13 @@ export default function EditColors(props) {
   }, [prompts, closePrompts]);
 
   useEffect(() => {
-    colorState.updateCSSColors(colors);
-    return () => colorState.updateCSSColors(colorState.colors);
-  }, [colors]);
+    updateCSSColors(colors);
+    return () => updateCSSColors(providerColors);
+  }, [updateCSSColors, colors, providerColors]);
 
   useEffect(() => {
-    setColors(colorState.colors);
-  }, [colorState.colors]);
+    setColors(providerColors);
+  }, [providerColors]);
 
   const saveAsButtonDisabled = noChangesMade || !themeName;
   return (
@@ -115,9 +115,14 @@ export default function EditColors(props) {
           {!colorState.colors.preset && noChangesMade && (
             <Tooltip target={styles.saveColorsButton}>No changes made to save</Tooltip>
           )}
+          {!colorState.colors.preset && (
+            <div>
+              <Button onClick={colorState.deleteTheme}>Delete</Button>
+            </div>
+          )}
         </div>
         <div className={styles.saveAsWrapper}>
-          <FormInput value={themeName} onChange={updatethemeName} placeholder="Theme Name" />
+          <FormInput value={themeName} onChange={updateThemeName} placeholder="Theme Name" />
           <div id={styles.saveColorsAsButton}>
             <Button disabled={saveAsButtonDisabled} onClick={saveColorsAs}>
               Save As
