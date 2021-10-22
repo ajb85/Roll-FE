@@ -16,7 +16,6 @@ const initialAccount = {
 export function AccountProvider(props) {
   const { token, setTokenIsValidated, setToken } = useToken();
   const [axios, accountIsLoading, hasError] = useAxios();
-  const [oauth, setOAuth] = useState(null);
   const [code, setCode] = useState("");
 
   const [account, setAccount] = useState(initialAccount);

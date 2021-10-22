@@ -36,6 +36,66 @@ const light = {
   preset: true,
 };
 
+const night = {
+  dice: "#f64c71",
+  host: "#15Bf2D",
+  error: "#E5ADAA",
+  accent: "#2f2fa1",
+  primary: "#242582",
+  negative: "#E1150A",
+  highlight: "#EEE724",
+  secondary: "#99728d",
+  affirmative: "#0B9B27",
+  brightAccent: "#f64c71",
+  name: "Night",
+  preset: true,
+};
+
+const neon = {
+  dice: "#e900ff",
+  host: "#1685f8",
+  error: "#f52789",
+  accent: "#389583",
+  primary: "#3d144c",
+  negative: "#E1150A",
+  highlight: "#faeb2c",
+  secondary: "#1685f8",
+  affirmative: "#0B9B27",
+  brightAccent: "#8de4af",
+  name: "Neon",
+  preset: true,
+};
+
+const beach = {
+  dice: "#fbeec1",
+  host: "#15Bf2D",
+  error: "#E5ADAA",
+  accent: "#bd986b",
+  primary: "#659ebc",
+  negative: "#E1150A",
+  highlight: "#EEE724",
+  secondary: "#fbeec1",
+  affirmative: "#0B9B27",
+  brightAccent: "#daad86",
+  name: "Beach",
+  preset: true,
+};
+
+const forest = {
+  dice: "#65da99",
+  host: "#15Bf2D",
+  error: "#E5ADAA",
+  accent: "#389583",
+  primary: "#04396b",
+  negative: "#E1150A",
+  highlight: "#edf5e0",
+  secondary: "#389583",
+  affirmative: "#0B9B27",
+  brightAccent: "#8de4af",
+  name: "Forest",
+  preset: true,
+};
+
 export const colorKeys = [
   { displayName: "Background", name: "primary" },
   { displayName: "Text & Borders", name: "secondary" },
@@ -64,7 +124,7 @@ function updateCSSColors(colorTheme) {
 
 export function ColorThemesProvider(props) {
   const [axios, isLoading, error] = useAxios();
-  const [themes, setThemes] = useState({ dark, light });
+  const [themes, setThemes] = useState({ dark, light, night, neon, beach, forest });
   const [activeTheme, setActiveTheme] = useState("dark");
   const [previewTheme, setPreviewTheme] = useState(null);
   const hasFetched = useRef(false);
