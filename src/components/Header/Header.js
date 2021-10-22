@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { FiSettings } from "react-icons/fi";
+import { SiDiscord } from "react-icons/si";
 import { useHistory, useLocation } from "react-router-dom";
 
 import Dropdown from "components/Dropdown/";
@@ -17,8 +18,8 @@ export default function Header(props) {
     history.push("/game/create");
   }, [history]);
 
-  const joinGame = useCallback(() => {
-    history.push("/game/join");
+  const discordOAuth = useCallback(() => {
+    history.push("/oauth/discord");
   }, [history]);
 
   const editColors = useCallback(() => {
@@ -39,10 +40,8 @@ export default function Header(props) {
               New Game
             </p>
           </div>
-          <div>
-            <p className={pathname === "/game/join" ? styles.active : ""} onClick={joinGame}>
-              Join Game
-            </p>
+          <div onClick={discordOAuth}>
+            <SiDiscord />
           </div>
           <div className={styles.settingsMenu}>
             <Dropdown

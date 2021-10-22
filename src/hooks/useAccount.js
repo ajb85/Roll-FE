@@ -15,7 +15,9 @@ const initialAccount = {
 
 export function AccountProvider(props) {
   const { token, setTokenIsValidated, setToken } = useToken();
-  const [axios, accountIsLoading] = useAxios();
+  const [axios, accountIsLoading, hasError] = useAxios();
+  const [oauth, setOAuth] = useState(null);
+  const [code, setCode] = useState("");
 
   const [account, setAccount] = useState(initialAccount);
   const fetchedFromToken = useRef(false);
@@ -33,6 +35,8 @@ export function AccountProvider(props) {
     },
     [axios, setToken, setAccount, setTokenIsValidated]
   );
+
+  const saveCode = useCallback((value) => setCode(value), [setCode]);
 
   useEffect(() => {
     if (token && !account.id && !fetchedFromToken.current) {
@@ -53,7 +57,16 @@ export function AccountProvider(props) {
     }
   }, [token, account, axios, setToken, setTokenIsValidated]);
 
-  const value = { account, user_id: account.id, token, handleAuth, accountIsLoading };
+  useEffect(() => {
+    if (code && account.id && !hasError && !accountIsLoading) {
+      axios
+        .post("/oauth/discord/identify", { state: code })
+        .then(() => setCode(""))
+        .catch((err) => console.error("Error completing oauth: ", err));
+    }
+  }, [axios, hasError, accountIsLoading, code, account.id]);
+
+  const value = { account, user_id: account.id, token, saveCode, handleAuth, accountIsLoading };
   return <Provider value={value}>{props.children}</Provider>;
 }
 

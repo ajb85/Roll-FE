@@ -7,6 +7,7 @@ import JoinFromLink from "containers/JoinFromLink";
 import NewGame from "containers/CreateGame";
 import GameList from "containers/GameList/";
 import EditColors from "containers/EditColors/";
+import CompleteDiscordOAuth from "containers/CompleteDiscordOAuth/";
 
 import LoadingDice from "components/LoadingDice/";
 import Header from "components/Header";
@@ -81,6 +82,19 @@ export default function App(props) {
               <EditColors />
             </Route>
           )}
+
+          {token && (
+            <Route exact path="/oauth/discord">
+              {() => {
+                window.location = process.env.REACT_APP_API_URL + "/api/oauth/discord";
+                return null;
+              }}
+            </Route>
+          )}
+
+          <Route path="/oauth/discord/complete/:code">
+            <CompleteDiscordOAuth />
+          </Route>
 
           <Route path="/j/:uuid">
             <JoinFromLink />

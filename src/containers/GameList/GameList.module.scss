@@ -14,7 +14,7 @@
     & > tr {
       border-width: 0 0 2px;
       border-style: solid;
-      margin: 0 0 $lh/2;
+      margin: 0 0 $lh / 2;
 
       th {
         font-weight: 800;
@@ -52,7 +52,7 @@
     td,
     th {
       height: $lh * 2;
-      padding: $lh/2 0;
+      padding: $lh / 2 0;
 
       &:first-of-type {
         text-align: left;
