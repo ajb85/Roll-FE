@@ -21,15 +21,14 @@ export default function Tooltip(props) {
   }, [isOpen, setIsOpen, propsToggle]);
 
   return (
-    <div>
-      <ShardsTooltip
-        trigger={props.trigger || "hover"}
-        open={isOpen}
-        target={target}
-        toggle={toggle}
-      >
-        {props.children}
-      </ShardsTooltip>
-    </div>
+    <ShardsTooltip
+      className={props.className}
+      trigger={props.trigger || "hover"}
+      open={isOpen}
+      target={target}
+      toggle={toggle}
+    >
+      {props.children}
+    </ShardsTooltip>
   );
 }

@@ -25,15 +25,15 @@
       font-weight: 800;
       padding: $lh / 2 0;
 
-      &:nth-child(1),
-      &:nth-child(3) {
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
         width: 35%;
         max-width: 100px;
         min-width: 85px;
       }
 
-      &:nth-child(2),
-      &:nth-child(4) {
+      &:nth-of-type(2),
+      &:nth-of-type(4) {
         width: 100%;
         max-width: 100px;
       }
@@ -54,16 +54,16 @@
       line-height: $lh * 2;
       margin: $lh / 2 0;
 
-      &:nth-child(1),
-      &:nth-child(3) {
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
         font-size: 0.7rem;
         width: 35%;
         min-width: 85px;
         max-width: 100px;
       }
 
-      &:nth-child(2),
-      &:nth-child(4) {
+      &:nth-of-type(2),
+      &:nth-of-type(4) {
         width: 100%;
         max-width: 100px;
       }
@@ -91,6 +91,37 @@
       width: 15%;
       text-align: center;
       line-height: $lh;
+    }
+  }
+}
+
+.tooltip {
+  & > div:first-of-type {
+    // Shards tooltip wrapper
+    background-color: var(--secondary);
+  }
+
+  & > div:last-of-type::before {
+    // Shards pointer arrow
+    border-top-color: var(--secondary);
+  }
+  .contentWrapper {
+    & > p {
+      color: var(--accent);
+      text-align: left;
+      padding: 0;
+      font-size: 0.7rem;
+      line-height: $lh * 2;
+      margin: 0;
+
+      &:last-of-type {
+        margin: $lh / 2 0 $lh / 2;
+      }
+
+      & > span {
+        font-size: 0.7rem;
+        color: var(--primary);
+      }
     }
   }
 }

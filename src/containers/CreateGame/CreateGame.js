@@ -6,6 +6,8 @@ import Form from "components/Form/";
 import { useGames, useErrors } from "hooks";
 import { goHome } from "js/utility";
 
+const maxNameLength = 15;
+
 export default function NewGame(props) {
   const { pathname } = useLocation();
   const { addGame } = useGames();
@@ -15,7 +17,7 @@ export default function NewGame(props) {
   const [privateGame, setPrivateGame] = useState(true);
 
   const updateName = useCallback(
-    (e) => e.target.value.length < 16 && setName(e.target.value),
+    (e) => e.target.value.length <= maxNameLength && setName(e.target.value),
     [setName]
   );
 
@@ -23,7 +25,7 @@ export default function NewGame(props) {
 
   const handleSubmit = useCallback(
     (e) => {
-      if (name && name.length < 16) {
+      if (name && name.length <= maxNameLength) {
         addGame({ name, private: privateGame }, "create");
       }
     },
