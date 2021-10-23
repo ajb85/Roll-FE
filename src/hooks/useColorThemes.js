@@ -96,6 +96,21 @@ const forest = {
   preset: true,
 };
 
+const spooktober = {
+  dice: "#dc5414",
+  host: "#e43606",
+  name: "Spooktober",
+  error: "#f5274d",
+  accent: "#370b05",
+  primary: "#0d0404",
+  negative: "#E1150A",
+  highlight: "#dc5414",
+  secondary: "#e43606",
+  affirmative: "#0B9B27",
+  brightAccent: "#da5238",
+  preset: true,
+};
+
 export const colorKeys = [
   { displayName: "Background", name: "primary" },
   { displayName: "Text & Borders", name: "secondary" },
@@ -124,7 +139,7 @@ function updateCSSColors(colorTheme) {
 
 export function ColorThemesProvider(props) {
   const [axios, isLoading, error] = useAxios();
-  const [themes, setThemes] = useState({ dark, light, night, neon, beach, forest });
+  const [themes, setThemes] = useState({ dark, light, night, neon, beach, forest, spooktober });
   const [activeTheme, setActiveTheme] = useState("dark");
   const [previewTheme, setPreviewTheme] = useState(null);
   const hasFetched = useRef(false);
