@@ -101,7 +101,7 @@ export default function App(props) {
             {!token && <Redirect to="/register" />}
           </Route>
 
-          <Route path="/">
+          <Route>
             <Redirect to={token ? "/" : "/login"} />
           </Route>
         </Switch>
