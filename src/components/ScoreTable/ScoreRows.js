@@ -67,7 +67,7 @@ function ScoreRow(props) {
               </Tooltip>
             )}
             <p
-              // id={l.name}
+              data-category={l.name}
               onClick={lClickable ? toggleCategory : noFunc}
               style={{
                 backgroundColor: leftBG,
@@ -91,7 +91,7 @@ function ScoreRow(props) {
               </Tooltip>
             )}
             <p
-              // id={r.name}
+              data-category={r.name}
               onClick={rClickable ? toggleCategory : noFunc}
               style={{
                 backgroundColor: rightBG,

@@ -89,3 +89,12 @@ export function getRandomItemFromArray(array, multiplicand = 10000) {
 function getRandomNumberBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+export function getElementWithDataAttribute(element, attribute) {
+  let target = element;
+  while (target && !target.dataset.hasOwnProperty(attribute)) {
+    target = target.parentNode;
+  }
+
+  return target || null;
+}

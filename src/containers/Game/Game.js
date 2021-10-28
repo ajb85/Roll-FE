@@ -8,7 +8,7 @@ import GameOverPrompt from "components/GameOverPrompt/";
 
 import GameTitle from "components/GameTitle/";
 import PlayerList from "components/PlayerList/";
-import GameTable from "components/ScoreTable";
+import ScoreTable from "components/ScoreTable";
 import GameLog from "components/GameLog/";
 import Dice from "./Dice.js";
 import PlayButtons from "./PlayButtons.js";
@@ -22,7 +22,7 @@ import {
   useViewingPlayer,
 } from "hooks";
 
-import { combineClasses } from "js/utility.js";
+import { combineClasses, getElementWithDataAttribute } from "js/utility.js";
 
 import styles from "./Game.module.scss";
 
@@ -80,7 +80,9 @@ export default function Game(props) {
 
   const toggleCategory = useCallback(
     (e) => {
-      const category = e.target.id.split("categoryName").pop();
+      const target = getElementWithDataAttribute(e.target, "category");
+      const { category } = target.dataset;
+      console.log("CATEGORY: ", category);
       setSelectedCategory(category === selectedCategory ? "" : category);
     },
     [selectedCategory, setSelectedCategory]
@@ -174,7 +176,7 @@ export default function Game(props) {
           <div
             className={combineClasses(styles.tableWrapper, !isDesktop && styles.mobileTableWrapper)}
           >
-            <GameTable
+            <ScoreTable
               game={activeGame}
               selectedCategory={selectedCategory}
               toggleCategory={toggleCategory}
