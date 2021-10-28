@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext, useContext, useRef, useCallback } from "react";
 
 import { hexToRGB } from "js/utility.js";
-import { useAxios } from "hooks";
+import { useAxios, useToken } from "hooks";
 
 const context = createContext();
 const { Provider } = context;
@@ -151,6 +151,7 @@ if (lastColors && !defaultThemes[lastColors.name]) {
 }
 
 export function ColorThemesProvider(props) {
+  const { tokenIsValidated } = useToken();
   const [axios, isLoading, error] = useAxios();
   const [themes, setThemes] = useState(defaultThemes);
   const [activeTheme, setActiveTheme] = useState(lastColors && lastActive ? lastActive : "Dark");
@@ -189,7 +190,7 @@ export function ColorThemesProvider(props) {
   };
 
   useEffect(() => {
-    if (!isLoading && !hasFetched.current && !error) {
+    if (tokenIsValidated && !isLoading && !hasFetched.current && !error) {
       axios.get("/account/themes").then((userThemes) => {
         if (userThemes?.themes) {
           hasFetched.current = true;
@@ -198,7 +199,7 @@ export function ColorThemesProvider(props) {
         }
       });
     }
-  }, [axios, isLoading, themes, setThemes, error]);
+  }, [axios, isLoading, themes, setThemes, error, tokenIsValidated]);
 
   useEffect(() => {
     if (activeColors) {
