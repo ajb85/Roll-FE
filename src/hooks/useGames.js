@@ -88,7 +88,7 @@ export function GamesProvider(props) {
   };
 
   const fetchGame = async (game_id) => {
-    if (!gamesLookup[game_id]?.scores) {
+    if (!gamesLookup[game_id]?.logs) {
       const game = await axios.get(`/games/user/fetch/${game_id}`);
       if (game && game.game_id) {
         setGames([...games, game]);
