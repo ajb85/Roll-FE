@@ -150,6 +150,8 @@ if (lastColors && !defaultThemes[lastColors.name]) {
   defaultThemes[lastColors.name] = lastColors;
 }
 
+lastColors && updateCSSColors(lastColors);
+
 export function ColorThemesProvider(props) {
   const { tokenIsValidated } = useToken();
   const [axios, isLoading, error] = useAxios();
