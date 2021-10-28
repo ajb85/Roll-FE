@@ -15,7 +15,7 @@ import styles from "./EditColors.module.scss";
 
 export default function EditColors(props) {
   const colorState = useColorThemes();
-  const { addTheme, activeTheme, updateCSSColors, colors: providerColors } = colorState;
+  const { addTheme, activeTheme, updateCSSColors, colors: providerColors, themes } = colorState;
 
   const [colors, setColors] = useState(providerColors);
   const [themeName, setThemeName] = useState("");
@@ -64,9 +64,11 @@ export default function EditColors(props) {
   }, [addTheme, activeTheme, colors]);
 
   const saveColorsAs = useCallback(() => {
-    themeName && addTheme(themeName, colors);
-    setThemeName("");
-  }, [addTheme, themeName, colors]);
+    if (themeName && !themes[themeName]) {
+      addTheme(themeName, colors);
+      setThemeName("");
+    }
+  }, [addTheme, themeName, themes, colors]);
 
   useEffect(() => {
     const allPromptsClosed = Object.values(prompts).every((v) => !v);
@@ -82,7 +84,7 @@ export default function EditColors(props) {
     setColors(providerColors);
   }, [providerColors]);
 
-  const saveAsButtonDisabled = noChangesMade || !themeName;
+  const saveAsButtonDisabled = noChangesMade || !themeName || themes[themeName];
   return (
     <div className={styles.editWrapper}>
       {!noChangesMade && (
@@ -130,7 +132,13 @@ export default function EditColors(props) {
           </div>
           {saveAsButtonDisabled && (
             <Tooltip target={styles.saveColorsAsButton}>
-              {noChangesMade ? "No changes made to save" : !themeName ? "No theme name given" : ""}
+              {noChangesMade
+                ? "No changes made to save"
+                : !themeName
+                ? "No theme name given"
+                : themes[themeName]
+                ? "Already a theme with that name"
+                : ""}
             </Tooltip>
           )}
         </div>

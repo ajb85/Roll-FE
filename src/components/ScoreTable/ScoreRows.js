@@ -51,7 +51,6 @@ function ScoreRow(props) {
         const leftID = getElementID(l.name);
         const rightID = getElementID(r.name);
 
-        console.log("IDS: ", leftID, rightID);
         return (
           <div className={styles.row} key={`${l.name} ${r.name}`}>
             <p id={leftID}>{l.name}</p>

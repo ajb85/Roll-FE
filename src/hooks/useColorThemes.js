@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext, useRef } from "react";
+import { useState, useEffect, createContext, useContext, useRef, useCallback } from "react";
 
 import { hexToRGB } from "js/utility.js";
 import { useAxios } from "hooks";
@@ -6,7 +6,7 @@ import { useAxios } from "hooks";
 const context = createContext();
 const { Provider } = context;
 
-const dark = {
+const Dark = {
   primary: "#191919",
   secondary: "#E3E2E2",
   dice: "#E3E2E2",
@@ -21,7 +21,7 @@ const dark = {
   preset: true,
 };
 
-const light = {
+const Light = {
   primary: "#FCFCFC",
   secondary: "#191919",
   dice: "#191919",
@@ -36,7 +36,7 @@ const light = {
   preset: true,
 };
 
-const night = {
+const Night = {
   dice: "#f64c71",
   host: "#15Bf2D",
   error: "#E5ADAA",
@@ -51,7 +51,7 @@ const night = {
   preset: true,
 };
 
-const neon = {
+const Neon = {
   dice: "#e900ff",
   host: "#1685f8",
   error: "#f52789",
@@ -66,7 +66,7 @@ const neon = {
   preset: true,
 };
 
-const beach = {
+const Beach = {
   dice: "#fbeec1",
   host: "#15Bf2D",
   error: "#E5ADAA",
@@ -81,7 +81,7 @@ const beach = {
   preset: true,
 };
 
-const forest = {
+const Forest = {
   dice: "#65da99",
   host: "#15Bf2D",
   error: "#E5ADAA",
@@ -96,7 +96,7 @@ const forest = {
   preset: true,
 };
 
-const spooktober = {
+const Spooktober = {
   dice: "#dc5414",
   host: "#e43606",
   name: "Spooktober",
@@ -134,13 +134,26 @@ function updateCSSColors(colorTheme) {
 
     const rgbVar = `${cssVar}-rgb`;
     root.style.setProperty(rgbVar, hexToRGB(colors[category]));
+
+    localStorage.setItem("lastColors", JSON.stringify(colorTheme));
+    localStorage.setItem("lastActive", colorTheme.name);
   }
+}
+
+const defaultThemes = { Dark, Light, Night, Neon, Beach, Forest, Spooktober };
+
+const lastColorsStr = localStorage.getItem("lastColors");
+const lastColors = lastColorsStr && JSON.parse(lastColorsStr);
+const lastActive = localStorage.getItem("lastActive");
+
+if (lastColors && !defaultThemes[lastColors.name]) {
+  defaultThemes[lastColors.name] = lastColors;
 }
 
 export function ColorThemesProvider(props) {
   const [axios, isLoading, error] = useAxios();
-  const [themes, setThemes] = useState({ dark, light, night, neon, beach, forest, spooktober });
-  const [activeTheme, setActiveTheme] = useState("dark");
+  const [themes, setThemes] = useState(defaultThemes);
+  const [activeTheme, setActiveTheme] = useState(lastColors && lastActive ? lastActive : "Dark");
   const [previewTheme, setPreviewTheme] = useState(null);
   const hasFetched = useRef(false);
   const activeColors = previewTheme || themes[activeTheme];
@@ -155,18 +168,21 @@ export function ColorThemesProvider(props) {
     }
   };
 
-  const setTheme = async (themeName) => {
-    const themeData = await axios.post(`/account/themes/active/${themeName}`);
-    if (themeData?.active) {
-      setActiveTheme(themeData.active || "dark");
-      setPreviewTheme(null);
-    }
-  };
+  const setTheme = useCallback(
+    async (themeName) => {
+      const themeData = await axios.post(`/account/themes/active/${themeName}`);
+      if (themeData?.active) {
+        setActiveTheme(themeData.active || "Dark");
+        setPreviewTheme(null);
+      }
+    },
+    [setActiveTheme, axios, setPreviewTheme]
+  );
 
   const deleteTheme = async () => {
     const updatedThemes = await axios.delete(`/account/themes/${activeTheme}`);
     if (updatedThemes?.themes) {
-      setThemes({ ...updatedThemes.themes, dark, light });
+      setThemes({ ...updatedThemes.themes, defaultThemes });
       setActiveTheme(updatedThemes.active);
       setPreviewTheme(null);
     }
@@ -178,7 +194,7 @@ export function ColorThemesProvider(props) {
         if (userThemes?.themes) {
           hasFetched.current = true;
           setThemes({ ...themes, ...userThemes.themes });
-          setActiveTheme(userThemes.active || "dark");
+          setActiveTheme(userThemes.active || "Dark");
         }
       });
     }
@@ -188,12 +204,12 @@ export function ColorThemesProvider(props) {
     if (activeColors) {
       updateCSSColors(activeColors);
     } else {
-      setTheme("dark");
+      setTheme("Dark");
     }
-  }, [activeColors]); // eslint-disable-line
+  }, [activeColors, setTheme]);
 
   const value = {
-    colors: activeColors || themes.dark,
+    colors: activeColors || themes.Dark,
     addTheme,
     setTheme,
     activeTheme,

@@ -32,58 +32,60 @@ export default function useAxios() {
 
   token && (defaultConfig.headers.authorization = token);
 
-  const fetch =
+  const fetch = useCallback(
     (method) =>
-    async (url, data = {}, config = {}) => {
-      const hasData = method === "post" || method === "put";
-      const dataToCache = hasData ? data : config;
-      if (!isLoading) {
-        try {
-          timeout.current && clearTimeout(timeout.current);
-          timeout.current = setTimeout(resetCache, 5000);
-          setIsLoading(true);
-          const callArgs = [url];
+      async (url, data = {}, config = {}) => {
+        const hasData = method === "post" || method === "put";
+        const dataToCache = hasData ? data : config;
+        if (!isLoading) {
+          try {
+            timeout.current && clearTimeout(timeout.current);
+            timeout.current = setTimeout(resetCache, 5000);
+            setIsLoading(true);
+            const callArgs = [url];
 
-          if (cache.current.has(dataToCache)) {
-            return cache.current.get(dataToCache);
+            if (cache.current.has(dataToCache)) {
+              return cache.current.get(dataToCache);
+            }
+
+            if (hasData) {
+              callArgs.push(data);
+            }
+
+            callArgs.push(mergeObjects(defaultConfig, config));
+            const results = await axios[method](...callArgs);
+
+            setIsLoading(false);
+
+            if (results && results.data) {
+              cache.current.set(dataToCache, results.data);
+              setError(false);
+              errorKey.current && clearError(errorKey.current);
+              token && setTokenIsValidated(true);
+              return results.data;
+            } else throw results;
+          } catch (err) {
+            setIsLoading(false);
+            setError(true);
+            cache.current.set(dataToCache, false);
+            const errorResponse = (err && err.response) || {};
+            const { requestType, message } = errorResponse.data || {};
+
+            if (requestType && message) {
+              errorKey.current = requestType;
+              addError(requestType, message);
+            } else if (errorResponse.status === 401) {
+              setTokenIsValidated(false);
+              logout();
+              history.push("/");
+            }
+
+            return err;
           }
-
-          if (hasData) {
-            callArgs.push(data);
-          }
-
-          callArgs.push(mergeObjects(defaultConfig, config));
-          const results = await axios[method](...callArgs);
-
-          setIsLoading(false);
-
-          if (results && results.data) {
-            cache.current.set(dataToCache, results.data);
-            setError(false);
-            errorKey.current && clearError(errorKey.current);
-            token && setTokenIsValidated(true);
-            return results.data;
-          } else throw results;
-        } catch (err) {
-          setIsLoading(false);
-          setError(true);
-          cache.current.set(dataToCache, false);
-          const errorResponse = (err && err.response) || {};
-          const { requestType, message } = errorResponse.data || {};
-
-          if (requestType && message) {
-            errorKey.current = requestType;
-            addError(requestType, message);
-          } else if (errorResponse.status === 401) {
-            setTokenIsValidated(false);
-            logout();
-            history.push("/");
-          }
-
-          return err;
-        }
-      } else return false;
-    };
+        } else return false;
+      },
+    [addError, clearError, history, isLoading, logout, resetCache, setTokenIsValidated, token]
+  );
 
   return [
     {
